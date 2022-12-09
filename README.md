@@ -1,8 +1,10 @@
-# Iconpack
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=for-the-badge)](https://www.paypal.me/quellenform)
-[![Latest Stable Version](https://img.shields.io/packagist/v/quellenform/typo3-iconpack?style=for-the-badge)](https://packagist.org/packages/quellenform/t3x-iconpack)
-[![TYPO3](https://img.shields.io/badge/TYPO3-iconpack-%23f49700?style=for-the-badge)](https://extensions.typo3.org/extension/iconpack/)
-[![License](https://img.shields.io/packagist/l/quellenform/typo3-iconpack?style=for-the-badge)](https://packagist.org/packages/quellenform/t3x-iconpack)
+[![Latest Stable Version](https://img.shields.io/packagist/v/quellenform/t3x-iconpack?style=for-the-badge)](https://packagist.org/packages/quellenform/t3x-iconpack)
+[![TYPO3 10](https://img.shields.io/badge/TYPO3-10-%23f49700.svg?style=for-the-badge)](https://get.typo3.org/version/11)
+[![TYPO3 11](https://img.shields.io/badge/TYPO3-11-%23f49700.svg?style=for-the-badge)](https://get.typo3.org/version/10)
+[![License](https://img.shields.io/packagist/l/quellenform/t3x-iconpack?style=for-the-badge)](https://packagist.org/packages/quellenform/t3x-iconpack)
+
+# Iconpack
 
 TYPO3 CMS Extension `iconpack`
 
