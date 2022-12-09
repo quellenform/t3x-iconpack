@@ -1,8 +1,8 @@
 # Iconpack
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=for-the-badge)](https://www.paypal.me/quellenform)
-[![Latest Stable Version](https://img.shields.io/packagist/v/quellenform/typo3-iconpack?style=for-the-badge)](https://packagist.org/packages/quellenform/typo3-iconpack)
+[![Latest Stable Version](https://img.shields.io/packagist/v/quellenform/typo3-iconpack?style=for-the-badge)](https://packagist.org/packages/quellenform/t3x-iconpack)
 [![TYPO3](https://img.shields.io/badge/TYPO3-iconpack-%23f49700?style=for-the-badge)](https://extensions.typo3.org/extension/iconpack/)
-[![License](https://img.shields.io/packagist/l/quellenform/typo3-iconpack?style=for-the-badge)](https://packagist.org/packages/quellenform/typo3-iconpack)
+[![License](https://img.shields.io/packagist/l/quellenform/typo3-iconpack?style=for-the-badge)](https://packagist.org/packages/quellenform/t3x-iconpack)
 
 TYPO3 CMS Extension `iconpack`
 
