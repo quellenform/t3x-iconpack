@@ -529,7 +529,8 @@ class IconpackFactory implements SingletonInterface
             // Check if a configuration exists for the requested iconpack
             if ($configuration = $this->queryConfig($iconfig['iconpack'])) {
                 // Check if the requested icon is available
-                if ($icon = $configuration['icons'][$iconfig['icon']]) {
+                if (isset($iconfig['icon']) && isset($configuration['icons'][$iconfig['icon']])) {
+                    $icon = $configuration['icons'][$iconfig['icon']];
                     // Get the preferred renderType for the requested icon
                     if ($preferredRenderTypes) {
                         // Use the given array of preferred renderTypes

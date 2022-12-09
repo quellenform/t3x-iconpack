@@ -566,7 +566,11 @@ class IconpackProvider
             $icons = [];
             foreach ($this->icons as $key => $icon) {
                 if (is_array($icon)) {
-                    $icons[$key]['label'] = (string) $icon['label'] ?? IconpackUtility::keyToWord((string) $key);
+                    if (isset($icon['label']) && is_array($icon['label'])) {
+                        $icons[$key]['label'] = (string) $icon['label'];
+                    } else {
+                        $icons[$key]['label'] = IconpackUtility::keyToWord((string) $key);
+                    }
                     if (isset($icon['styles']) && is_array($icon['styles'])) {
                         $icons[$key]['styles'] = $icon['styles'];
                     }
