@@ -1,0 +1,11 @@
+//- doctype html
+html(xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers" data-namespace-typo3-fluid="true")
+
+	f:for(each="{iconpackIcons}" key="categoryKey" as="category")
+		section
+			f:if(condition="{category.label}")
+				h2 {category.label}
+			ul
+				f:for(each="{category.icons}" key="iconKey" as="icon")
+					li(name="{iconKey}")
+						#{'f:format.raw'} {icon}

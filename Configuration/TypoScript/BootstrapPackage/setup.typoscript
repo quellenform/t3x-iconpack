@@ -1,0 +1,19 @@
+# This is required if you want to use SVG-Elements in the frontend
+lib.parseFunc_RTE.allowTags := addToList(svg,use,path)
+
+# Set templates and dataProcessing
+lib.contentElement {
+  partialRootPaths {
+    5 = EXT:iconpack/Resources/Private/Partials/BootstrapPackage/
+  }
+  dataProcessing {
+		110 = Quellenform\Iconpack\DataProcessing\IconpackProcessor
+		110 {
+      fieldName = bodytext
+      fieldType = rte
+		}
+  }
+  settings {
+    iconpack < plugin.tx_iconpack.settings
+  }
+}

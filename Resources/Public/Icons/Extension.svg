@@ -1,0 +1,21 @@
+<svg width="256" height="256" version="1.1" viewBox="0 0 67.733 67.733" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <linearGradient id="linearGradient1105">
+   <stop stop-color="#4b4b4b" stop-opacity="0" offset="0"/>
+   <stop stop-color="#4b4b4b" offset="1"/>
+  </linearGradient>
+  <radialGradient id="radialGradient1128" cx="75.832" cy="148.29" r="26.447" gradientTransform="matrix(1.2732 -.54034 1.1302 2.6631 -242.02 -329.69)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient1105"/>
+  <radialGradient id="radialGradient2054" cx="80.918" cy="132.9" r="47.285" gradientTransform="matrix(1.6411 1.3576 -2.8366 3.4289 270.04 -544.32)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient1105"/>
+  <radialGradient id="radialGradient2161" cx="86.473" cy="149.29" r="72.213" gradientTransform="matrix(3.3074 .3399 -.066665 .64868 -250.94 -107.84)" gradientUnits="userSpaceOnUse" xlink:href="#linearGradient1105"/>
+ </defs>
+ <g>
+  <path d="m1.2635 6.553 22.635 13.345 43.318-9.9971-29.144-9.2864z" fill="#43cc1f"/>
+  <path d="m1.2635 6.553 4.205 38.495 19.958 22.205-1.5283-47.355z" fill="#30881b"/>
+  <path d="m67.216 9.901-5.0433 41.694-36.747 15.658-1.5283-47.355z" fill="#5ffd36"/>
+ </g>
+ <g>
+  <path d="m1.2635 6.553 22.635 13.345 43.318-9.9971-29.144-9.2864z" fill="url(#radialGradient2161)" style="paint-order:markers fill stroke"/>
+  <path d="m1.2635 6.553 4.205 38.495 19.958 22.205-1.5283-47.355z" fill="url(#radialGradient1128)" style="paint-order:markers fill stroke"/>
+  <path d="m67.216 9.901-5.0433 41.694-36.747 15.658-1.5283-47.355z" fill="url(#radialGradient2054)" style="paint-order:markers fill stroke"/>
+ </g>
+</svg>

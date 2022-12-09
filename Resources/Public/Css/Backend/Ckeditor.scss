@@ -1,0 +1,45 @@
+@function headings($from:1, $to:6) {
+  @if $from==$to {
+    @return 'h#{$from}';
+  }
+
+  @else {
+    @return 'h#{$from},'+headings($from + 1, $to);
+  }
+}
+
+#{headings(1,6)},
+p {
+  svg[data-iconfig] {
+    fill: currentColor;
+    height: 1em;
+    width: 1em;
+    vertical-align: -.125em;
+    margin-right: .125em;
+    pointer-events: visiblepainted;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+}
+
+#{headings(1,6)},
+p {
+  img[data-iconfig] {
+    height: 1em;
+    width: auto;
+    vertical-align: -.125em;
+    margin-right: .125em;
+  }
+}
+
+#{headings(1,6)},
+p {
+  span[data-iconfig] {
+    pointer-events: visiblepainted;
+    cursor: pointer;
+    box-sizing: border-box;
+    height: 1em;
+    width: auto;
+    display: inline-block;
+  }
+}

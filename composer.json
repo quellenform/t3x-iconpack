@@ -1,0 +1,48 @@
+{
+  "name": "quellenform/t3x-iconpack",
+  "type": "typo3-cms-extension",
+  "description": "Provides an iconpack-registry for custom iconpacks.",
+  "keywords": [
+    "TYPO3",
+    "extension",
+    "CKEditor",
+    "icons",
+    "iconfont",
+    "webfont"
+  ],
+  "license": [
+    "GPL-3.0-or-later"
+  ],
+  "homepage": "https://extensions.typo3.org/extension/iconpack",
+  "support": {
+    "source": "https://github.com/quellenform/t3x-iconpack",
+    "issues": "https://github.com/quellenform/t3x-iconpack/issues"
+  },
+  "authors": [{
+    "name": "Stephan Kellermayr",
+    "email": "typo3@quellenform.at",
+    "role": "Developer",
+    "homepage": "https://www.quellenform.at/"
+  }],
+  "require": {
+	"php": ">=7.4.0",
+    "typo3/cms-core": "^10.4 || ^11"
+  },
+  "autoload": {
+    "psr-4": {
+      "Quellenform\\Iconpack\\": "Classes"
+    }
+  },
+  "replace": {
+    "typo3-ter/iconpack": "self.version"
+  },
+  "repositories": [{
+    "type": "composer",
+    "url": "https://composer.typo3.org/"
+  }],
+  "extra": {
+    "typo3/cms": {
+      "extension-key": "iconpack"
+    }
+  }
+}

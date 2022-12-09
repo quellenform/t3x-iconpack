@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" date="2021-09-19T13:57:00Z" product-name="iconpack">
+		<header />
+		<body>
+			<trans-unit id="tt_content.header_icon" resname="tt_content.header_icon">
+				<source>Icon</source>
+			</trans-unit>
+
+			<trans-unit id="extConf.autoConfigRte" resname="extConf.autoConfigRte">
+				<source>Automatically configure CKEditor: If enabled, the required CSS and JavaScript will be added to the RTE automatically.</source>
+			</trans-unit>
+			<trans-unit id="extConf.autoAddAssets" resname="extConf.autoAddAssets">
+				<source>Add Assets to the Frontend: If activated, the Assets (Stylesheets &amp; JavaScripts) will be automatically added to the Frontend.</source>
+			</trans-unit>
+			<trans-unit id="extConf.configFile" resname="extConf.configFile">
+				<source>Configuration File: Path to the YAML-configuration file (Leave empty for default value).</source>
+			</trans-unit>
+
+			<trans-unit id="js.label.iconNative" resname="js.label.iconNative">
+				<source>Choose Icon</source>
+			</trans-unit>
+			<trans-unit id="js.label.iconRte" resname="js.label.iconRte">
+				<source>Insert Icon</source>
+			</trans-unit>
+			<trans-unit id="js.button.ok" resname="js.button.ok">
+				<source>Apply</source>
+			</trans-unit>
+			<trans-unit id="js.button.cancel" resname="js.button.cancel">
+				<source>Cancel</source>
+			</trans-unit>
+			<trans-unit id="js.button.clear" resname="js.button.clear">
+				<source>Clear</source>
+			</trans-unit>
+
+			<trans-unit id="label.iconpack" resname="label.iconpack">
+				<source>Iconpack</source>
+			</trans-unit>
+			<trans-unit id="label.iconpack_notfound" resname="label.iconpack_notfound">
+				<source>No iconpacks found! Please install an iconpack extension: https://github.com/quellenform/t3x-iconpack</source>
+			</trans-unit>
+			<trans-unit id="label.options" resname="label.options">
+				<source>Options</source>
+			</trans-unit>
+			<trans-unit id="label.transform" resname="label.transform">
+				<source>Transformation</source>
+			</trans-unit>
+			<trans-unit id="label.size" resname="label.size">
+				<source>Size</source>
+			</trans-unit>
+			<trans-unit id="label.orientation" resname="label.orientation">
+				<source>Orientation</source>
+			</trans-unit>
+			<trans-unit id="label.rotation" resname="label.rotation">
+				<source>Rotation</source>
+			</trans-unit>
+			<trans-unit id="label.decoration" resname="label.decoration">
+				<source>Decoration</source>
+			</trans-unit>
+			<trans-unit id="label.animation" resname="label.animation">
+				<source>Animation</source>
+			</trans-unit>
+			<trans-unit id="label.fixed" resname="label.fixed">
+				<source>Fixed Width</source>
+			</trans-unit>
+			<trans-unit id="label.search" resname="label.search">
+				<source>Search Keyword</source>
+			</trans-unit>
+
+			<trans-unit id="size.default" resname="size.default">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="size.xs" resname="size.xs">
+				<source>X-Small</source>
+			</trans-unit>
+			<trans-unit id="size.sm" resname="size.sm">
+				<source>Small</source>
+			</trans-unit>
+			<trans-unit id="size.md" resname="size.md">
+				<source>Medium</source>
+			</trans-unit>
+			<trans-unit id="size.lg" resname="size.lg">
+				<source>Large</source>
+			</trans-unit>
+			<trans-unit id="size.xl" resname="size.xl">
+				<source>X-Large</source>
+			</trans-unit>
+			<trans-unit id="size.1x" resname="size.1x">
+				<source>1x</source>
+			</trans-unit>
+			<trans-unit id="size.2x" resname="size.2x">
+				<source>2x</source>
+			</trans-unit>
+			<trans-unit id="size.3x" resname="size.3x">
+				<source>3x</source>
+			</trans-unit>
+			<trans-unit id="size.4x" resname="size.4x">
+				<source>4x</source>
+			</trans-unit>
+			<trans-unit id="size.5x" resname="size.5x">
+				<source>5x</source>
+			</trans-unit>
+			<trans-unit id="size.6x" resname="size.6x">
+				<source>6x</source>
+			</trans-unit>
+			<trans-unit id="size.7x" resname="size.7x">
+				<source>7x</source>
+			</trans-unit>
+			<trans-unit id="size.8x" resname="size.8x">
+				<source>8x</source>
+			</trans-unit>
+			<trans-unit id="size.9x" resname="size.9x">
+				<source>9x</source>
+			</trans-unit>
+			<trans-unit id="size.10x" resname="size.10x">
+				<source>10x</source>
+			</trans-unit>
+
+			<trans-unit id="decoration.border" resname="decoration.border">
+				<source>Border</source>
+			</trans-unit>
+
+			<trans-unit id="transform.default" resname="transform.default">
+				<source>Default</source>
+			</trans-unit>
+			<trans-unit id="transform.90" resname="transform.90">
+				<source>90°</source>
+			</trans-unit>
+			<trans-unit id="transform.180" resname="transform.180">
+				<source>180°</source>
+			</trans-unit>
+			<trans-unit id="transform.270" resname="transform.270">
+				<source>270°</source>
+			</trans-unit>
+			<trans-unit id="transform.flipHorizontal" resname="transform.flipHorizontal">
+				<source>Flip Horizontal</source>
+			</trans-unit>
+			<trans-unit id="transform.flipVertical" resname="transform.flipVertical">
+				<source>Flip Vertical</source>
+			</trans-unit>
+			<trans-unit id="transform.flipBoth" resname="transform.flipBoth">
+				<source>Flip Both</source>
+			</trans-unit>
+			<trans-unit id="transform.beat" resname="transform.beat">
+				<source>Beat</source>
+			</trans-unit>
+			<trans-unit id="transform.bounce" resname="transform.bounce">
+				<source>Bounce</source>
+			</trans-unit>
+			<trans-unit id="transform.fade" resname="transform.fade">
+				<source>Fade</source>
+			</trans-unit>
+			<trans-unit id="transform.beat-fade" resname="transform.beat-fade">
+				<source>Beat-Fade</source>
+			</trans-unit>
+			<trans-unit id="transform.flip" resname="transform.flip">
+				<source>Flip</source>
+			</trans-unit>
+			<trans-unit id="transform.shake" resname="transform.shake">
+				<source>Shake</source>
+			</trans-unit>
+			<trans-unit id="transform.spin" resname="transform.spin">
+				<source>Spin</source>
+			</trans-unit>
+			<trans-unit id="transform.spin-reverse" resname="transform.spin-reverse">
+				<source>Spin Reverse</source>
+			</trans-unit>
+			<trans-unit id="transform.spin-pulse" resname="transform.spin-pulse">
+				<source>Spin Pulse</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

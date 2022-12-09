@@ -1,0 +1,34 @@
+# ****************************************************
+# Sets the proc options for all default configurations
+# ****************************************************
+
+processing:
+  # Set overrule mode to allow icon-transformations
+  overruleMode: default,icon
+  allowAttributes:
+    - data-iconfig
+    - style
+  # Allow icon tag to be processed and transformed
+  allowTags:
+    - icon
+    - svg
+    - use
+    - path
+  # CONTENT TO DATABASE
+  HTMLparser_db:
+    tags:
+      span:
+        allowedAttribs:
+          - class
+          - id
+          - title
+          - dir
+          - lang
+          - xml:lang
+          - itemscope
+          - itemtype
+          - itemprop
+          - data-iconfig
+          - style
+          - aria-hidden
+          - role

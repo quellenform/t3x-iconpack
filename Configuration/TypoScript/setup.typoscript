@@ -1,0 +1,40 @@
+plugin.tx_iconpack {
+  settings {
+    renderTypes {
+      #_default {
+      #  native = svg,svgSprite,webfont
+      #  rte = webfont
+      #}
+      #fa5 {
+      #  native = svgSprite,webfont
+      #}
+      #glyphicons = webfont
+    }
+  }
+}
+
+# This is required if you want to use SVG-Elements in the frontend
+lib.parseFunc_RTE.allowTags := addToList(svg,use,path)
+
+# Set templates and dataProcessing
+lib.contentElement {
+  partialRootPaths {
+    5 = EXT:iconpack/Resources/Private/Partials/FluidStyledContent/
+  }
+  dataProcessing {
+    # Use this if you want to render iconfig-fields directly, or if you don't want to use the ViewHelper
+		#100 = Quellenform\Iconpack\DataProcessing\IconpackProcessor
+		#100 {
+    #  fieldName = header_icon
+    #  fieldType = native
+		#}
+		110 = Quellenform\Iconpack\DataProcessing\IconpackProcessor
+		110 {
+      fieldName = bodytext
+      fieldType = rte
+		}
+  }
+  settings {
+    iconpack < plugin.tx_iconpack.settings
+  }
+}

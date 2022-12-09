@@ -1,0 +1,20 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Quellenform\Iconpack\:
+    resource: '../Classes/*'
+
+  Quellenform\Iconpack\EventListener\IconpackGetExternalPlugins:
+    tags:
+      - name: event.listener
+        identifier: 'IconpackGetExternalPlugins'
+        event: TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforeGetExternalPluginsEvent
+
+  Quellenform\Iconpack\EventListener\IconpackPrepareConfigurationForEditor:
+    tags:
+      - name: event.listener
+        identifier: 'IconpackPrepareConfigurationForEditor'
+        event: TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforePrepareConfigurationForEditorEvent

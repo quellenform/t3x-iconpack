@@ -1,0 +1,20 @@
+/.gitattributes export-ignore
+
+# Enforce checkout with linux lf consistent over all platforms
+*.css text eol=lf
+*.less text eol=lf
+*.scss text eol=lf
+*.js text eol=lf
+*.json text eol=lf
+*.rst text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.ts text eol=lf
+*.typoscript text eol=lf
+*.xlf text eol=lf
+*.sh text eol=lf
+*.svg text eol=lf
+*.txt text eol=lf
+*.html text eol=lf
+*.pug text eol=lf
