@@ -631,6 +631,7 @@ class IconpackFactory implements SingletonInterface
      */
     private function getCacheIdentifier(string $cacheIdentifier): string
     {
+        $language = null;
         if (static::$context === 'backend') {
             if (isset($GLOBALS['BE_USER']->uc['lang'])) {
                 $language = $GLOBALS['BE_USER']->uc['lang'];
