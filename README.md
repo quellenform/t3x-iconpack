@@ -51,18 +51,20 @@ This extension does ***NOT*** have the same approach as the TYPO3 integrated `Ic
 
 1. Install this extension from TER or with Composer
 2. Install one of the existing iconpack providers:
-    - [Bootstrap (includes Glyphicons & v1)](https://extensions.typo3.org/extension/iconpack_bootstrap)
-    - [Dripicons](https://extensions.typo3.org/extension/iconpack_dripicons)
-    - [Elegant Icons](https://extensions.typo3.org/extension/iconpack_elegant)
-    - [Feather Icons](https://extensions.typo3.org/extension/iconpack_feather)
-    - [Font Awesome (includes v4, v5-free & v6-free)](https://extensions.typo3.org/extension/iconpack_fontawesome)
-    - [Linea Icons](https://extensions.typo3.org/extension/iconpack_linea)
-    - [Linearicons](https://extensions.typo3.org/extension/iconpack_linearicons)
-    - [Lineicons](https://extensions.typo3.org/extension/iconpack_lineicons)
-    - [MFG Icons](https://extensions.typo3.org/extension/iconpack_mfg)
-    - [Themify Icons](https://extensions.typo3.org/extension/iconpack_themify)
+    - [Bootstrap (includes Glyphicons & v1)](https://github.com/quellenform/t3x-iconpack-boostrap)
+    - [Dripicons](https://github.com/quellenform/t3x-iconpack-dripicons)
+    - [Elegant Icons](https://github.com/quellenform/t3x-iconpack-elegant)
+    - [Feather Icons](https://github.com/quellenform/t3x-iconpack-feather)
+    - [Font Awesome (includes v4, v5-free & v6-free)](https://github.com/quellenform/t3x-iconpack-fontawesome)
+    - [Helium Icons](https://github.com/quellenform/t3x-iconpack-helium)
+    - [Linea Icons](https://github.com/quellenform/t3x-iconpack-linea)
+    - [Linearicons](https://github.com/quellenform/t3x-iconpack-linearicons)
+    - [Lineicons](https://github.com/quellenform/t3x-iconpack-lineicons)
+    - [MFG Icons](https://github.com/quellenform/t3x-iconpack-mfg)
+    - [Themify Icons](https://github.com/quellenform/t3x-iconpack-themify)
     - ...or create your own iconpack provider
 3. Add the provided TypoScript to your template
+
 
 ## Extension Configuration
 
@@ -366,8 +368,9 @@ iconpack:
   #  - icon3
 ```
 
+## Additional Information
 
-## WIP | Planned Features
+### WIP | Planned Features
 - Optimize inserting icons, which are not available as webfont (SVG, Inline-SVG, JavaScript, ...), directly in the RTE
 - Contextmenu in CKEditor to edit a previously added icon
 - Adding icons to the *IconRegistry* so that they are also available in the classic style in the backend (...does that make any sense?)
@@ -375,7 +378,7 @@ iconpack:
 - **Upgrade the extension for the use of TYPO3 v12 (help wanted!)**
 
 
-## Why I made this extension?
+### Why I made this extension?
 
 ...because this feature is simply missing in TYPO3!
 
@@ -387,7 +390,8 @@ The main focus for me was that every possible icon set should be able to be used
 
 Another focus was on the extensibility and modification of existing iconpack extensions. These should be integrated into the system as easy as possible (YAML file).
 
-## Why I published this extension?
+
+### Why I published this extension?
 
 I wrote this extension at the end of 2020, and unfortunately didn't make it public right then.
 
