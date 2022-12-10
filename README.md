@@ -51,7 +51,7 @@ This extension does ***NOT*** have the same approach as the TYPO3 integrated `Ic
 
 1. Install this extension from TER or with Composer
 2. Install one of the existing iconpack providers:
-    - [Bootstrap (includes Glyphicons & v1)](https://github.com/quellenform/t3x-iconpack-boostrap)
+    - [Bootstrap (includes Glyphicons & v1)](https://github.com/quellenform/t3x-iconpack-bootstrap)
     - [Dripicons](https://github.com/quellenform/t3x-iconpack-dripicons)
     - [Elegant Icons](https://github.com/quellenform/t3x-iconpack-elegant)
     - [Feather Icons](https://github.com/quellenform/t3x-iconpack-feather)
