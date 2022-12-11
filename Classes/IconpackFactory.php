@@ -641,7 +641,7 @@ class IconpackFactory implements SingletonInterface
                 $language = $GLOBALS['TSFE']->config['config']['language'];
             }
         }
-        if (!$language || empty($language)) {
+        if (empty($language)) {
             $language = 'default';
         }
         //$cacheIdentifier = 'Iconpack_' . $language . '_' . str_replace(':', '-', $cacheIdentifier); // DEV
