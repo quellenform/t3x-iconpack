@@ -19,6 +19,7 @@ Only when rendering in the backend or frontend, this string is transformed into 
 
 Furthermore, this extension adds additional icon fields for pages and text headers, but it can also be used to extend fields of your own extensions.
 
+Teaser: https://youtu.be/LrA94JQeZFo
 
 ## Features
 
