@@ -1,3 +1,7 @@
+# ****************************************************
+# Example CKEditor configuration
+# ****************************************************
+
 editor:
   config:
     extraAllowedContent:
@@ -12,5 +16,5 @@ editor:
       - line[*]
       - circle[*]
       - rect[*]
-      - ellispe[*]
+      - ellipse[*]
       #- img(*)[!data-iconfig,data-*,title,alt,style,width,height]
