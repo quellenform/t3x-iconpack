@@ -26,7 +26,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class IconViewHelper extends AbstractViewHelper
 {
-
     use CompileWithRenderStatic;
 
     protected $escapeOutput = false;
