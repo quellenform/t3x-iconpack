@@ -77,23 +77,26 @@ Some iconpacks additionally offer the possibility to choose between different ic
 
 | Value | Description |
 | ----- | ----------- |
-| `autoConfigRte` | If enabled, the `span(*)[*]` value is added to the `extraAllowedContent` parameter, and the `aria-hidden` and `role` attributes are allowed under `RTE.default.proc.HTMLparser_db.tags.span.allowedAttribs`, so that the icons inserted in the RTE and their values are preserved when saving. If this option is disabled, these parameters must be inserted manually in the custom YAML configuration for the CKEditor. |
-| `autoAddAssets` | If enabled, all CSS files required by web fonts are automatically integrated in the frontend. |
+| `autoConfigRte` | If enabled, the value `editor.config.extraAllowedContent: span(*)[data-*,style]` is added to the CKEditor configuration, and the value `RTE.default.proc.HTMLparser_db.tags.span.allowedAttribs = data-iconfig,style` is added to PageTS, so that the icons inserted in the RTE and their values are preserved when saving. If this option is disabled, these parameters must be inserted manually in the custom YAML configuration for the CKEditor. |
+| `autoAddAssets` | If enabled, all CSS files required by the installed iconpacks are automatically included in the frontend. |
 
 Example of manual CKEditor configuration:
 ```yaml
 editor:
   config:
     extraAllowedContent:
-      - span(*)[*]
+      - span(*)[data-iconfig]
 
 processing:
   HTMLparser_db:
     tags:
       span:
-        allowedAttribs: "class, id, title, dir, lang, xml:lang, itemscope, itemtype, itemprop, data-iconfig, style, aria-hidden, role"
+        allowedAttribs:
+          - data-iconfig
 
 ```
+
+(Please take at look at the examples, located in *Configuration/RTE/*)
 
 
 ### Overriding settings
