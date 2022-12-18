@@ -1,5 +1,14 @@
-# VSCode
-.vscode
-
-# ignore generated documentation
-*GENERATED*
+/*.idea
+/.Build/*
+/.fleet
+/.php-cs-fixer.cache
+/.phpunit.result.cache
+/Documentation-GENERATED-temp/
+/clover.xml
+/composer.lock
+/nbproject
+/node_modules/
+/package-lock.json
+/var
+/yarn-error.log
+/yarn.lock
