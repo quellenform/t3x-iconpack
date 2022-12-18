@@ -119,6 +119,12 @@
 			<trans-unit id="decoration.border" resname="decoration.border">
 				<source>Border</source>
 			</trans-unit>
+			<trans-unit id="decoration.border-circle" resname="decoration.border-circle">
+				<source>Border Circle</source>
+			</trans-unit>
+			<trans-unit id="decoration.border-rounded" resname="decoration.border-rounded">
+				<source>Border Rounded</source>
+			</trans-unit>
 
 			<trans-unit id="transform.default" resname="transform.default">
 				<source>Default</source>
@@ -150,6 +156,18 @@
 			<trans-unit id="transform.fade" resname="transform.fade">
 				<source>Fade</source>
 			</trans-unit>
+			<trans-unit id="transform.fade-left" resname="transform.fade-left">
+				<source>Fade Left</source>
+			</trans-unit>
+			<trans-unit id="transform.fade-right" resname="transform.fade-right">
+				<source>Fade Down</source>
+			</trans-unit>
+			<trans-unit id="transform.fade-up" resname="transform.fade-up">
+				<source>Fade Up</source>
+			</trans-unit>
+			<trans-unit id="transform.fade-down" resname="transform.fade-down">
+				<source>Fade Down</source>
+			</trans-unit>
 			<trans-unit id="transform.beat-fade" resname="transform.beat-fade">
 				<source>Beat-Fade</source>
 			</trans-unit>
@@ -167,6 +185,18 @@
 			</trans-unit>
 			<trans-unit id="transform.spin-pulse" resname="transform.spin-pulse">
 				<source>Spin Pulse</source>
+			</trans-unit>
+			<trans-unit id="transform.pulse" resname="transform.pulse">
+				<source>Pulse</source>
+			</trans-unit>
+			<trans-unit id="transform.tada" resname="transform.tada">
+				<source>Tada</source>
+			</trans-unit>
+			<trans-unit id="transform.burst" resname="transform.burst">
+				<source>Burst</source>
+			</trans-unit>
+			<trans-unit id="transform.flashing" resname="transform.flashing">
+				<source>Flashing</source>
 			</trans-unit>
 		</body>
 	</file>
