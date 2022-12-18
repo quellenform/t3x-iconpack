@@ -53,18 +53,24 @@ This extension does ***NOT*** have the same approach as the TYPO3 integrated `Ic
 1. Install this extension from TER or with Composer
 2. Install one of the existing iconpack providers:
     - [Bootstrap (includes Glyphicons & v1)](https://github.com/quellenform/t3x-iconpack-bootstrap)
+    - [Boxicons](https://github.com/quellenform/t3x-iconpack-boxicons)
     - [Dripicons](https://github.com/quellenform/t3x-iconpack-dripicons)
     - [Elegant Icons](https://github.com/quellenform/t3x-iconpack-elegant)
     - [Feather Icons](https://github.com/quellenform/t3x-iconpack-feather)
     - [Font Awesome (includes v4, v5-free & v6-free)](https://github.com/quellenform/t3x-iconpack-fontawesome)
     - [Helium Icons](https://github.com/quellenform/t3x-iconpack-helium)
+    - [Ionicons](https://github.com/quellenform/t3x-iconpack-ionicons)
     - [Linea Icons](https://github.com/quellenform/t3x-iconpack-linea)
     - [Linearicons](https://github.com/quellenform/t3x-iconpack-linearicons)
     - [Lineicons](https://github.com/quellenform/t3x-iconpack-lineicons)
     - [MFG Icons](https://github.com/quellenform/t3x-iconpack-mfg)
+    - [Octicons](https://github.com/quellenform/t3x-iconpack-octicons)
     - [Themify Icons](https://github.com/quellenform/t3x-iconpack-themify)
     - ...or create your own iconpack provider
 3. Add the provided TypoScript to your template
+4. (optional) Add the additional TypoScript templates if you use "bootstrap_package"
+
+> Note: If you use EXT:bootstrap_components, make sure you include the templates at the end, otherwise `lib.parseFunc_RTE` will be overwritten and the icons cannot be displayed by the RTE.
 
 
 ## Extension Configuration
@@ -81,6 +87,7 @@ Some iconpacks additionally offer the possibility to choose between different ic
 | `autoAddAssets` | If enabled, all CSS files required by the installed iconpacks are automatically included in the frontend. |
 
 Example of manual CKEditor configuration:
+
 ```yaml
 editor:
   config:
@@ -113,9 +120,12 @@ The following examples show such a configuration for the frontend.
 The settings for the frontend are made in the *TypoScript Setup*.
 Rendering in the frontend is done via `dataProcessing`, which can be assigned to any custom fields.
 
-```
+```typoscript
 plugin.tx_iconpack {
   settings {
+    # This classname will be the added in the frontend to all icons
+    cssClass = iconpack
+    # This can be used to override the rendering of the icons in the frontend.
     overrides {
       renderTypes {
         _default {
@@ -141,7 +151,6 @@ The wizard for adding icons can be used arbitrarily in own database fields.
 To do this, simply assign the value `IconpackWizard` to the `renderType` of the corresponding field.
 
 Here is an example with `/Configuration/TCA/Overrides/tt_content.php`:
-
 
 ```php
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
@@ -379,8 +388,8 @@ iconpack:
 - Contextmenu in CKEditor to edit a previously added icon
 - Adding icons to the *IconRegistry* so that they are also available in the classic style in the backend (...does that make any sense?)
 - Writing detailed documentation for the YAML configuration file
+- Switch from custom sanitizer to `TYPO3\CMS\Core\Resource\Security\SvgSanitizer`
 - **Upgrade the extension for the use of TYPO3 v12 (help wanted!)**
-
 
 ### Why I made this extension?
 
