@@ -144,6 +144,7 @@ class IconpackFactory implements SingletonInterface
      * @param string|null $context
      *
      * @return void
+     * @throws IconpackException
      */
     public function setContext(?string $context = null)
     {
