@@ -21,6 +21,7 @@
       min-width: 20px;
       max-width: 32px !important;
     }
+
     svg {
       font-size: var(--bs-btn-font-size);
     }
@@ -186,6 +187,9 @@
         display: inline-block;
         text-rendering: auto;
         line-height: 1;
+      }
+      svg {
+        width: auto;
       }
 
       &.active,

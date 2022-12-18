@@ -1,4 +1,9 @@
-h1 svg[data-iconfig], h2 svg[data-iconfig], h3 svg[data-iconfig], h4 svg[data-iconfig], h5 svg[data-iconfig], h6 svg[data-iconfig],
+h1 svg[data-iconfig],
+h2 svg[data-iconfig],
+h3 svg[data-iconfig],
+h4 svg[data-iconfig],
+h5 svg[data-iconfig],
+h6 svg[data-iconfig],
 p svg[data-iconfig] {
   fill: currentColor;
   height: 1em;
@@ -10,7 +15,12 @@ p svg[data-iconfig] {
   box-sizing: border-box;
 }
 
-h1 img[data-iconfig], h2 img[data-iconfig], h3 img[data-iconfig], h4 img[data-iconfig], h5 img[data-iconfig], h6 img[data-iconfig],
+h1 img[data-iconfig],
+h2 img[data-iconfig],
+h3 img[data-iconfig],
+h4 img[data-iconfig],
+h5 img[data-iconfig],
+h6 img[data-iconfig],
 p img[data-iconfig] {
   height: 1em;
   width: auto;
@@ -18,7 +28,12 @@ p img[data-iconfig] {
   margin-right: 0.125em;
 }
 
-h1 span[data-iconfig], h2 span[data-iconfig], h3 span[data-iconfig], h4 span[data-iconfig], h5 span[data-iconfig], h6 span[data-iconfig],
+h1 span[data-iconfig],
+h2 span[data-iconfig],
+h3 span[data-iconfig],
+h4 span[data-iconfig],
+h5 span[data-iconfig],
+h6 span[data-iconfig],
 p span[data-iconfig] {
   pointer-events: visiblepainted;
   cursor: pointer;

@@ -4,7 +4,6 @@
   width: 58px;
   padding: 5px;
 }
-
 .iconpack-form-icon>span {
   height: 100%;
   width: min-content;
@@ -13,7 +12,6 @@
   vertical-align: middle;
   overflow: visible;
 }
-
 .iconpack-form-icon>span i,
 .iconpack-form-icon>span svg,
 .iconpack-form-icon>span img,
@@ -23,7 +21,6 @@
   min-width: 20px;
   max-width: 32px !important;
 }
-
 .iconpack-form-icon>span svg {
   font-size: var(--bs-btn-font-size);
 }
@@ -38,11 +35,9 @@
   flex-direction: column;
   padding: 0;
 }
-
 .modal-iconpack .modal-body:after {
   height: 0;
 }
-
 .modal-iconpack .form-section {
   border: 0;
   border-bottom: 1px solid silver;
@@ -51,23 +46,19 @@
   padding: 15px 15px 2px;
   column-gap: 15px;
 }
-
 .modal-iconpack .form-section>.form-group {
   display: flex;
   flex-direction: column;
   margin-bottom: 1em;
 }
-
 .modal-iconpack .form-section .form-group .form-section {
   border: none;
   padding: 0;
   justify-content: flex-start;
 }
-
 .modal-iconpack .form-section .icon-ext-iconpack {
   margin-right: 0.25em;
 }
-
 .modal-iconpack .modal-footer {
   display: flex;
   flex-wrap: wrap;
@@ -77,16 +68,13 @@
   padding: 0.75rem;
   padding: 16px 15px;
 }
-
 .modal-iconpack #iconpack-options {
   width: 100%;
 }
-
 .modal-iconpack .checkbox-type-icon-toggle {
   margin: 0;
   margin-top: 4px;
 }
-
 .modal-iconpack #iconpack-selected {
   border: 1px solid #bbb;
   background: #fff;
@@ -97,7 +85,6 @@
   height: 60px;
   margin-left: auto;
 }
-
 .modal-iconpack #iconpack-selected>div {
   width: 100%;
   margin: auto;
@@ -105,7 +92,6 @@
   text-align: center;
   width: min-content;
 }
-
 .modal-iconpack #iconpack-selected>div i,
 .modal-iconpack #iconpack-selected>div svg,
 .modal-iconpack #iconpack-selected>div img,
@@ -123,14 +109,12 @@
   height: 40px !important;
   min-width: 40px;
 }
-
 .modal-iconpack #iconpack-icons {
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100%;
   padding: 10px 15px;
 }
-
 .modal-iconpack #iconpack-icons>.icons-loading {
   display: flex;
   height: 100%;
@@ -138,14 +122,12 @@
   justify-content: center;
   align-items: center;
 }
-
 .modal-iconpack #iconpack-icons section {
   display: flex;
   flex-wrap: wrap;
   grid-gap: 6px;
   flex: 0 0 62px;
 }
-
 .modal-iconpack #iconpack-icons h2 {
   margin-top: 1.5rem;
   margin-bottom: 0.3rem;
@@ -153,7 +135,6 @@
   padding-bottom: 0.4rem;
   width: 100%;
 }
-
 .modal-iconpack #iconpack-icons ul {
   display: flex;
   padding: 0;
@@ -161,20 +142,17 @@
   flex-direction: row;
   gap: 1px;
 }
-
 .modal-iconpack #iconpack-icons li {
   border-radius: 3px;
   display: inline-flex;
   height: 62px;
   width: 62px;
 }
-
 .modal-iconpack #iconpack-icons li svg,
 .modal-iconpack #iconpack-icons li img {
   width: 32px;
   height: 32px;
 }
-
 .modal-iconpack #iconpack-icons li i,
 .modal-iconpack #iconpack-icons li svg,
 .modal-iconpack #iconpack-icons li img,
@@ -188,13 +166,14 @@
   text-rendering: auto;
   line-height: 1;
 }
-
+.modal-iconpack #iconpack-icons li svg {
+  width: auto;
+}
 .modal-iconpack #iconpack-icons li.active,
 .modal-iconpack #iconpack-icons li:hover {
   background: #eee;
   border: 1px solid #bbb;
 }
-
 .modal-iconpack #iconpack-search {
   margin: 0;
   padding: 0;
@@ -202,7 +181,6 @@
   margin-right: auto;
   height: auto;
 }
-
 .modal-iconpack #iconpack-search .form-control-wrap {
   margin: 0;
 }

@@ -1,14 +1,9 @@
-svg[data-iconfig] {
-  fill: currentColor;
-  height: 1em;
-  width: 1em;
-  vertical-align: -0.125em;
-  margin-right: 0.125em;
-}
-
-img[data-iconfig] {
-  height: 1em;
-  width: auto;
-  vertical-align: -0.125em;
-  margin-right: 0.125em;
+svg,
+img {
+  &[data-iconfig] {
+    width: auto;
+    height: 1em;
+    vertical-align: -0.125em;
+    margin-right: 0.125em;
+  }
 }
