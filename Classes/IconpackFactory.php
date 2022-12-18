@@ -156,7 +156,10 @@ class IconpackFactory implements SingletonInterface
             }
         } else {
             if (!($context === 'backend' || $context === 'frontend')) {
-                throw new IconpackException('No valid context specified. Must be \'backend \' or \'frontend\'', 2100109275);
+                throw new IconpackException(
+                    'No valid context specified. Must be \'backend \' or \'frontend\'',
+                    2100109275
+                );
             }
             static::$context = $context;
         }
@@ -280,8 +283,8 @@ class IconpackFactory implements SingletonInterface
                         // Create a new configuration from all registered iconpacks
                         foreach (static::$availableIconpacks as $iconpack) {
                             /** @var IconpackProvider $iconpackProvider */
-                            $iconpackProvider =
-                                $this->iconpackRegistry->getIconpackProviderByIdentifier($iconpack);
+                            $iconpackProvider
+                                = $this->iconpackRegistry->getIconpackProviderByIdentifier($iconpack);
                             $this->config[$iconpack] = [
                                 'title' => $iconpackProvider->getTitle(),
                                 'key' => $iconpackProvider->getKey(),
@@ -326,7 +329,8 @@ class IconpackFactory implements SingletonInterface
             $fieldType = ($scope === 'ckeditor' ? ['rte'] : ['native', 'rte']);
             $renderTypesConfig = $this->queryConfig($iconpack, 'renderTypes');
             foreach (['native', 'rte'] as $fieldType) {
-                if ($renderType = $this->resolvePreferredRenderType($renderTypesConfig, $iconpack, $fieldType)) {
+                $renderType = $this->resolvePreferredRenderType($renderTypesConfig, $iconpack, $fieldType);
+                if ($renderType) {
                     foreach ($renderTypesConfig[$renderType] as $styleConf) {
                         $assets[] = $styleConf[$assetType][$scope] ?? [];
                     }
@@ -402,7 +406,8 @@ class IconpackFactory implements SingletonInterface
         }
         if ($this->isIconpackInstalled($iconfig['iconpack'])) {
             $cacheIdentifier = $this->getCacheIdentifier('iconpackIcons_' . $iconfig['iconpackStyle']);
-            if ($iconpackIcons = $this->iconpackCache->getCacheByIdentifier($cacheIdentifier)) {
+            $iconpackIcons = $this->iconpackCache->getCacheByIdentifier($cacheIdentifier);
+            if ($iconpackIcons) {
                 return $iconpackIcons;
             }
             $configuration = $this->queryConfig($iconfig['iconpack']);
@@ -429,8 +434,8 @@ class IconpackFactory implements SingletonInterface
                         foreach ($iconpackIcons as $styleKey => $_) {
                             foreach ($iconpackIcons[$styleKey]['icons'] as $iconKey => $iconLabel) {
                                 $renderConf['label'] = $iconLabel;
-                                $iconpackIcons[$styleKey]['icons'][$iconKey] =
-                                    IconpackRenderer::renderIcon(
+                                $iconpackIcons[$styleKey]['icons'][$iconKey]
+                                    = IconpackRenderer::renderIcon(
                                         IconpackRenderer::createIconElement(
                                             (string) $iconKey,
                                             $renderConf
@@ -517,8 +522,11 @@ class IconpackFactory implements SingletonInterface
      *
      * @return array|null
      */
-    public function getIconElement(array $iconfig, ?array $additionalAttributes = null, ?array $preferredRenderTypes = null): ?array
-    {
+    public function getIconElement(
+        array $iconfig,
+        ?array $additionalAttributes = null,
+        ?array $preferredRenderTypes = null
+    ): ?array {
         // Check if the required fields are set and if the requested iconpack is installed
         if (
             isset($iconfig['iconpack']) &&
@@ -527,7 +535,8 @@ class IconpackFactory implements SingletonInterface
             $this->isIconpackInstalled($iconfig['iconpack'])
         ) {
             // Check if a configuration exists for the requested iconpack
-            if ($configuration = $this->queryConfig($iconfig['iconpack'])) {
+            $configuration = $this->queryConfig($iconfig['iconpack']);
+            if ($configuration) {
                 // Check if the requested icon is available
                 if (isset($iconfig['icon']) && isset($configuration['icons'][$iconfig['icon']])) {
                     $icon = $configuration['icons'][$iconfig['icon']];
@@ -601,8 +610,8 @@ class IconpackFactory implements SingletonInterface
                     $additionalAttributes = null;
                     switch ($conf[$optionKey]['type']) {
                         case 'select':
-                            $additionalAttributes =
-                                $conf[$optionKey]['values'][$optionValue]['attributes'] ?? null;
+                            $additionalAttributes
+                                = $conf[$optionKey]['values'][$optionValue]['attributes'] ?? null;
                             break;
                         case 'checkbox':
                             if (filter_var($optionValue, FILTER_VALIDATE_BOOLEAN)) {

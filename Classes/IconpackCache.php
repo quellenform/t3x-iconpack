@@ -84,6 +84,7 @@ class IconpackCache
      */
     private function getCache(): FrontendInterface
     {
-        return static::$cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('iconpack');
+        static::$cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('iconpack');
+        return static::$cache;
     }
 }

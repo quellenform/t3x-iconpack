@@ -56,7 +56,10 @@ class IconpackController
             $html = $this->renderStandaloneView('NoIconpack', []);
         } else {
             $styles = $this->iconpackFactory->queryIconpackStyles($this->iconfig['fieldType']);
-            if (isset($this->iconfig['iconpack']) && $this->iconpackFactory->isIconpackInstalled($this->iconfig['iconpack'])) {
+            if (
+                isset($this->iconfig['iconpack']) &&
+                $this->iconpackFactory->isIconpackInstalled($this->iconfig['iconpack'])
+            ) {
                 // Select an option if iconpack is already defined
                 $this->setSelectedOption(
                     $styles,
@@ -148,10 +151,10 @@ class IconpackController
     public function initialize(ServerRequestInterface $request)
     {
         if (!$this->iconpackFactory) {
-            $context =
-                !empty($request->getQueryParams()['context']) ?
-                $request->getQueryParams()['context'] :
-                'backend';
+            $context
+                = !empty($request->getQueryParams()['context'])
+                ? $request->getQueryParams()['context']
+                : 'backend';
             $this->iconpackFactory = GeneralUtility::makeInstance(IconpackFactory::class);
             $this->iconpackFactory->setContext($context);
         }

@@ -13,8 +13,8 @@ namespace Quellenform\Iconpack\Utility;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class IconpackRenderer
 {
@@ -116,7 +116,8 @@ class IconpackRenderer
             case 'svgJs':
                 $elementName = $conf['elementName'] ?? 'svg';
                 break;
-            default: // webfont
+            default:
+                // webfont
                 $elementName = $conf['elementName'] ?? 'span';
                 break;
         }

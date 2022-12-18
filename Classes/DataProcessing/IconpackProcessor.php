@@ -32,22 +32,29 @@ class IconpackProcessor implements DataProcessorInterface
      * @param array $processedData Key/value store of processed data (e.g. to be passed to a Fluid View)
      * @return array the processed data as key/value store
      */
-    public function process(ContentObjectRenderer $cObj, array $contentObjectConfiguration, array $processorConfiguration, array $processedData): array
-    {
+    public function process(
+        ContentObjectRenderer $cObj,
+        array $contentObjectConfiguration,
+        array $processorConfiguration,
+        array $processedData
+    ): array {
         $fieldName = (string) $cObj->stdWrapValue('fieldName', $processorConfiguration, '');
-        if (!empty($fieldName) && isset($processedData['data'][$fieldName]) && !empty($processedData['data'][$fieldName])) {
+        if (
+            !empty($fieldName) && isset($processedData['data'][$fieldName]) &&
+            !empty($processedData['data'][$fieldName])
+        ) {
             $fieldType = (string) $cObj->stdWrapValue('fieldType', $processorConfiguration, 'native');
             switch ($fieldType) {
                 case 'rte':
                     /** @var HtmlParser $htmlParser */
                     $htmlParser = GeneralUtility::makeInstance(HtmlParser::class);
-                    $processedData['data'][$fieldName] =
-                        GeneralUtility::makeInstance(IconpackHtmlParser::class)
+                    $processedData['data'][$fieldName]
+                        = GeneralUtility::makeInstance(IconpackHtmlParser::class)
                         ->transformRte($processedData['data'][$fieldName], $htmlParser);
                     break;
                 case 'native':
-                    $processedData['data'][$fieldName] =
-                        GeneralUtility::makeInstance(IconpackFactory::class)
+                    $processedData['data'][$fieldName]
+                        = GeneralUtility::makeInstance(IconpackFactory::class)
                         ->getIconMarkup($processedData['data'][$fieldName]);
                     break;
             }

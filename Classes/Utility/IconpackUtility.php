@@ -30,8 +30,11 @@ class IconpackUtility
      *
      * @return array
      */
-    public static function parseRenderTypeFromTypoScript(string $key, ?array $settings, ?array $renderTypes = null): array
-    {
+    public static function parseRenderTypeFromTypoScript(
+        string $key,
+        ?array $settings,
+        ?array $renderTypes = null
+    ): array {
         $renderTypes = $renderTypes ?? [];
         $conf = $settings['renderTypes'][$key] ?? null;
         if ($conf && !empty($conf)) {
@@ -155,14 +158,14 @@ class IconpackUtility
             foreach ($attributes as $attributeKey => $attributeValue) {
                 switch ($attributeKey) {
                     case 'style':
-                        $attributes[$attributeKey] =
-                            array_column(array_map(function ($styleValue) {
+                        $attributes[$attributeKey]
+                            = array_column(array_map(function ($styleValue) {
                                 return GeneralUtility::trimExplode(':', $styleValue, true);
                             }, GeneralUtility::trimExplode(';', $attributeValue, true)), 1, 0);
                         break;
                     case 'class':
-                        $attributes[$attributeKey] =
-                            GeneralUtility::trimExplode(' ', $attributeValue, true);
+                        $attributes[$attributeKey]
+                            = GeneralUtility::trimExplode(' ', $attributeValue, true);
                         break;
                 }
             }

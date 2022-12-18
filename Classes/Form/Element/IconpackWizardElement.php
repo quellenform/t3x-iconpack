@@ -90,7 +90,8 @@ class IconpackWizardElement extends AbstractFormElement
         }
         $icon = '<span class="t3js-icon icon icon-size-small">' . $iconMarkup . '</span>';
 
-        $toggleButtonTitle = $languageService->sL('LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:js.label.iconNative');
+        $toggleButtonTitle
+            = $languageService->sL('LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:js.label.iconNative');
 
         $buttonAttributes = [
             'title' => htmlspecialchars($toggleButtonTitle),
@@ -100,10 +101,10 @@ class IconpackWizardElement extends AbstractFormElement
 
         $expansionHtml = [];
         $expansionHtml[] = '<div class="form-control-wrap">';
-        $expansionHtml[] =   '<button type="button" ' . GeneralUtility::implodeAttributes($buttonAttributes, true) . '>';
-        $expansionHtml[] =     $icon;
-        $expansionHtml[] =   '</button>';
-        $expansionHtml[] =   '<input type="hidden" name="' . $parameterArray['itemFormElName'] . '" value="' . htmlspecialchars($itemValue) . '" />';
+        $expansionHtml[] = '<button type="button" ' . GeneralUtility::implodeAttributes($buttonAttributes, true) . '>';
+        $expansionHtml[] = $icon;
+        $expansionHtml[] = '</button>';
+        $expansionHtml[] = '<input type="hidden" name="' . $parameterArray['itemFormElName'] . '" value="' . htmlspecialchars($itemValue) . '" />';
         $expansionHtml[] = '</div>';
         $expansionHtml = implode(LF, $expansionHtml);
 

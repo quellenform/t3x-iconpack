@@ -87,7 +87,8 @@ class IconpackHtmlParser
                         )
                     );
 
-                    $blockSplit[$position] = '<icon ' . GeneralUtility::implodeAttributes($attributes, true, true) . '></icon>';
+                    $blockSplit[$position]
+                        = '<icon ' . GeneralUtility::implodeAttributes($attributes, true, true) . '></icon>';
                     // Move inner Text of SPAN-elements to next element
                     if ($tagName === 'span' && !empty($innerText) && $innerText !== ' ') {
                         $contentAfter = $blockSplit[$position + 1] ?? null;

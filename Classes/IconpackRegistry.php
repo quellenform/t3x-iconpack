@@ -118,7 +118,7 @@ class IconpackRegistry implements SingletonInterface
                     if (file_exists($sourceFile)) {
                         if ($fileExt === 'yml' || $fileExt === 'yaml') {
                             $conf = (new YamlFileLoader())->load($sourceFile);
-                        } else if ($fileExt === 'json') {
+                        } elseif ($fileExt === 'json') {
                             $jsonData = file_get_contents($sourceFile);
                             $conf = json_decode($jsonData, true);
                         }

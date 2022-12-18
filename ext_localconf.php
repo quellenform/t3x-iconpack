@@ -1,6 +1,6 @@
 <?php
 
-defined('TYPO3') or die();
+defined('TYPO3') || die();
 
 // Add new field type to NodeFactory in order to render the icon fields
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1591191626] = [
@@ -33,18 +33,22 @@ if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][
 }
 
 // Override HTML sanitizer to allow SVG tags and attributes in bodytext
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['htmlSanitizer']['default'] = \Quellenform\Iconpack\Sanitizer\IconpackHtmlSanitizer::class;
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['htmlSanitizer']['default']
+    = \Quellenform\Iconpack\Sanitizer\IconpackHtmlSanitizer::class;
 
 // Add transformation class for parsing the bodytext content (RTE <-> DB)
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_parsehtml_proc.php']['transformation']['icon'] = \Quellenform\Iconpack\Html\IconpackRteTransformation::class;
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_parsehtml_proc.php']['transformation']['icon']
+    = \Quellenform\Iconpack\Html\IconpackRteTransformation::class;
 
 // Set overrule mode to allow icon-transformations
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('RTE.default.proc.overruleMode = default,icon');
 
 // Add some values to the list of allowed attributes for span-tags
-if ((bool) \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-    \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
-)->get('iconpack', 'autoConfigRte')) {
+if (
+    (bool) \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+    )->get('iconpack', 'autoConfigRte')
+) {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
     RTE.default.proc {
         # Allow additional attributes in SPAN-tags on the way from RTE to DB

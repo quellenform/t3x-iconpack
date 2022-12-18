@@ -220,8 +220,8 @@ class IconpackProvider
                         isset($preferredRenderTypes[$context][$fieldType]) &&
                         !empty($preferredRenderTypes[$context][$fieldType])
                     ) {
-                        $this->preferredRenderTypes[$context][$fieldType] =
-                            GeneralUtility::trimExplode(
+                        $this->preferredRenderTypes[$context][$fieldType]
+                            = GeneralUtility::trimExplode(
                                 ',',
                                 $preferredRenderTypes[$context][$fieldType],
                                 true
@@ -301,8 +301,8 @@ class IconpackProvider
         foreach ($renderTypes as $typeKey => $typeConf) {
             foreach ($typeConf as $styleKey => $styleConf) {
                 if (isset($styleConf['attributes'])) {
-                    $renderTypes[$typeKey][$styleKey]['attributes'] =
-                        IconpackUtility::explodeAttributes($styleConf['attributes']);
+                    $renderTypes[$typeKey][$styleKey]['attributes']
+                        = IconpackUtility::explodeAttributes($styleConf['attributes']);
                 }
             }
         }
@@ -491,11 +491,13 @@ class IconpackProvider
                             if (isset($option['values']) && is_array($option['values'])) {
                                 foreach ($option['values'] as $key => $values) {
                                     if (isset($values['attributes']) && is_array($values['attributes'])) {
-                                        $optionConf['values'][$key]['label'] = $this->getTranslatedLabel($values['label']);
-                                        $optionConf['values'][$key]['attributes'] =
-                                            IconpackUtility::explodeAttributes($values['attributes']);
+                                        $optionConf['values'][$key]['label']
+                                            = $this->getTranslatedLabel($values['label']);
+                                        $optionConf['values'][$key]['attributes']
+                                            = IconpackUtility::explodeAttributes($values['attributes']);
                                         // This is required for JavaScript
-                                        $optionConf['values'][$key]['attributesString'] = json_encode($values['attributes']);
+                                        $optionConf['values'][$key]['attributesString']
+                                            = json_encode($values['attributes']);
                                     }
                                 }
                             }
