@@ -77,6 +77,11 @@ class IconpackFactory implements SingletonInterface
     protected static $preferredRenderTypes = null;
 
     /**
+     * @var string|null
+     */
+    protected static $defaultCssClass = '';
+
+    /**
      * @param bool $cacheEnabled
      */
     public function __construct(bool $cacheEnabled = true)
@@ -171,7 +176,7 @@ class IconpackFactory implements SingletonInterface
      *
      * @return void
      */
-    public function setPreferredRenderTypes()
+    public function getConfigurationFromTypoScript()
     {
         if (static::$context === 'backend') {
             foreach (static::$availableIconpacks as $iconpack) {
@@ -186,6 +191,12 @@ class IconpackFactory implements SingletonInterface
                     ConfigurationManagerInterface::CONFIGURATION_TYPE_SETTINGS,
                     'iconpack'
                 ) ?? null;
+            // Get the default CSS class from TypoScript/TS, which is prepended to all icons
+            static::$defaultCssClass = preg_replace(
+                '/[^A-Za-z0-9\-]/',
+                '',
+                $settings['cssClass'] ?? ''
+            );
             // Get default rendertype configuration from TypoScript/TS
             $defaultRenderTypes = IconpackUtility::parseRenderTypeFromTypoScript('_default', $settings);
             // Override/Merge rendertypes
@@ -241,7 +252,7 @@ class IconpackFactory implements SingletonInterface
         ?array $preferredRenderTypes = null
     ): ?string {
         if (!static::$preferredRenderTypes) {
-            $this->setPreferredRenderTypes();
+            $this->getConfigurationFromTypoScript();
         }
         if ($iconpack && $fieldType) {
             $preferredRenderTypes = static::$preferredRenderTypes[$iconpack][$fieldType] ?? null;
@@ -576,6 +587,7 @@ class IconpackFactory implements SingletonInterface
                         // Set the renderType which is required for rendering
                         $conf['type'] = $preferredRenderType;
                         $conf['label'] = $icon['label'];
+                        $conf['defaultCssClass'] = static::$defaultCssClass;
                         // Everything looks fine so far, try to set the icon element
                         try {
                             $iconElement = IconpackRenderer::createIconElement(

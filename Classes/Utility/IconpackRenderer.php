@@ -124,6 +124,9 @@ class IconpackRenderer
         if ($conf['type'] !== 'svgInline') {
             unset($attributes['viewbox']);
         }
+        if (!empty($conf['defaultCssClass'])) {
+            array_unshift($attributes['class'], $conf['defaultCssClass']);
+        }
         return [
             'type' => $conf['type'],
             'elementName' => $elementName,

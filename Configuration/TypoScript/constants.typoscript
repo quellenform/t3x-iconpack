@@ -1,0 +1,2 @@
+# cat=Iconpack/1/1; type=string; label=Default CSS class
+plugin.tx_iconpack.cssClass = iconpack

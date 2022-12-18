@@ -1,5 +1,6 @@
 plugin.tx_iconpack {
   settings {
+    cssClass = {$plugin.tx_iconpack.cssClass}
     renderTypes {
       # Override default values for all iconpacks
       #_default {
