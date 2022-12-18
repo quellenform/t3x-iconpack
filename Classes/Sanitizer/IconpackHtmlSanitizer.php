@@ -18,33 +18,120 @@ use TYPO3\HtmlSanitizer\Behavior\Tag;
 use TYPO3\HtmlSanitizer\Behavior\RegExpAttrValue;
 
 /**
- * Custom sanitizer to allow output of SVG-Sprites in the frontend (bodytext!).
+ * Custom sanitizer for SVG content output in frontend (Only content coming from RTE).
  */
 class IconpackHtmlSanitizer extends DefaultSanitizerBuilder
 {
+
+    /**
+     * @var Behavior\Attr
+     */
+    protected $svgPresentationAttrs;
+
     public function createBehavior(): Behavior
     {
+        $svgPresentationAttrs = $this->createSvgAttrs();
         return parent::createBehavior()
             ->withName('default')
             ->withTags(
                 (new Tag('svg', Tag::ALLOW_CHILDREN))->addAttrs(
-                    (new Attr('fill')),
                     (new Attr('xmlns'))->addValues(
                         new RegExpAttrValue('#^?:https?://#')
                     ),
                     (new Attr('xmlns:xlink')),
-                    ...$this->globalAttrs
+                    (new Attr('viewBox')),
+                    (new Attr('width')),
+                    (new Attr('height')),
+                    ...$this->globalAttrs,
+                    ...$svgPresentationAttrs
                 ),
                 (new Tag('use'))->addAttrs(
+                    (new Attr('x')),
+                    (new Attr('y')),
                     (new Attr('xmlns:xlink')),
                     (new Attr('xlink:href')),
                     ...$this->globalAttrs
                 ),
+                (new Tag('g', Tag::ALLOW_CHILDREN))->addAttrs(
+                    ...$this->globalAttrs,
+                    ...$svgPresentationAttrs
+                ),
+                (new Tag('line'))->addAttrs(
+                    (new Attr('x1')),
+                    (new Attr('y1')),
+                    (new Attr('x2')),
+                    (new Attr('y2')),
+                    ...$svgPresentationAttrs
+                ),
                 (new Tag('path'))->addAttrs(
                     (new Attr('d')),
-                    (new Attr('g')),
-                    ...$this->globalAttrs
+                    ...$svgPresentationAttrs
                 ),
+                (new Tag('polyline'))->addAttrs(
+                    (new Attr('points')),
+                    ...$this->globalAttrs,
+                    ...$svgPresentationAttrs
+                ),
+                (new Tag('polygon'))->addAttrs(
+                    (new Attr('points')),
+                    ...$svgPresentationAttrs
+                ),
+                (new Tag('rect'))->addAttrs(
+                    (new Attr('x')),
+                    (new Attr('y')),
+                    (new Attr('width')),
+                    (new Attr('height')),
+                    (new Attr('rx')),
+                    (new Attr('ry')),
+                    ...$svgPresentationAttrs
+                ),
+                (new Tag('circle'))->addAttrs(
+                    (new Attr('cx')),
+                    (new Attr('cy')),
+                    (new Attr('r')),
+                    ...$svgPresentationAttrs
+                ),
+                (new Tag('ellipse'))->addAttrs(
+                    (new Attr('cx')),
+                    (new Attr('cy')),
+                    (new Attr('rx')),
+                    (new Attr('ry')),
+                    ...$svgPresentationAttrs
+                )
             );
+    }
+
+    /**
+     * Set SVG presentation attributes.
+     *
+     * @return Behavior\Attr[]
+     */
+    protected function createSvgAttrs(): array
+    {
+        // https://developer.mozilla.org/en-US/docs/Web/SVG/
+        $attrs = $this->createAttrs(
+            'clip-path',
+            'clip-rule',
+            'color',
+            'display',
+            'fill',
+            'fill-opacity',
+            'fill-rule',
+            'filter',
+            'mask',
+            'opacity',
+            'shape-rendering',
+            'stroke',
+            'stroke-dasharray',
+            'stroke-dashoffset',
+            'stroke-linecap',
+            'stroke-linejoin',
+            'stroke-miterlimit',
+            'stroke-opacity',
+            'stroke-width',
+            'transform',
+            'visibility'
+        );
+        return $attrs;
     }
 }

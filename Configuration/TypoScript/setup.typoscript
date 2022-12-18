@@ -15,8 +15,9 @@ plugin.tx_iconpack {
   }
 }
 
-# This is required if you want to use SVG-Elements in the frontend
-lib.parseFunc_RTE.allowTags := addToList(svg,use,path)
+# This is required if you want to use SVG elements in the frontend (!!!)
+# Without this instruction the content from the database will not be rendered in the frontend!
+lib.parseFunc_RTE.allowTags := addToList(svg,use,g,line,path,polyline,polygon,rect,circle,ellipse)
 
 # Set templates and dataProcessing
 lib.contentElement {

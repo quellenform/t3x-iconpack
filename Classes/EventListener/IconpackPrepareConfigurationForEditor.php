@@ -46,20 +46,24 @@ class IconpackPrepareConfigurationForEditor
         }
         // RTE only: Allow various tags in icon-elements (Important for "aria-hidden" and other parameters!)
         if ((bool) GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('iconpack', 'autoConfigRte')) {
-            // Configuration: https://ckeditor.com/docs/ckeditor4/latest/examples/acfcustom.html
+            // Configuration:
+            // https://ckeditor.com/docs/ckeditor4/latest/examples/acfcustom.html
+            // https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html
             $iconpackProviderConfiguration['extraAllowedContent'] = [
                 'span(*)[data-*,style]',
                 // Allow SVG-specific tags
-                'svg(*)[!data-iconfig,data-*,title,style,fill,width,height,viewbox]{color,background-*,margin*,padding*}',
+                // TODO
+                //'svg(*)[!data-iconfig,data-*,title,style,fill,stroke,width,height,viewbox]{color,background-*,margin*,padding*}',
+                'svg(*)[*]',
                 'use[xlink*]',
-                'path[!d]',
                 'g[*]',
                 'line[*]',
+                'path[!d]',
                 'polyline[*]',
-                'line[*]',
-                'circle[*]',
+                'polygon[*]',
                 'rect[*]',
-                'ellispe[*]',
+                'circle[*]',
+                'ellipse[*]',
             ];
         }
         $event->setConfiguration(array_merge_recursive($configuration, $iconpackProviderConfiguration));

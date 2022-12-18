@@ -13,7 +13,14 @@ processing:
     - icon
     - svg
     - use
+    - g
+    - line
     - path
+    - polline
+    - polygon
+    - rect
+    - circle
+    - ellipse
   # CONTENT TO DATABASE
   HTMLparser_db:
     tags:

@@ -59,7 +59,14 @@ if (
             101 = icon
             102 = svg
             103 = use
-            104 = path
+            104 = g
+            105 = line
+            106 = path
+            107 = polygon
+            108 = polyline
+            109 = rect
+            110 = circle
+            111 = ellipse
         }
     }
 ');
