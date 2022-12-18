@@ -1,11 +1,13 @@
 plugin.tx_iconpack {
   settings {
     renderTypes {
+      # Override default values for all iconpacks
       #_default {
-      #  native = svg,svgSprite,webfont
-      #  rte = webfont
+      #  native = svgInline,svgSprite,webfont,svg
+      #  rte = svgInline,webfont
       #}
-      #fa5 {
+      # Override values for a specific iconpack
+      #fa6 {
       #  native = svgSprite,webfont
       #}
       #glyphicons = webfont
@@ -23,16 +25,16 @@ lib.contentElement {
   }
   dataProcessing {
     # Use this if you want to render iconfig-fields directly, or if you don't want to use the ViewHelper
-		#100 = Quellenform\Iconpack\DataProcessing\IconpackProcessor
-		#100 {
+    #2212170001 = Quellenform\Iconpack\DataProcessing\IconpackProcessor
+    #2212170001 {
     #  fieldName = header_icon
     #  fieldType = native
-		#}
-		110 = Quellenform\Iconpack\DataProcessing\IconpackProcessor
-		110 {
+    #}
+    2212170002 = Quellenform\Iconpack\DataProcessing\IconpackProcessor
+    2212170002 {
       fieldName = bodytext
       fieldType = rte
-		}
+    }
   }
   settings {
     iconpack < plugin.tx_iconpack.settings
