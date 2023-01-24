@@ -70,6 +70,7 @@ class IconpackRenderer
                 $elementName = $conf['elementName'] ?? 'img';
                 $attributes['src'] = $source . $iconKey . '.svg';
                 $attributes['alt'] = '';
+                unset($attributes['title']);
                 $attributes['loading'] = 'lazy';
                 break;
             case 'svgSprite':
@@ -105,6 +106,7 @@ class IconpackRenderer
                             IconpackUtility::explodeAttributes($svgAttributes),
                             $attributes
                         );
+                        unset($attributes['title']);
                         // Add all child nodes to innerHtml
                         $svgNodes = $xml->xpath('//xmlns:svg/*') ?? [];
                         foreach ($svgNodes as $value) {
