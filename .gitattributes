@@ -12,6 +12,7 @@
 /.phpstorm.meta.php export-ignore
 /.prettierrc.js export-ignore
 /.vscode export-ignore
+/crowdin.yml
 /package.json export-ignore
 /phive.xml export-ignore
 /phpcs.xml export-ignore
