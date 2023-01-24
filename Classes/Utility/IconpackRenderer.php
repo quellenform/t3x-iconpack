@@ -70,8 +70,9 @@ class IconpackRenderer
                 $elementName = $conf['elementName'] ?? 'img';
                 $attributes['src'] = $source . $iconKey . '.svg';
                 $attributes['alt'] = $attributes['title'];
-                unset($attributes['title']);
                 $attributes['loading'] = 'lazy';
+                // Unset title attribute, as this is not allowed in HTML.
+                unset($attributes['title']);
                 break;
             case 'svgSprite':
                 $elementName = $conf['elementName'] ?? 'svg';
@@ -106,6 +107,7 @@ class IconpackRenderer
                             IconpackUtility::explodeAttributes($svgAttributes),
                             $attributes
                         );
+                        // Unset title attribute, as this is not allowed in HTML.
                         unset($attributes['title']);
                         // Add all child nodes to innerHtml
                         $svgNodes = $xml->xpath('//xmlns:svg/*') ?? [];
