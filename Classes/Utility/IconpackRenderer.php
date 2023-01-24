@@ -69,7 +69,7 @@ class IconpackRenderer
             case 'svg':
                 $elementName = $conf['elementName'] ?? 'img';
                 $attributes['src'] = $source . $iconKey . '.svg';
-                $attributes['alt'] = $attributes['title'];
+                $attributes['alt'] = '';
                 $attributes['loading'] = 'lazy';
                 break;
             case 'svgSprite':
