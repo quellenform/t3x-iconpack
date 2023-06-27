@@ -8,10 +8,3 @@ defined('TYPO3') || die();
     'Configuration/TypoScript/',
     'Iconpack'
 );
-
-// Add static typoscript configuration for EXT:bootstrap_package
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile(
-    'iconpack',
-    'Configuration/TypoScript/BootstrapPackage/',
-    'Iconpack for "Bootstrap Package"'
-);
