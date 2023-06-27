@@ -173,11 +173,11 @@ Here is an example with `/Configuration/TCA/Overrides/tt_content.php`:
 ### Fluid Template
 
 Icons can be inserted directly from a fluid template using the provided ViewHelper.
-All that needs to be done is to add the namespace `http://typo3.org/ns/Quellenform/Iconpack/ViewHelpers` and a corresponding *iconfig* string. Optionally `renderTypes`, `additionalAttributes` and `style` can be used.
+All that needs to be done is to add the namespace `http://typo3.org/ns/Quellenform/Iconpack/ViewHelpers` and a corresponding *iconfig* string. Optionally `additionalAttributes`, `preferredRenderTypes` and `style` can be used.
 
 ```html
 <html xmlns:i="http://typo3.org/ns/Quellenform/Iconpack/ViewHelpers" data-namespace-typo3-fluid="true">
-   <i:icon iconfig="{headerIcon}" renderTypes="svgSprite,webfont"/>
+   <i:icon iconfig="{headerIcon}" preferredRenderTypes="svgInline,webfont"/>
 </html>
 ```
 
