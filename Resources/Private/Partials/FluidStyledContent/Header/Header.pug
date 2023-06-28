@@ -1,24 +1,24 @@
 //- doctype html
 html(xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:i="http://typo3.org/ns/Quellenform/Iconpack/ViewHelpers" data-namespace-typo3-fluid="true")
-	f:if(condition="{header}")
-		f:switch( expression="{layout}")
-			each val in [1, 2, 3, 4, 5, 6]
-				- var headerTag = 'h' + val
-				f:case(value=val)
-					#{headerTag}(class="{positionClass}")
-						i:icon(iconfig="{headerIcon}")/
-						#{'f:link.typolink'}(parameter="{link}") {header}
-			f:case(value="100")
-				f:comment
-					|-- do not show header --
-			f:defaultCase
-				f:if(condition="{default}")
-					f:render(
-						partial="Header/Header"
-						arguments!=`{
-							header: header,
-							layout: default,
-							positionClass: positionClass,
-							link: link,
-							headerIcon: headerIcon
-						}`)/
+    f:if(condition="{header}")
+        f:switch( expression="{layout}")
+            each val in [1, 2, 3, 4, 5, 6]
+                - var headerTag = 'h' + val
+                f:case(value=val)
+                    #{headerTag}(class="{positionClass}")
+                        i:icon(iconfig="{headerIcon}")/
+                        #{'f:link.typolink'}(parameter="{link}") {header}
+            f:case(value="100")
+                f:comment
+                    |-- do not show header --
+            f:defaultCase
+                f:if(condition="{default}")
+                    f:render(
+                        partial="Header/Header"
+                        arguments!=`{
+                            header: header,
+                            layout: default,
+                            positionClass: positionClass,
+                            link: link,
+                            headerIcon: headerIcon
+                        }`)/

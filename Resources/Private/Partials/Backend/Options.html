@@ -1,37 +1,37 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers" data-namespace-typo3-fluid="true">
 <fieldset class="form-section">
-	<f:if condition="{iconpackOptions}">
-		<f:for each="{iconpackOptions}" key="optionKey" as="optionConf">
-			<div class="form-group">
-				<label>{optionConf.label}</label>
-				<f:switch expression="{optionConf.type}">
-					<f:case value="select">
-						<f:form.select class="form-control form-control-adapt iconpack-option" data="{key:optionKey}">
-							<f:form.select.option value="" />
-							<f:for each="{optionConf.values}" key="key" as="item">
-								<f:form.select.option data="{attributes:item.attributesString}" value="{key}" additionalAttributes="{item.additionalAttributes}">{item.label}</f:form.select.option>
-							</f:for>
-						</f:form.select>
-					</f:case>
-					<f:case value="checkbox">
-						<div class="checkbox form-check checkbox-type-icon-toggle form-check-type-icon-toggle">
-							<input class="checkbox-input form-check-input iconpack-option" type="checkbox" id="iconpack-option-{optionKey}" value="1" data-key="{optionKey}" data-attributes="{optionConf.attributesString}" />
-							<label class="checkbox-label form-check-label" for="iconpack-option-{optionKey}">
-								<span class="checkbox-label-icon form-check-label-icon">
-									<span class="checkbox-label-icon-checked form-check-label-icon-checked">
-										<core:icon identifier="actions-check" size="small" alternativeMarkupIdentifier="inline" />
-									</span>
-									<span class="checkbox-label-icon-unchecked form-check-label-icon-unchecked">
-										<core:icon identifier="empty-empty" size="small" alternativeMarkupIdentifier="inline" />
-									</span>
-								</span>
-							</label>
-						</div>
-					</f:case>
-				</f:switch>
-			</div>
-		</f:for>
-	</f:if>
+    <f:if condition="{iconpackOptions}">
+        <f:for each="{iconpackOptions}" key="optionKey" as="optionConf">
+            <div class="form-group">
+                <label>{optionConf.label}</label>
+                <f:switch expression="{optionConf.type}">
+                    <f:case value="select">
+                        <f:form.select class="form-control form-control-adapt iconpack-option" data="{key:optionKey}">
+                            <f:form.select.option value="" />
+                            <f:for each="{optionConf.values}" key="key" as="item">
+                                <f:form.select.option data="{attributes:item.attributesString}" value="{key}" additionalAttributes="{item.additionalAttributes}">{item.label}</f:form.select.option>
+                            </f:for>
+                        </f:form.select>
+                    </f:case>
+                    <f:case value="checkbox">
+                        <div class="checkbox form-check checkbox-type-icon-toggle form-check-type-icon-toggle">
+                            <input class="checkbox-input form-check-input iconpack-option" type="checkbox" id="iconpack-option-{optionKey}" value="1" data-key="{optionKey}" data-attributes="{optionConf.attributesString}" />
+                            <label class="checkbox-label form-check-label" for="iconpack-option-{optionKey}">
+                                <span class="checkbox-label-icon form-check-label-icon">
+                                    <span class="checkbox-label-icon-checked form-check-label-icon-checked">
+                                        <core:icon identifier="actions-check" size="small" alternativeMarkupIdentifier="inline" />
+                                    </span>
+                                    <span class="checkbox-label-icon-unchecked form-check-label-icon-unchecked">
+                                        <core:icon identifier="empty-empty" size="small" alternativeMarkupIdentifier="inline" />
+                                    </span>
+                                </span>
+                            </label>
+                        </div>
+                    </f:case>
+                </f:switch>
+            </div>
+        </f:for>
+    </f:if>
 </fieldset>
 
 </html>
