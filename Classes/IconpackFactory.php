@@ -327,7 +327,7 @@ class IconpackFactory implements SingletonInterface
     }
 
     /**
-     * Query all assets from registered iconpack providers of a speicific scope.
+     * Query all assets from registered iconpack providers of a specific scope.
      *
      * @param string $assetType The asset type (css|js)
      * @param string $scope The asset scope (backend|ckeditor|frontend)
