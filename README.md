@@ -13,9 +13,11 @@ TYPO3 CMS Extension `iconpack`
 
 This extension provides an iconpack registry for custom iconpacks which can be used in backend and frontend and are rendered according to the configuration of the installed iconpacks.
 
-Instead of storing the entire HTML markup for an icon in the database fields, a short configuration string is stored instead (also in the RTE). This string is called "iconfig" and looks something like `fa6:solid,star,transform:spin`. This example will render the icon *Star* from the iconpack *Font Awesome 6* (solid style) with the additional property of a spinng rotation.
+The idea behind the extension is to provide a flexible system by means of which any icon sets can be used and the desired output can be generated at any time by separating storage and rendering.
 
-Only when rendering in the backend or frontend, this string is transformed into the corresponding HTML, giving the greatest possible flexibility.
+Instead of storing the entire HTML markup or a static file path for an icon in the database fields, a short configuration string is stored instead (also in the RTE). This string is called "iconfig" and looks something like `fa6:solid,star,transform:spin`. This example will render the icon *Star* from the iconpack *Font Awesome 6* (solid style) with the additional property of a spinng rotation.
+
+Only when rendering in the backend or frontend, this string is transformed into the corresponding HTML, giving the greatest possible flexibility. It is possible to choose whether the icons are to be rendered as a webfont, sprites, inline SVG or as an SVG-image without having to modify the contents in the database.
 
 Furthermore, this extension adds additional icon fields for pages and text headers, but it can also be used to extend fields of your own extensions.
 
@@ -30,20 +32,20 @@ The biggest differences are among others:
 - Not limited to a specific iconset! Existing iconpacks can be installed, or custom iconpacks can be created, depending on your requirements.
 - Easy to use: Install, add the provided TypoScript-template & use it, no further configuration needed (but possible!).
 - Offers the use of various icons in the header, page, in the bodytext (CKEditor) and in your own fields
-- All required assets (JavaScripts and StyleSheets) are automatically added in frontend and backend by default
+- All required assets (JavaScripts and StyleSheets) are automatically added in frontend and backend by default, depending on the configuration of the icon set used.
 - All settings of an iconpack can be overridden via an individual configuration (YAML).
 - Individual iconsets can be easily added (see instructions for [creating your own iconpack provider](#creating-your-own-iconpack-provider))
 - Can also be integrated into own extensions via the provided form wizard
-- Multilingual labels
+- Multilingual labels for icons
 - Uses the backend caching integrated in TYPO3 for the configuration of the installed iconpacks in order not to slow down the backend
 - The frontend rendering of icons can be changed afterwards (easily switch from Webfont to SVG with TypoScript)
-- Works with [EXT:bootstrap_package](https://github.com/benjaminkott/bootstrap_package/) and other extensions out of the box (please note the TypoScript template!)
+- Works with [EXT:bootstrap_package](https://github.com/benjaminkott/bootstrap_package/) and other extensions
 - No dependency on other extensions or third-party code
 
 For icons only a string is stored (e.g. `fa:solid,star`), which is then rendered to an icon by this extension depending on the configuration in the frontend/backend.
 The way an icon is rendered there (SVG, inline, webfont, etc.) can be changed afterwards, so that the greatest possible flexibility is guaranteed.
 
-> Currently, only webfonts are possible in the RTE (CKEditor). SVG elements (Sprite, Inline, or IMG) would be possible in principle, but the handling is much more complicated and relatively error-prone when using with additional options. Therefore, in the best case, iconpacks should also be available as webfont, even if it is not used in the frontend.
+> Currently, only webfonts are possible in the RTE (CKEditor), even though SVG rendering has already been implemented. SVG elements (Sprite, Inline, or IMG) would be possible in principle, but the handling is much more complicated and relatively error-prone when using with additional options. Therefore, in the best case, iconpacks should also be available as webfont, even if it is not used in the frontend. However, this will change with a newer version for TYPO3 v12.
 
 This extension does ***NOT*** have the same approach as the TYPO3 integrated `IconRegistry` with its approach to cache all icons including their HTML markup for the backend and consider them as absolute, but focuses on handling icons for editors and frontend output!
 
@@ -57,7 +59,7 @@ This extension does ***NOT*** have the same approach as the TYPO3 integrated `Ic
     - [Dripicons](https://github.com/quellenform/t3x-iconpack-dripicons)
     - [Elegant Icons](https://github.com/quellenform/t3x-iconpack-elegant)
     - [Feather Icons](https://github.com/quellenform/t3x-iconpack-feather)
-    - [Font Awesome (includes v4, v5-free & v6-free)](https://github.com/quellenform/t3x-iconpack-fontawesome)
+    - [Font Awesome (includes v5-free & v6-free)](https://github.com/quellenform/t3x-iconpack-fontawesome)
     - [Helium Icons](https://github.com/quellenform/t3x-iconpack-helium)
     - [Ionicons](https://github.com/quellenform/t3x-iconpack-ionicons)
     - [Linea Icons](https://github.com/quellenform/t3x-iconpack-linea)
@@ -68,9 +70,9 @@ This extension does ***NOT*** have the same approach as the TYPO3 integrated `Ic
     - [Themify Icons](https://github.com/quellenform/t3x-iconpack-themify)
     - ...or create your own iconpack provider
 3. Add the provided TypoScript to your template
-4. (optional) Add the additional TypoScript templates if you use "bootstrap_package"
+4. (optional) Install the [EXT:bootstrap_package_iconpack](https://github.com/quellenform/t3x-bootstrap-package-iconpack) extension if you want to use iconpacks in conjunction with [EXT:bootstrap_package](https://github.com/benjaminkott/bootstrap_package/).
 
-> Note: If you use EXT:bootstrap_components, make sure you include the templates at the end, otherwise `lib.parseFunc_RTE` will be overwritten and the icons cannot be displayed by the RTE.
+> Note: If you use *EXT:bootstrap_package_iconpack*, make sure you include the templates at the end, otherwise `lib.parseFunc_RTE` will be overwritten by *EXT:bootstrap_package* and the icons cannot be displayed by the RTE.
 
 
 ## Extension Configuration
@@ -386,7 +388,6 @@ iconpack:
 ### WIP | Planned Features
 - Optimize inserting icons, which are not available as webfont (SVG, Inline-SVG, JavaScript, ...), directly in the RTE
 - Contextmenu in CKEditor to edit a previously added icon
-- Adding icons to the *IconRegistry* so that they are also available in the classic style in the backend (...does that make any sense?)
 - Writing detailed documentation for the YAML configuration file
 - Switch from custom sanitizer to `TYPO3\CMS\Core\Resource\Security\SvgSanitizer`
 - **Upgrade the extension for the use of TYPO3 v12 (help wanted!)**
