@@ -22,14 +22,9 @@ $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
 
 // Configure the caching frontend/backend
 if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['iconpack'])) {
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['iconpack'] = [
-        'frontend' => \TYPO3\CMS\Core\Cache\Frontend\VariableFrontend::class,
-        'backend' => \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class,
-        'options' => [
-            'defaultLifetime' => 0
-        ],
-        'groups' => ['system']
-    ];
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['iconpack'] ??= [];
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['iconpack']['backend']
+        ??= \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
 }
 
 // Override HTML sanitizer to allow SVG tags and attributes in bodytext
