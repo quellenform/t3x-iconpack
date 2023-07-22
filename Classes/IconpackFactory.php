@@ -184,13 +184,18 @@ class IconpackFactory implements SingletonInterface
      */
     public function setLanguageCode()
     {
-        $context = GeneralUtility::makeInstance(Context::class);
-
-        /** @var TYPO3\CMS\Core\Site\Entity\Site */
-        $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
-        $langId = $context->getPropertyFromAspect('language', 'id');
-
-        static::$langCode = $site->getLanguageById($langId)->getTwoLetterIsoCode();
+        if (static::$context === 'backend') {
+            if (isset($GLOBALS['BE_USER']->uc['lang'])) {
+                $langCode = str_replace('default', 'en', $GLOBALS['BE_USER']->uc['lang']);
+            }
+        } else {
+            $context = GeneralUtility::makeInstance(Context::class);
+            /** @var TYPO3\CMS\Core\Site\Entity\Site */
+            $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
+            $langId = $context->getPropertyFromAspect('language', 'id');
+            $langCode = $site->getLanguageById($langId)->getTwoLetterIsoCode();
+        }
+        static::$langCode = !empty($langCode) ? $langCode : 'en';
     }
 
     /**
