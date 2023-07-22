@@ -1,3 +1,9 @@
+# 0.3.1
+
+- f6e7419 [BUGFIX] Undefined global variable $LANG
+- 106a562 Restructured queryIconpackIcons()
+- 2ca27b9 Updated cache configuration
+
 # 0.3.0
 
 - e21fa7b Removed the templates for "bootstrap_package". Please use "EXT:bootstrap_package_iconpack" instead!
