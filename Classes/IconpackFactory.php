@@ -13,17 +13,17 @@ namespace Quellenform\Iconpack;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-
 use Quellenform\Iconpack\Exception\IconpackException;
 use Quellenform\Iconpack\IconpackCache;
 use Quellenform\Iconpack\IconpackRegistry;
 use Quellenform\Iconpack\Utility\IconpackRenderer;
 use Quellenform\Iconpack\Utility\IconpackUtility;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Core\SingletonInterface;
 
 /**
  * The main factory class, which acts as the entrypoint for generating an Iconpack object which
@@ -67,6 +67,11 @@ class IconpackFactory implements SingletonInterface
     protected static $context = null;
 
     /**
+     * @var string|null
+     */
+    protected static $langCode = null;
+
+    /**
      * @var array|null
      */
     protected static $availableIconpacks = null;
@@ -91,6 +96,7 @@ class IconpackFactory implements SingletonInterface
         $this->setAvailableIconpacks();
         $this->iconpackCache = GeneralUtility::makeInstance(IconpackCache::class, $cacheEnabled);
         $this->setContext();
+        $this->setLanguageCode();
     }
 
     /**
@@ -169,6 +175,22 @@ class IconpackFactory implements SingletonInterface
             }
             static::$context = $context;
         }
+    }
+
+    /**
+     * Set current language code.
+     *
+     * @return void
+     */
+    public function setLanguageCode()
+    {
+        $context = GeneralUtility::makeInstance(Context::class);
+
+        /** @var TYPO3\CMS\Core\Site\Entity\Site */
+        $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
+        $langId = $context->getPropertyFromAspect('language', 'id');
+
+        static::$langCode = $site->getLanguageById($langId)->getTwoLetterIsoCode();
     }
 
     /**
@@ -666,21 +688,8 @@ class IconpackFactory implements SingletonInterface
      */
     private function getCacheIdentifier(string $cacheIdentifier): string
     {
-        $language = null;
-        if (static::$context === 'backend') {
-            if (isset($GLOBALS['BE_USER']->uc['lang'])) {
-                $language = $GLOBALS['BE_USER']->uc['lang'];
-            }
-        } else {
-            if (isset($GLOBALS['TSFE']->config['config']['language'])) {
-                $language = $GLOBALS['TSFE']->config['config']['language'];
-            }
-        }
-        if (empty($language)) {
-            $language = 'default';
-        }
-        //$cacheIdentifier = 'Iconpack_' . $language . '_' . str_replace(':', '-', $cacheIdentifier); // DEV
-        $cacheIdentifier = 'Iconpack_' . md5($language . '_' . $cacheIdentifier);
+        //$cacheIdentifier = 'Iconpack_' . static::$langCode . '_' . str_replace(':', '-', $cacheIdentifier); // DEV
+        $cacheIdentifier = 'Iconpack_' . md5(static::$langCode . '_' . $cacheIdentifier);
         return $cacheIdentifier;
     }
 }

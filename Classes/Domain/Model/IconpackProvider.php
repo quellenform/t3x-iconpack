@@ -14,6 +14,7 @@ namespace Quellenform\Iconpack\Domain\Model;
  */
 
 use Quellenform\Iconpack\Utility\IconpackUtility;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
@@ -598,6 +599,20 @@ class IconpackProvider
      */
     protected function getTranslatedLabel(string $label, ?string $default = ''): string
     {
-        return !empty($label) ? ($GLOBALS['LANG'] ? $GLOBALS['LANG']->sL($label) : $label) : $default;
+        if (!empty($label)) {
+            // TODO: Optimize this nasty way to get a translated label
+            if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
+                if ($GLOBALS['LANG']) {
+                    $label = $GLOBALS['LANG']->sL($label);
+                }
+            } else {
+                if ($GLOBALS['TSFE']) {
+                    $label = $GLOBALS['TSFE']->sL($label);
+                }
+            }
+        } else {
+            $label = $default;
+        }
+        return $label;
     }
 }
