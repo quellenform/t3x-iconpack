@@ -426,7 +426,7 @@ class IconpackFactory implements SingletonInterface
             if ($configuration) {
                 $style = $this->validateIconpackStyle($iconfig['style'] ?? null, $configuration['stylesEnabled']);
                 if ($configuration['icons']) {
-                    $iconpackIcons = IconpackUtility::prepareIconSet(
+                    $preparedIconpackIcons = IconpackUtility::prepareIconSet(
                         $configuration['icons'],
                         $configuration['categories'],
                         $style
@@ -442,19 +442,7 @@ class IconpackFactory implements SingletonInterface
                             $style
                         );
                         $renderConf['type'] = $preferredRenderType;
-                        // Iterate through styles
-                        foreach ($iconpackIcons as $styleKey => $_) {
-                            foreach ($iconpackIcons[$styleKey]['icons'] as $iconKey => $iconLabel) {
-                                $renderConf['label'] = $iconLabel;
-                                $iconpackIcons[$styleKey]['icons'][$iconKey]
-                                    = IconpackRenderer::renderIcon(
-                                        IconpackRenderer::createIconElement(
-                                            (string) $iconKey,
-                                            $renderConf
-                                        )
-                                    );
-                            }
-                        }
+                        $iconpackIcons = $this->getRenderedIconpackIcons($preparedIconpackIcons, $renderConf);
                     }
                 }
             }
@@ -464,6 +452,31 @@ class IconpackFactory implements SingletonInterface
             }
         }
         return null;
+    }
+
+    /**
+     * Iterate through styles and query rendered icons.
+     *
+     * @param array $iconpackIcons
+     * @param array $renderConf
+     *
+     * @return array|null
+     */
+    public function getRenderedIconpackIcons(array $iconpackIcons, array $renderConf): ?array
+    {
+        foreach ($iconpackIcons as $styleKey => $_) {
+            foreach ($iconpackIcons[$styleKey]['icons'] as $iconKey => $iconLabel) {
+                $renderConf['label'] = $iconLabel;
+                $iconpackIcons[$styleKey]['icons'][$iconKey]
+                    = IconpackRenderer::renderIcon(
+                        IconpackRenderer::createIconElement(
+                            (string) $iconKey,
+                            $renderConf
+                        )
+                    );
+            }
+        }
+        return $iconpackIcons;
     }
 
     /**
