@@ -34,9 +34,9 @@ class IconpackCache
      */
     protected static $cache = null;
 
-    public function __construct(bool $enablCache = true)
+    public function __construct(bool $enableCache = true)
     {
-        static::$cacheEnabled = $enablCache;
+        static::$cacheEnabled = $enableCache;
     }
 
     /**
