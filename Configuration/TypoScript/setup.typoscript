@@ -42,3 +42,8 @@ lib.contentElement {
     iconpack < plugin.tx_iconpack.settings
   }
 }
+
+# Add default CSS
+page.includeCSS {
+  iconpack = EXT:iconpack/Resources/Public/Css/Iconpack.min.css
+}

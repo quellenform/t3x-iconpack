@@ -36,7 +36,6 @@ final class PageRendererHook
             $iconpackFactory = GeneralUtility::makeInstance(IconpackFactory::class);
             // Add StyleSheets
             $styleSheets = $iconpackFactory->queryAssets('css', 'frontend');
-            $styleSheets[] = 'EXT:iconpack/Resources/Public/Css/Iconpack.min.css';
             foreach ($styleSheets as $styleSheet) {
                 $pageRenderer->addCssFile($styleSheet);
             }
