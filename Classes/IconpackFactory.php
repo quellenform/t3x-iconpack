@@ -371,7 +371,9 @@ class IconpackFactory implements SingletonInterface
                 $renderType = $this->resolvePreferredRenderType($renderTypesConfig, $iconpack, $fieldType);
                 if ($renderType) {
                     foreach ($renderTypesConfig[$renderType] as $styleConf) {
-                        $assets[] = $styleConf[$assetType][$scope] ?? [];
+                        if (isset($styleConf[$assetType][$scope])) {
+                            $assets[] = $styleConf[$assetType][$scope];
+                        }
                     }
                 }
             }
@@ -382,7 +384,7 @@ class IconpackFactory implements SingletonInterface
         foreach ($iterator as $value) {
             $flatArray[] = $value;
         }
-        return $flatArray;
+        return array_unique($flatArray);
     }
 
     /**
