@@ -1,3 +1,7 @@
+# 0.3.2
+
+- 9632c4a [FEATURE] Option to remove default CSS (#11)
+
 # 0.3.1
 
 - f6e7419 [BUGFIX] Undefined global variable $LANG
