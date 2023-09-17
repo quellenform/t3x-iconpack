@@ -54,7 +54,7 @@ This extension does ***NOT*** have the same approach as the TYPO3 integrated `Ic
 
 1. Install this extension from TER or with Composer
 2. Install one of the existing iconpack providers:
-    - [Bootstrap (includes Glyphicons & v1)](https://github.com/quellenform/t3x-iconpack-bootstrap)
+    - [Bootstrap](https://github.com/quellenform/t3x-iconpack-bootstrap)
     - [Boxicons](https://github.com/quellenform/t3x-iconpack-boxicons)
     - [Dripicons](https://github.com/quellenform/t3x-iconpack-dripicons)
     - [Elegant Icons](https://github.com/quellenform/t3x-iconpack-elegant)
@@ -85,6 +85,7 @@ Some iconpacks additionally offer the possibility to choose between different ic
 
 | Value | Description |
 | ----- | ----------- |
+| `enablePlugin` | If activated, Iconpack is added as a plugin in the CKEditor. |
 | `autoConfigRte` | If enabled, the value `editor.config.extraAllowedContent: span(*)[data-*,style]` is added to the CKEditor configuration, and the value `RTE.default.proc.HTMLparser_db.tags.span.allowedAttribs = data-iconfig,style` is added to PageTS, so that the icons inserted in the RTE and their values are preserved when saving. If this option is disabled, these parameters must be inserted manually in the custom YAML configuration for the CKEditor. |
 | `autoAddAssets` | If enabled, all CSS files required by the installed iconpacks are automatically included in the frontend. |
 
@@ -412,6 +413,13 @@ I wrote this extension at the end of 2020, and unfortunately didn't make it publ
 The reason why the whole thing is now published by me after all is that I am convinced that such a system can really help to improve and simplify the handling with icons in TYPO3.
 
 If you think that this is also a step in the right direction for you and you have wishes, thanks or improvements, please share your contribution!
+
+
+## Help wanted!
+
+The migration to TYPO3 v12 is turning out to be more time-consuming for me than I thought at the beginning. I am grateful for any help and would be happy to continue the project together with someone.
+
+Please get in touch if you are interested.
 
 
 ## Contribute | Say Thanks!
