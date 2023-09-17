@@ -7,6 +7,9 @@
 				<source>Icon</source>
 			</trans-unit>
 
+			<trans-unit id="extConf.enablePlugin" resname="extConf.enablePlugin">
+				<source>Enable the CKEditor plugin: If activated, Iconpack is added as a plugin in the CKEditor.</source>
+			</trans-unit>
 			<trans-unit id="extConf.autoConfigRte" resname="extConf.autoConfigRte">
 				<source>Automatically configure CKEditor: If enabled, the required CSS and JavaScript will be added to the RTE automatically.</source>
 			</trans-unit>

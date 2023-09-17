@@ -14,6 +14,7 @@ namespace Quellenform\Iconpack\EventListener;
  */
 
 use Quellenform\Iconpack\IconpackFactory;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforeGetExternalPluginsEvent;
 
@@ -28,20 +29,22 @@ class IconpackGetExternalPlugins
      */
     public function __invoke(BeforeGetExternalPluginsEvent $event): void
     {
-        $iconpackProviderConfiguration = [];
-        // Get the external plugin configuration
-        $configuration = $event->getConfiguration();
-        $configuration['iconpack'] = [
-            'resource' => 'EXT:iconpack/Resources/Public/JavaScript/CKEditor/plugin.min.js',
-            'route' => 'ajax_iconpack_modal'
-        ];
-        $iconpackAssets = GeneralUtility::makeInstance(IconpackFactory::class)
-            ->queryAssets('js', 'ckeditor');
-        foreach ($iconpackAssets as $identifier => $asset) {
-            $iconpackProviderConfiguration['iconpack_' . $identifier] = [
-                'resource' => $asset
+        if ((bool) GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('iconpack', 'enablePlugin')) {
+            $iconpackProviderConfiguration = [];
+            // Get the external plugin configuration
+            $configuration = $event->getConfiguration();
+            $configuration['iconpack'] = [
+                'resource' => 'EXT:iconpack/Resources/Public/JavaScript/CKEditor/plugin.min.js',
+                'route' => 'ajax_iconpack_modal'
             ];
+            $iconpackAssets = GeneralUtility::makeInstance(IconpackFactory::class)
+                ->queryAssets('js', 'ckeditor');
+            foreach ($iconpackAssets as $identifier => $asset) {
+                $iconpackProviderConfiguration['iconpack_' . $identifier] = [
+                    'resource' => $asset
+                ];
+            }
+            $event->setConfiguration(array_merge($configuration, $iconpackProviderConfiguration));
         }
-        $event->setConfiguration(array_merge($configuration, $iconpackProviderConfiguration));
     }
 }

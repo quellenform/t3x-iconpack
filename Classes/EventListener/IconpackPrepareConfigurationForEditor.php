@@ -31,15 +31,19 @@ class IconpackPrepareConfigurationForEditor
     {
         $configuration = $event->getConfiguration();
         $iconpackProviderConfiguration = [];
-        // Add CSS for CKEditor
-        $iconpackProviderConfiguration['contentsCss']
-            = GeneralUtility::makeInstance(IconpackFactory::class)->queryAssets('css', 'ckeditor');
-        array_unshift(
-            $iconpackProviderConfiguration['contentsCss'],
-            'EXT:iconpack/Resources/Public/Css/Backend/Ckeditor.min.css'
-        );
+        /** @var ExtensionConfiguration $extConf */
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+        if ((bool) $extConf->get('iconpack', 'enablePlugin')) {
+            // Add CSS for CKEditor
+            $iconpackProviderConfiguration['contentsCss']
+                = GeneralUtility::makeInstance(IconpackFactory::class)->queryAssets('css', 'ckeditor');
+            array_unshift(
+                $iconpackProviderConfiguration['contentsCss'],
+                'EXT:iconpack/Resources/Public/Css/Backend/Ckeditor.min.css'
+            );
+        }
         // RTE only: Allow various tags in icon-elements (Important for "aria-hidden" and other parameters!)
-        if ((bool) GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('iconpack', 'autoConfigRte')) {
+        if ((bool) $extConf->get('iconpack', 'autoConfigRte')) {
             // Configuration:
             // https://ckeditor.com/docs/ckeditor4/latest/examples/acfcustom.html
             // https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html

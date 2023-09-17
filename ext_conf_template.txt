@@ -1,4 +1,6 @@
-# cat=basic/enable/1; type=boolean; label=LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:extConf.autoConfigRte
+# cat=basic/enable/1; type=boolean; label=LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:extConf.enablePlugin
+enablePlugin = 1
+# cat=basic/enable/2; type=boolean; label=LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:extConf.autoConfigRte
 autoConfigRte = 1
-# cat=basic/enable/2; type=boolean; label=LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:extConf.autoAddAssets
+# cat=basic/enable/3; type=boolean; label=LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:extConf.autoAddAssets
 autoAddAssets = 1
