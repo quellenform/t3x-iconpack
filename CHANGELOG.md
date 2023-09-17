@@ -1,3 +1,8 @@
+# 0.3.3
+
+- d37a6d7 [BUGFIX] Opening modalbox in IRRE content elements (#10)
+- 17b1d17 [FEATURE] Make the CKEditor plugin optional in the extension configuration
+
 # 0.3.2
 
 - 9632c4a [FEATURE] Option to remove default CSS (#11)
