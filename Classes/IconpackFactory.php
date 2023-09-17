@@ -190,7 +190,7 @@ class IconpackFactory implements SingletonInterface
             }
         } else {
             $context = GeneralUtility::makeInstance(Context::class);
-            /** @var TYPO3\CMS\Core\Site\Entity\Site */
+            /** @var TYPO3\CMS\Core\Site\Entity\Site $site */
             $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
             $langId = $context->getPropertyFromAspect('language', 'id');
             $langCode = $site->getLanguageById($langId)->getTwoLetterIsoCode();
