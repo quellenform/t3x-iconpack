@@ -49,7 +49,7 @@ if (
         # Allow additional attributes in SPAN-tags on the way from RTE to DB
         HTMLparser_db.tags.span.allowedAttribs := addToList(data-iconfig, style)
         # Allow various tags to be processed and transformed
-        # TODO: addToList doesnt work in this case, so we use this ugly thing instead
+        # TODO: addToList does not work in this case, so we use this ugly thing instead
         allowTags {
             101 = icon
             102 = svg
