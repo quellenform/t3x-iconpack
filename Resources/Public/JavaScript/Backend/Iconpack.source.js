@@ -15,7 +15,7 @@ var __importDefault = this && this.__importDefault || function(t) {
 };
 */
 
-define(['require', 'exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Core/Ajax/AjaxRequest', 'TYPO3/CMS/Backend/Icons'], (function(r, exports, $, Modal, AjaxRequest, Icon) {
+define(['jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Core/Ajax/AjaxRequest', 'TYPO3/CMS/Backend/Icons'], (function($, Modal, AjaxRequest, Icon) {
   'use strict';
   //console.log('TYPO3/CMS/Iconpack/Backend/Iconpack()');
 
@@ -33,8 +33,6 @@ define(['require', 'exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Co
       // The Iconpack Configuration
       this.iconfig = null;
       this.iconfigBackup = null;
-      // The StyleSheet array
-      this.styleSheets = null;
       // The target editor for RTE-icons
       this.editor = null;
       // Define selector names
@@ -54,7 +52,8 @@ define(['require', 'exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Co
         icons: '#iconpack-icons',
         iconSelection: '#iconpack-selected > div',
         search: '#iconpack-search',
-        optionsSection: '.form-section'
+        optionsSection: '.form-section',
+        styleSheets: '#iconpack-stylesheets',
       };
       // Set jquery elements
       this.el = {
@@ -79,16 +78,7 @@ define(['require', 'exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Co
     showFieldIconModal(anchorElement) {
       console.group('Iconpack.showFieldIconModal()'); //? DEBUG GROUP
       console.log(anchorElement, '= anchorElement'); //! DEBUG VALUE
-
-      let $cssLinks = $('link[title^=iconpack]');
-      if ($cssLinks.length) {
-        this.styleSheets = [];
-        $.each($cssLinks, function(index, cssLink) {
-          iconpackInstance.styleSheets.push($(cssLink).attr('href'));
-        });
-      } else {
-        this.styleSheets = null
-      }
+      anchorElement = $(anchorElement);
 
       this.fieldType = 'native';
       this.el.$palette = anchorElement.closest(this.sel.palette);
@@ -137,7 +127,6 @@ define(['require', 'exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Co
 
       this.editor = editor;
       this.fieldType = 'rte';
-      this.styleSheets = editor.config.modalCss;
       this.iconfig = null;
       this.iconfigBackup = this.iconfig;
 
@@ -174,8 +163,6 @@ define(['require', 'exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Co
       //console.log('Iconpack.createModal()'); //? DEBUG GROUP
       console.log(url, '= url'); //! DEBUG VALUE
 
-      // Inject the requred CSS into the TYPO3 main frame
-      this.injectCSS();
       // Set the modal buttons
       let buttons = [{
           text: $(this).data('button-cancel-text') || TYPO3.lang['js.button.cancel'] || 'Cancel',
@@ -323,6 +310,9 @@ define(['require', 'exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Co
       console.log(iconpackInstance.el.$search, '= iconpackInstance.el.$search'); //! DEBUG VALUE
       */
       console.log(iconpackInstance.iconfig, '= iconpackInstance.iconfig'); //! DEBUG VALUE
+
+      // Inject the required CSS into the TYPO3 main frame
+      iconpackInstance.injectCSS();
 
       if (!iconpackInstance.el.$styles || iconpackInstance.el.$styles.length === 0) {
         iconpackInstance.el.$modalFooter.find('.btn-success').css('display', 'none');
@@ -680,18 +670,22 @@ define(['require', 'exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Co
     injectCSS() {
       console.group('Iconpack::injectCSS()'); //? DEBUG GROUP
 
-      $.each(this.styleSheets, function(index, cssFile) {
-        console.log(cssFile, '// Inject CSS-file'); //! DEBUG VALUE
-        if (!window.parent.$('link[href="' + cssFile + '"]').length) {
-          let $cssLink = $('<link />', {
-            rel: 'stylesheet',
-            type: 'text/css',
-            href: cssFile,
-            name: 'iconpack[' + index + ']'
-          });
-          window.parent.$('head').append($cssLink);
-        }
-      });
+      let styleSheets = iconpackInstance.$imodal.find(iconpackInstance.sel.styleSheets).val();
+      if (styleSheets && styleSheets.length) {
+        styleSheets = JSON.parse(styleSheets);
+        $.each(styleSheets, function(index, cssFile) {
+          console.log(cssFile, '// Inject CSS-file'); //! DEBUG VALUE
+          if (!window.parent.$('link[href="' + cssFile + '"]').length) {
+            let $cssLink = $('<link />', {
+              rel: 'stylesheet',
+              type: 'text/css',
+              href: cssFile,
+              name: 'iconpack[' + index + ']'
+            });
+            window.parent.$('head').append($cssLink);
+          }
+        });
+      }
 
       console.groupEnd(); //? DEBUG GROUP
     }

@@ -11,3 +11,6 @@ if (
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-preProcess'][]
         = \Quellenform\Iconpack\Hooks\PageRendererHook::class . '->addIconpackAssets';
 }
+
+$GLOBALS['TBE_STYLES']['skins']['iconpack']['stylesheetDirectories']['css']
+    = 'EXT:iconpack/Resources/Public/Css/Backend/FormEngine/';

@@ -212,17 +212,3 @@
     }
   }
 }
-
-p {
-  svg {
-    fill: currentColor;
-    height: 1em;
-    width: 1em;
-    vertical-align: text-top;
-  }
-}
-
-p img[data-iconfig] {
-  height: 1em;
-  vertical-align: text-top;
-}

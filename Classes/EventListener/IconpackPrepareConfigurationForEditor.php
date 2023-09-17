@@ -30,20 +30,14 @@ class IconpackPrepareConfigurationForEditor
     public function __invoke(BeforePrepareConfigurationForEditorEvent $event): void
     {
         $configuration = $event->getConfiguration();
-        /** @var IconpackFactory $iconpackFactory */
-        $iconpackFactory = GeneralUtility::makeInstance(IconpackFactory::class);
+        $iconpackProviderConfiguration = [];
         // Add CSS for CKEditor
-        $iconpackAssets = $iconpackFactory->queryAssets('css', 'ckeditor');
-        $iconpackAssets[] = 'EXT:iconpack/Resources/Public/Css/Backend/Ckeditor.min.css';
-        foreach ($iconpackAssets as $asset) {
-            $iconpackProviderConfiguration['contentsCss'][] = $asset;
-        }
-        // Add CSS for the modal
-        $iconpackAssets = $iconpackFactory->queryAssets('css', 'backend');
-        $iconpackAssets[] = 'EXT:iconpack/Resources/Public/Css/Backend/IconpackWizard.min.css';
-        foreach ($iconpackAssets as $asset) {
-            $iconpackProviderConfiguration['modalCss'][] = $asset;
-        }
+        $iconpackProviderConfiguration['contentsCss']
+            = GeneralUtility::makeInstance(IconpackFactory::class)->queryAssets('css', 'ckeditor');
+        array_unshift(
+            $iconpackProviderConfiguration['contentsCss'],
+            'EXT:iconpack/Resources/Public/Css/Backend/Ckeditor.min.css'
+        );
         // RTE only: Allow various tags in icon-elements (Important for "aria-hidden" and other parameters!)
         if ((bool) GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('iconpack', 'autoConfigRte')) {
             // Configuration:

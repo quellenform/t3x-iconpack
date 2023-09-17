@@ -358,10 +358,11 @@ class IconpackFactory implements SingletonInterface
      *
      * @param string $assetType The asset type (css|js)
      * @param string $scope The asset scope (backend|ckeditor|frontend)
+     * @param bool $streamlined Converting the path to a streamlined version
      *
      * @return array
      */
-    public function queryAssets(string $assetType, string $scope): array
+    public function queryAssets(string $assetType, string $scope, bool $streamlined = false): array
     {
         $assets = [];
         foreach (static::$availableIconpacks as $iconpack) {
@@ -378,13 +379,8 @@ class IconpackFactory implements SingletonInterface
                 }
             }
         }
-        // Flatten the multidimensional array
-        $flatArray = [];
-        $iterator = new \RecursiveIteratorIterator(new \RecursiveArrayIterator($assets));
-        foreach ($iterator as $value) {
-            $flatArray[] = $value;
-        }
-        return array_unique($flatArray);
+        // Return flattened asset array with unique values
+        return IconpackUtility::uniqueFlattendAssetArray($assets, $streamlined);
     }
 
     /**

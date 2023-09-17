@@ -18,8 +18,11 @@ use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Localization\LanguageService;
+use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Link input element.
@@ -59,12 +62,6 @@ class IconpackWizardElement extends AbstractFormElement
         // Add inline labels
         $pageRenderer->addInlineLanguageLabelFile('EXT:iconpack/Resources/Private/Language/locallang_be.xlf', 'js.');
 
-        // Add StyleSheets
-        $styleSheets = $this->iconpackFactory->queryAssets('css', 'backend');
-        $styleSheets[] = 'EXT:iconpack/Resources/Public/Css/Backend/IconpackWizard.min.css';
-        foreach ($styleSheets as $index => $styleSheet) {
-            $pageRenderer->addCssFile($styleSheet, 'stylesheet', 'all', 'iconpack');
-        }
         // Add JavaScripts
         $javaScripts = $this->iconpackFactory->queryAssets('js', 'backend');
         foreach ($javaScripts as $javaScript) {
@@ -93,10 +90,12 @@ class IconpackWizardElement extends AbstractFormElement
         $toggleButtonTitle
             = $languageService->sL('LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:js.label.iconNative');
 
+        $fieldId = StringUtility::getUniqueId('formengine-input-');
         $buttonAttributes = [
             'title' => htmlspecialchars($toggleButtonTitle),
             'class' => 'btn btn-default iconpack-form-icon',
-            'data-formengine-input-name' => (string)($parameterArray['itemFormElName'] ?? '')
+            'data-formengine-input-name' => (string)($parameterArray['itemFormElName'] ?? ''),
+            'id' => $fieldId
         ];
 
         $expansionHtml = [];
@@ -112,10 +111,20 @@ class IconpackWizardElement extends AbstractFormElement
 
         $resultArray = [];
 
-        // Using RequireJs for TYPO3 below v12.0
-        $pageRenderer->loadRequireJsModule(
-            'TYPO3/CMS/Iconpack/Backend/FormEngine'
-        );
+        // Add JavaScript module
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.5.0', '>=')) {
+            $resultArray['requireJsModules'][] = JavaScriptModuleInstruction::forRequireJS(
+                'TYPO3/CMS/Iconpack/Backend/FormEngineElement'
+            )->instance($fieldId);
+        } else {
+            $resultArray['requireJsModules'][] = [
+                'TYPO3/CMS/Iconpack/Backend/FormEngineElement' => '
+                function(FormEngineElement) {
+                    new FormEngineElement(' . GeneralUtility::quoteJSvalue($fieldId) . ');
+                }
+                '
+            ];
+        }
 
         $resultArray['html'] = '<div class="formengine-field-item t3js-formengine-field-item">' . $fieldInformationHtml . $fullElement . '</div>';
         return $resultArray;

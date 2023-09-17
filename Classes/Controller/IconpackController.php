@@ -77,7 +77,8 @@ class IconpackController
                 'iconpackStyles' => $styles,
                 'iconpackOptions' => $this->iconpackFactory->queryIconpackOptions($this->iconfig['iconpack']),
                 'iconpackIcons' => $this->iconpackFactory->queryIconpackIcons($this->iconfig),
-                'icon' => IconpackRenderer::renderIcon($this->iconpackFactory->getIconElement($this->iconfig))
+                'icon' => IconpackRenderer::renderIcon($this->iconpackFactory->getIconElement($this->iconfig)),
+                'modalStylesheets' => \json_encode($this->iconpackFactory->queryAssets('css', 'backend', true))
             ];
             $html = $this->renderStandaloneView('Iconpack', $settings);
         }
