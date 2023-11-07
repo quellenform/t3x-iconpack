@@ -8,11 +8,12 @@ First stable version...
 
 ### Feature
 
-- Compatibility with CKEditor 5 and TYPO3 version 12
+- 64a41d5 [FEATURE ] Compatibility with CKEditor 5 and TYPO3 version 12
 - Icons can now be selected and edited directly in the RTE by double-clicking
 - Added title and description to SVG elements (title will be converted to
   `<title>` and alt to `<desc>`)
 - The JavaScript has been almost completely rewritten in TypeScript
+- 452e655 Added documentation
 - Many other changes and optimizations under the hood...
 
 ### Removed
@@ -21,10 +22,10 @@ First stable version...
 
 ### Breaking
 
-- Changed the icon tag from <icon> to <span> for better compatibility! Due to a
-  lack of funding for the project, there is unfortunately no upgrade wizard for
-  this, but there is at least downward compatibility in the frontend. To update
-  your content and switch to the new tag, simply open the data record for
+- Changed the icon tag from `<icon>` to `<span>` for better compatibility! Due
+  to a lack of funding for the project, there is unfortunately no upgrade wizard
+  for this, but there is at least downward compatibility in the frontend. To
+  update your content and switch to the new tag, simply open the data record for
   editing and save it again.
 
 ## 0.3.3
