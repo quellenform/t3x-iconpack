@@ -88,32 +88,6 @@ headers, but it can also be used to extend fields of your own extensions.
   **handling icons for editors and frontend output**!
 
 
-## What does it do?
-
-This extension provides an iconpack registry for custom iconpacks which can be
-used in backend and frontend and are rendered according to the configuration of
-the installed iconpacks.
-
-The idea behind the extension is to provide a flexible system by means of which
-any icon sets can be used and the desired output can be generated at any time by
-separating storage and rendering.
-
-Instead of storing the entire HTML markup or a static file path for an icon in
-the database fields, a short configuration string is stored instead (also in the
-RTE). This string is called "iconfig" and looks something like
-`fa6:solid,star,transform:spin`. This example will render the icon *Star* from
-the iconpack *Font Awesome 6* (solid style) with the additional property of a
-spinng rotation.
-
-Only when rendering in the backend or frontend, this string is transformed into
-the corresponding HTML, giving the greatest possible flexibility. It is possible
-to choose whether the icons are to be rendered as a webfont, sprites, inline SVG
-or as an SVG-image without having to modify the contents in the database.
-
-Furthermore, this extension adds additional icon fields for pages and text
-headers, but it can also be used to extend fields of your own extensions.
-
-
 ## Installation
 
 1. Install this extension from TER or with Composer
