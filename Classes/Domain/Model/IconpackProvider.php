@@ -66,12 +66,14 @@ class IconpackProvider
      */
     protected $preferredRenderTypes = [
         'backend' => [
-            'native' => ['svgSprite', 'svgInline', 'webfont'],
-            'rte' => ['webfont']
+            'native' => ['svgSprite', 'svgInline', 'webfont', 'svg'],
+            // Note: svgSprite is currently implemented and available in principle, but not functional in TYPO3 v12,
+            // ...and svgInline causes more problems in RTE than it solves and therefore makes no sense.
+            'rte' => ['webfont', 'svg']
         ],
         'frontend' => [
             'native' => ['svgInline', 'svgSprite', 'webfont', 'svg'],
-            'rte' => ['svgInline', 'webfont']
+            'rte' => ['svgInline', 'svgSprite', 'webfont', 'svg']
         ]
     ];
 
@@ -354,7 +356,6 @@ class IconpackProvider
         $allowedKeys = [
             'label',
             'css',
-            'js',
             'source',
             'elementName',
             'attributeName',
@@ -368,7 +369,6 @@ class IconpackProvider
                         $configArray[$key] = $this->getTranslatedLabel($value, null);
                         break;
                     case 'css':
-                    case 'js':
                         $configArray[$key] = $this->mergeAsset($key, $config);
                         break;
                     case 'source':

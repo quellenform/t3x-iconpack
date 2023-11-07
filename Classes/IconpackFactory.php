@@ -190,10 +190,10 @@ class IconpackFactory implements SingletonInterface
             }
         } else {
             $context = GeneralUtility::makeInstance(Context::class);
-            /** @var TYPO3\CMS\Core\Site\Entity\Site $site */
+            /** @var \TYPO3\CMS\Core\Site\Entity\Site $site */
             $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
             $langId = $context->getPropertyFromAspect('language', 'id');
-            $langCode = $site->getLanguageById($langId)->getTwoLetterIsoCode();
+            $langCode = $site->getLanguageById($langId)->getTypo3Language();
         }
         static::$langCode = !empty($langCode) ? $langCode : 'en';
     }
@@ -491,14 +491,16 @@ class IconpackFactory implements SingletonInterface
     {
         foreach ($iconpackIcons as $styleKey => $_) {
             foreach ($iconpackIcons[$styleKey]['icons'] as $iconKey => $iconLabel) {
-                $renderConf['label'] = $iconLabel;
-                $iconpackIcons[$styleKey]['icons'][$iconKey]
-                    = IconpackRenderer::renderIcon(
+                $iconpackIcons[$styleKey]['icons'][$iconKey] = [
+                    'label' => $iconLabel,
+                    'markup' => IconpackRenderer::renderIcon(
                         IconpackRenderer::createIconElement(
                             (string) $iconKey,
-                            $renderConf
+                            $renderConf,
+                            static::$context
                         )
-                    );
+                    )
+                ];
             }
         }
         return $iconpackIcons;
@@ -554,8 +556,6 @@ class IconpackFactory implements SingletonInterface
                 $preferredRenderTypes
             );
             if ($iconElement) {
-                // Add iconfig as data-attribute to keep the element transformable (RTE <-> DB)
-                $iconElement['attributes']['data-iconfig'] = $iconfigString;
                 // Finally render the icon
                 $iconMarkup = IconpackRenderer::renderIcon($iconElement);
             }
@@ -630,7 +630,8 @@ class IconpackFactory implements SingletonInterface
                         try {
                             $iconElement = IconpackRenderer::createIconElement(
                                 $iconfig['icon'],
-                                $conf
+                                $conf,
+                                static::$context
                             );
                             return $iconElement;
                         } catch (IconpackException $e) {

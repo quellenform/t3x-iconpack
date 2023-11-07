@@ -7,5 +7,5 @@ html(xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http:
                 h2 {category.label}
             ul
                 f:for(each="{category.icons}" key="iconKey" as="icon")
-                    li(name="{iconKey}")
-                        #{'f:format.raw'} {icon}
+                    li(name="{iconKey}" title="{icon.label}")
+                        #{'f:format.raw'} {icon.markup}

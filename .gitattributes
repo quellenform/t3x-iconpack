@@ -1,34 +1,24 @@
 *.pug export-ignore
-*.source.js export-ignore
-/.Build/ export-ignore
-/.ddev/ export-ignore
 /.editorconfig export-ignore
-/.eslintignore export-ignore
 /.eslintrc.json export-ignore
 /.gitattributes export-ignore
-/.github/ export-ignore
+/.github export-ignore
 /.gitignore export-ignore
 /.php-cs-fixer.php export-ignore
-/.phpstorm.meta.php export-ignore
-/.prettierrc.js export-ignore
+/.phplint.yml export-ignore
 /.vscode export-ignore
-/crowdin.yml
-/package.json export-ignore
-/phive.xml export-ignore
+/Build/ export-ignore
+/crowdin.yml export-ignore
 /phpcs.xml export-ignore
-/phpstan-baseline.neon export-ignore
 /phpstan.neon export-ignore
-/Resources/Public/JavaScript/CKEditor/plugin.js
-/stylelint.config.js export-ignore
+/phpunit.xml export-ignore
 /Tests/ export-ignore
-/Tools/ export-ignore binary
 
 # Enforce checkout with linux lf consistent over all platforms
 *.css text eol=lf
 *.html text eol=lf
 *.js text eol=lf
 *.json text eol=lf
-*.less text eol=lf
 *.md text eol=lf
 *.php text eol=lf
 *.pug text eol=lf

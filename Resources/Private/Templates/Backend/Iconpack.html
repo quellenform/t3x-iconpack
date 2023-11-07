@@ -1,24 +1,23 @@
 <html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers" data-namespace-typo3-fluid="true">
 <fieldset class="form-section">
-    <input type="hidden" id="iconpack-identifier" value="" />
     <input type="hidden" id="iconpack-stylesheets" value="{modalStylesheets}" />
     <div class="form-group">
         <label>
             <core:icon identifier="ext-iconpack" size="small" alternativeMarkupIdentifier="inline" />
             <f:translate key="LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.iconpack"></f:translate>
         </label>
-        <f:form.select class="form-control form-control-adapt" name="header_icon[style]" id="iconpack-style">
+        <select class="form-control form-control-adapt" name="header_icon[style]" id="iconpack-style">
             <f:for each="{iconpackStyles}" key="key" as="item">
-                <f:form.select.option value="{key}" additionalAttributes="{item.additionalAttributes}">{item.label}</f:form.select.option>
+                <option value="{key}" {f:if(condition: item.selected, then: ' selected="selected"' )}>{item.label}</option>
             </f:for>
-        </f:form.select>
+        </select>
     </div>
     <div class="form-group" id="iconpack-options">
         <f:if condition="{iconpackOptions}">
             <f:render partial="Options" arguments="{iconpackOptions: iconpackOptions}" />
         </f:if>
     </div>
-    <div class="form-group" id="iconpack-selected">
+    <div class="form-group iconpack-icon" id="iconpack-selected">
         <div>
             <f:if condition="{icon}">
                 <f:format.raw>{icon}</f:format.raw>
@@ -31,7 +30,7 @@
         <f:render partial="Icons" arguments="{iconpackIcons: iconpackIcons}" />
     </f:if>
 </fieldset>
-<div class="form-control-clearable col-xs-5" id="iconpack-search">
+<div class="form-control-clearable-wrapper form-control-clearable col-xs-5" id="iconpack-search">
     <input class="form-control t3js-clearable" type="text" maxlength="120" placeholder="{f:translate(key:'LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.search')}" />
     <button class="close" type="button" tabindex="-1" style="visibility: hidden;">
         <core:icon identifier="actions-close" size="small" alternativeMarkupIdentifier="inline" />

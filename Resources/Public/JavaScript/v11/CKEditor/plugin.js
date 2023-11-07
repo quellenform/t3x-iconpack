@@ -1,0 +1,9 @@
+/*
+ * This file is part of the "iconpack" Extension for TYPO3 CMS.
+ *
+ * Conceived and written by Stephan Kellermayr
+ *
+ * For the full copyright and license information, please read the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+'use strict';!function(){const t=['span','svg','img'];function n(t){return!(!t||!t.hasClass('cke_widget_iconpack'))}function e(n){let e=null;const i=n.getFirst();var a;return(a=i)&&t.includes(a.getName())&&a.getAttribute('data-iconfig')&&(e=i.getAttribute('data-iconfig')),e}function i(t,n){function e(n,e){e&&t.insertHtml(e)}function i(){t.insertHtml('')}require(['TYPO3/CMS/Iconpack/v11/IconpackModal'],(function(t){t.openIconpackModal(TYPO3.lang['js.label.iconRte'],{fieldType:'rte',iconfigString:n},e,i)}))}CKEDITOR.dtd.$removeEmpty.span=null,CKEDITOR.plugins.add('iconpack',{lang:'en,de',requires:'widget',icons:'iconpack',hidpi:!0,init:function(a){let c=[],o=[];c.push('span[!data-iconfig,id,name,class,style,alt,title]'),c.push('svg[!data-iconfig,id,name,class,style,viewbox,fill]'),c.push('img[!data-iconfig,id,name,class,style,alt,title,src]'),o.push('span[data-iconfig]'),o.push('svg[data-iconfig]'),o.push('img[data-iconfig]'),c=c.join(';'),o=o.join(';'),a.widgets.add('iconpack',{button:a.lang.iconpack.toolbar,allowedContent:c,requiredContent:o,inline:!0,upcast:function(n){let e='data-iconfig'in n.attributes;if(t.includes(n.name)&&e){const t=n.getFirst(null);return'span'==n.name?n.setHtml(''):'svg'==n.name&&t&&'use'===t.name&&t.setHtml(''),!0}return!1},downcast:function(t){'span'==t.name&&t.setHtml('')}}),a.addCommand('iconpack',{exec:t=>{let a=null;const c=t.getSelection().getSelectedElement();return n(c)&&(a=e(c)),i(t,a),!0},allowedContent:c,requiredContent:o}),a.on('doubleclick',t=>{const c=a.getSelection().getSelectedElement();if(n(c)){const n=e(c);t.stop(),i(a,n)}})}})}();

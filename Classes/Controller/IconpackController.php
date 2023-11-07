@@ -177,7 +177,7 @@ class IconpackController
     {
         foreach ($data as $key => $_) {
             if ($selected === $key) {
-                $data[$key]['additionalAttributes'] = ['selected' => 'selected'];
+                $data[$key]['selected'] = true;
             }
         }
     }

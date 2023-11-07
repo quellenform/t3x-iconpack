@@ -13,8 +13,10 @@ namespace Quellenform\Iconpack\Utility;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
@@ -155,7 +157,7 @@ class IconpackUtility
      *
      * @return array
      */
-    public static function explodeAttributes(?array &$attributes): array
+    public static function explodeAttributes(?array $attributes): array
     {
         if ($attributes) {
             foreach ($attributes as $attributeKey => $attributeValue) {
@@ -171,6 +173,27 @@ class IconpackUtility
                             = GeneralUtility::trimExplode(' ', $attributeValue, true);
                         break;
                 }
+            }
+        }
+        return $attributes ?? [];
+    }
+
+    /**
+     * Filter attributes from array.
+     * These are the final (custom) attributes that can be used in the RTE for an icon element.
+     *
+     * @param array|null $attributes
+     *
+     * @return array
+     */
+    public static function filterAttributes(?array $attributes): array
+    {
+        $allowedAttributes = [
+            'data-iconfig', 'id', 'name', 'class', 'style', 'alt', 'title'
+        ];
+        foreach ($attributes as $key => $value) {
+            if (!in_array($key, $allowedAttributes)) {
+                unset($attributes[$key]);
             }
         }
         return $attributes ?? [];
@@ -264,6 +287,8 @@ class IconpackUtility
                         if (count($diffValue)) {
                             $diff[$key] = $diffValue;
                         }
+                    } else {
+                        $diff[$key] = $value;
                     }
                     break;
                 default:
@@ -346,8 +371,8 @@ class IconpackUtility
     {
         $assets = array_unique(
             iterator_to_array(
-                new \RecursiveIteratorIterator(
-                    new \RecursiveArrayIterator($data)
+                new RecursiveIteratorIterator(
+                    new RecursiveArrayIterator($data)
                 ),
                 false
             )

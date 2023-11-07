@@ -13,6 +13,7 @@ namespace Quellenform\Iconpack;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use InvalidArgumentException;
 use Quellenform\Iconpack\Domain\Model\IconpackProvider;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -25,7 +26,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *   $iconpackRegistry = GeneralUtility::makeInstance(\Quellenform\Iconpack\IconpackRegistry::class);
  *   $iconpackRegistry->registerIconpack(
  *       'MY_UNIQUE_ICONPACK_IDENTIFIER',
- *       'EXT:my_iconpack_extension/Configuration/Iconpack/Iconpackconfiguration.yaml'
+ *       'EXT:my_iconpack_extension/Configuration/Iconpackconfiguration.yaml'
  *   );
  */
 class IconpackRegistry implements SingletonInterface
@@ -46,7 +47,7 @@ class IconpackRegistry implements SingletonInterface
      * @param string|null $iconpackConfigClassName
      *
      * @return void
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function registerIconpack(
         string $configurationFile,
@@ -55,7 +56,7 @@ class IconpackRegistry implements SingletonInterface
     ): void {
         if ($iconpackConfigClassName) {
             if (!in_array(IconpackConfigurationInterface::class, class_implements($iconpackConfigClassName) ?: [], true)) {
-                throw new \InvalidArgumentException(
+                throw new InvalidArgumentException(
                     'An IconpackConfiguration must implement ' . IconpackConfigurationInterface::class,
                     2100109270
                 );
@@ -63,14 +64,14 @@ class IconpackRegistry implements SingletonInterface
         }
         $sourceFile = GeneralUtility::getFileAbsFileName($configurationFile);
         if (!file_exists($sourceFile)) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'The YAML configuration file could not be found.',
                 2100109271
             );
         }
         $configuration = (new YamlFileLoader())->load($configurationFile);
         if (!isset($configuration['iconpack'])) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'The iconpack configuration could not be found in YAML file.',
                 2100109272
             );
@@ -93,7 +94,7 @@ class IconpackRegistry implements SingletonInterface
 
         // Check if there is a key given
         if (!isset($configuration['iconpack']['key']) || empty($configuration['iconpack']['key'])) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Iconpack key is required and must not be empty',
                 2100109273
             );
@@ -102,7 +103,7 @@ class IconpackRegistry implements SingletonInterface
         $configuration['iconpack']['key'] = preg_replace('/[\W]/', '', $configuration['iconpack']['key']);
         $iconpackIdentifier = $configuration['iconpack']['key'];
         if (isset($this->iconpackProviders[$iconpackIdentifier])) {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 'Iconpack with key \'' . $iconpackIdentifier . '\' is already registered',
                 2100109274
             );

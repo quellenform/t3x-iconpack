@@ -9,10 +9,10 @@ html(xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http:
 
                     f:switch(expression="{optionConf.type}")
                         f:case(value="select")
-                            #{'f:form.select'}(class="form-control form-control-adapt iconpack-option" data="{key:optionKey}")
-                                #{'f:form.select.option'}(value="")/
+                            select(data-key="{optionKey}" class="form-control form-control-adapt iconpack-option")
+                                option(value="")/
                                 f:for(each="{optionConf.values}" key="key" as="item")
-                                    #{'f:form.select.option'}(data="{attributes:item.attributesString}" value="{key}" additionalAttributes="{item.additionalAttributes}") {item.label}
+                                    | <option data-attributes="{f:format.htmlspecialchars(value:item.attributesString)}" value="{key}" {f:if(condition: item.selected, then: ' selected')}>{item.label}</option>
 
                         f:case(value="checkbox")
                             div(class="checkbox form-check checkbox-type-icon-toggle form-check-type-icon-toggle")

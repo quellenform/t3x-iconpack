@@ -50,7 +50,7 @@ class IconpackProcessor implements DataProcessorInterface
                     $htmlParser = GeneralUtility::makeInstance(HtmlParser::class);
                     $processedData['data'][$fieldName]
                         = GeneralUtility::makeInstance(IconpackHtmlParser::class)
-                        ->transformRte($processedData['data'][$fieldName], $htmlParser);
+                        ->transformIconsForOutput($processedData['data'][$fieldName], $htmlParser);
                     break;
                 case 'native':
                     $processedData['data'][$fieldName]

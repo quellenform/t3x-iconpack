@@ -62,14 +62,14 @@ class IconpackWizardElement extends AbstractFormElement
         // Add inline labels
         $pageRenderer->addInlineLanguageLabelFile('EXT:iconpack/Resources/Private/Language/locallang_be.xlf', 'js.');
 
-        // Add JavaScripts
-        $javaScripts = $this->iconpackFactory->queryAssets('js', 'backend');
-        foreach ($javaScripts as $javaScript) {
-            $pageRenderer->addJsFile($javaScript);
+        $cssFiles = $this->iconpackFactory->queryAssets('css', 'backend');
+        foreach ($cssFiles as $cssFile) {
+            $pageRenderer->addCssFile($cssFile);
         }
 
         $languageService = $this->getLanguageService();
         $parameterArray = $this->data['parameterArray'];
+        $itemName = $parameterArray['itemFormElName'];
         $resultArray = $this->initializeResultArray();
 
         $itemValue = $parameterArray['itemFormElValue'];
@@ -93,40 +93,49 @@ class IconpackWizardElement extends AbstractFormElement
         $fieldId = StringUtility::getUniqueId('formengine-input-');
         $buttonAttributes = [
             'title' => htmlspecialchars($toggleButtonTitle),
-            'class' => 'btn btn-default iconpack-form-icon',
-            'data-formengine-input-name' => (string)($parameterArray['itemFormElName'] ?? ''),
-            'id' => $fieldId
+            'class' => 'btn btn-default iconpack-icon',
+            'data-formengine-input-name' => (string)($itemName ?? ''),
+            'id' => $fieldId,
+            'data-item-name' => htmlspecialchars($itemName)
         ];
-
         $expansionHtml = [];
         $expansionHtml[] = '<div class="form-control-wrap">';
-        $expansionHtml[] = '<button type="button" ' . GeneralUtility::implodeAttributes($buttonAttributes, true) . '>';
+        $expansionHtml[] = '<button type="button" ' . GeneralUtility::implodeAttributes($buttonAttributes, true) . '">';
         $expansionHtml[] = $icon;
         $expansionHtml[] = '</button>';
-        $expansionHtml[] = '<input type="hidden" name="' . $parameterArray['itemFormElName'] . '" value="' . htmlspecialchars($itemValue) . '" />';
+        $expansionHtml[] = '<input type="hidden" name="' . $itemName . '" value="' . htmlspecialchars($itemValue) . '" />';
         $expansionHtml[] = '</div>';
-        $expansionHtml = implode(LF, $expansionHtml);
-
-        $fullElement = $expansionHtml;
+        $fullElement = implode(LF, $expansionHtml);
 
         $resultArray = [];
 
         // Add JavaScript module
-        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.5.0', '>=')) {
+        $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
+        if (version_compare($typo3Version, '12.0.0', '>=')) {
+            $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create(
+                '@quellenform/iconpack-wizard.js'
+            )->instance('#' . $fieldId);
+        } elseif (version_compare($typo3Version, '11.5.0', '>=')) {
             $resultArray['requireJsModules'][] = JavaScriptModuleInstruction::forRequireJS(
-                'TYPO3/CMS/Iconpack/Backend/FormEngineElement'
-            )->instance($fieldId);
+                'TYPO3/CMS/Iconpack/v11/IconpackWizard'
+            )->instance('#' . $fieldId);
         } else {
             $resultArray['requireJsModules'][] = [
-                'TYPO3/CMS/Iconpack/Backend/FormEngineElement' => '
-                function(FormEngineElement) {
-                    new FormEngineElement(' . GeneralUtility::quoteJSvalue($fieldId) . ');
+                'TYPO3/CMS/Iconpack/v11/IconpackWizard' => '
+                function(IconpackWizard) {
+                    new IconpackWizard(' . GeneralUtility::quoteJSvalue('#' . $fieldId) . ');
                 }
                 '
             ];
         }
 
-        $resultArray['html'] = '<div class="formengine-field-item t3js-formengine-field-item">' . $fieldInformationHtml . $fullElement . '</div>';
+        $resultArray['html'] = '
+            <typo3-formengine-element-iconpack class="formengine-field-item t3js-formengine-field-item" recordFieldId="
+                ' . htmlspecialchars($fieldId) . '">
+                    ' . $fieldInformationHtml . '
+                    ' . $fullElement . '
+            </typo3-formengine-element-iconpack>';
+
         return $resultArray;
     }
 

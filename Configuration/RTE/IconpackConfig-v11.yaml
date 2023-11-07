@@ -1,0 +1,37 @@
+# ****************************************************
+# CKEditor4 configuration
+# ****************************************************
+
+editor:
+
+  externalPlugins:
+    iconpack: { resource: 'EXT:iconpack/Resources/Public/JavaScript/v11/CKEditor/plugin.js' }
+
+  config:
+    # Note: CSS files required by specific iconpacks is loaded automatically!
+    contentsCss:
+      - 'EXT:iconpack/Resources/Public/Css/Backend/CKEditor.min.css'
+
+    # This configuration is necessary so that certain contents can be inserted in CKEditor4 in the first place.
+    # All values defined here finally end up in the RTE and can be edited there.
+    #
+    # Note, however, that these values are additionally filtered again with PHP when saving, and ultimately only the attributes
+    # defined here are actually stored in the database. In addition, for the output in the frontend on the one hand the
+    # RteHtmlParser is used and on the other hand the Sanitizer, which finally decides which output ends up in the FE.
+    #
+    # More information about the RTE content filter can be found here:
+    #   https://ckeditor.com/docs/ckeditor4/latest/examples/acfcustom.html
+    #   https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html
+    #
+    extraAllowedContent:
+      # webfont: Allow <span> tags
+      - span(*)[!data-iconfig,id,name,class,style,alt,title]{color,background*,margin,padding,align,vertical-align}
+      # image: Allow svg images
+      - img[!data-iconfig,id,name,class,style,alt,title]{margin,padding,align,vertical-align}
+      # svgSprite: Allow SVG (inline, sprites)
+      - svg(*)[!data-iconfig,id,name,class,style,alt,title]{color,background*,margin,padding,align,vertical-align}
+      # svgSprite: Allow <use> element inseide <svg>
+      - use[!href]
+
+    extraPlugins:
+      - iconpack

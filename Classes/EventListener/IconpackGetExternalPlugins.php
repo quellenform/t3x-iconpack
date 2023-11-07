@@ -13,13 +13,14 @@ namespace Quellenform\Iconpack\EventListener;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use Quellenform\Iconpack\IconpackFactory;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforeGetExternalPluginsEvent;
 
 /**
- * Add CKEditor-Plugins.
+ * Add the CKEditor-Plugin (TYPO3 v10/11)
  */
 class IconpackGetExternalPlugins
 {
@@ -29,22 +30,17 @@ class IconpackGetExternalPlugins
      */
     public function __invoke(BeforeGetExternalPluginsEvent $event): void
     {
-        if ((bool) GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('iconpack', 'enablePlugin')) {
-            $iconpackProviderConfiguration = [];
-            // Get the external plugin configuration
+        if (
+            (bool) GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('iconpack', 'autoConfigRte')
+            && version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')
+        ) {
             $configuration = $event->getConfiguration();
-            $configuration['iconpack'] = [
-                'resource' => 'EXT:iconpack/Resources/Public/JavaScript/CKEditor/plugin.min.js',
-                'route' => 'ajax_iconpack_modal'
-            ];
-            $iconpackAssets = GeneralUtility::makeInstance(IconpackFactory::class)
-                ->queryAssets('js', 'ckeditor');
-            foreach ($iconpackAssets as $identifier => $asset) {
-                $iconpackProviderConfiguration['iconpack_' . $identifier] = [
-                    'resource' => $asset
-                ];
-            }
-            $event->setConfiguration(array_merge($configuration, $iconpackProviderConfiguration));
+            // Get the external plugin configuration from YAML file
+            $yaml = (new YamlFileLoader())->load(
+                'EXT:iconpack/Configuration/RTE/IconpackConfig-v11.yaml'
+            );
+            $iconpackConfiguration = $yaml['editor']['externalPlugins'];
+            $event->setConfiguration(array_merge_recursive($configuration, $iconpackConfiguration));
         }
     }
 }

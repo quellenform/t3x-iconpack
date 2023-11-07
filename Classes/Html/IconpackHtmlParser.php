@@ -37,7 +37,7 @@ class IconpackHtmlParser
      *
      * @return string
      */
-    public function transformDb(string $content, HtmlParser $htmlParser): string
+    public function transformIconsForPersistence(string $content, HtmlParser $htmlParser): string
     {
         if (strpos($content, 'data-iconfig') === false) {
             return $content;
@@ -47,21 +47,16 @@ class IconpackHtmlParser
             if ($this->transformSafecounter < 0) {
                 return $content;
             }
-            $blockSplit = $htmlParser->splitIntoBlock('SPAN,SVG', $content, true);
+
+            // Correct short opened tags in iconpack elements
+            $pattern = '/(\\<img[^>]*)([ \\/]?\\>)/si';
+            $replacement = '${1}></img>';
+            $content = preg_replace($pattern, $replacement, $content);
+
+            $blockSplit = $htmlParser->splitIntoBlock('SPAN,SVG,IMG', $content, true);
             foreach ($blockSplit as $position => $value) {
                 if ($position % 2 === 0) {
                     continue;
-                }
-                $tag = $htmlParser->getFirstTag($value);
-                $tagName = strtolower($htmlParser->getFirstTagName($value));
-                $innerText = $htmlParser->removeFirstAndLastTag($value);
-
-                // Iterate through nested SPAN-tags
-                if (!empty($innerText) && $innerText !== ' ') {
-                    $value = $tag . $this->transformDb(
-                        $htmlParser->removeFirstAndLastTag($value),
-                        $htmlParser
-                    ) . '</' . $tagName . '>';
                 }
 
                 [$attributes] = $htmlParser->get_tag_attributes($htmlParser->getFirstTag($value), true);
@@ -79,27 +74,23 @@ class IconpackHtmlParser
                     IconpackUtility::convertIconfigToArray('rte', $iconfig)
                 );
                 if ($iconElement) {
-                    // Remove redundant attributes
                     $attributes = IconpackUtility::flattenAttributes(
                         IconpackUtility::removeDuplicateAttributes(
                             IconpackUtility::explodeAttributes($iconElement['attributes']),
-                            IconpackUtility::explodeAttributes($attributes)
+                            IconpackUtility::explodeAttributes(
+                                IconpackUtility::filterAttributes($attributes)
+                            )
                         )
                     );
 
-                    $blockSplit[$position]
-                        = '<icon ' . GeneralUtility::implodeAttributes($attributes, true, true) . '></icon>';
-                    // Move inner Text of SPAN-elements to next element
-                    if ($tagName === 'span' && !empty($innerText) && $innerText !== ' ') {
-                        $contentAfter = $blockSplit[$position + 1] ?? null;
-                        if ($contentAfter) {
-                            if (substr($contentAfter, 0, 6) === '&nbsp;') {
-                                $blockSplit[$position + 1] = $innerText . ' ' . substr($contentAfter, 6);
-                            }
-                        } else {
-                            $blockSplit[$position + 1] = ' ' . $innerText;
-                        }
+                    // Unset empty alt attribute
+                    // Will be added again in frontend output, but we don't need it in the DB
+                    if (isset($attributes['alt']) && $attributes['alt'] === '') {
+                        unset($attributes['alt']);
                     }
+
+                    $blockSplit[$position]
+                        = '<span ' . GeneralUtility::implodeAttributes($attributes, true, true) . '></span>';
                 }
             }
             $this->transformSafecounter++;
@@ -115,14 +106,14 @@ class IconpackHtmlParser
      *
      * @return string
      */
-    public function transformRte(string $content, HtmlParser $htmlParser): string
+    public function transformIconsForOutput(string $content, HtmlParser $htmlParser): string
     {
         if (strpos($content, 'data-iconfig') === false) {
             return $content;
         } else {
             /** @var IconpackFactory $iconpackFactory */
             $iconpackFactory = GeneralUtility::makeInstance(IconpackFactory::class);
-            $blockSplit = $htmlParser->splitIntoBlock('ICON', $content);
+            $blockSplit = $htmlParser->splitIntoBlock('SPAN,ICON', $content);
             foreach ($blockSplit as $position => $value) {
                 if ($position % 2 === 0) {
                     continue;

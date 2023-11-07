@@ -13,9 +13,7 @@
   <path d="m1.2635 6.553 4.205 38.495 19.958 22.205-1.5283-47.355z" fill="#30881b"/>
   <path d="m67.216 9.901-5.0433 41.694-36.747 15.658-1.5283-47.355z" fill="#5ffd36"/>
  </g>
- <g>
-  <path d="m1.2635 6.553 22.635 13.345 43.318-9.9971-29.144-9.2864z" fill="url(#radialGradient2161)" style="paint-order:markers fill stroke"/>
-  <path d="m1.2635 6.553 4.205 38.495 19.958 22.205-1.5283-47.355z" fill="url(#radialGradient1128)" style="paint-order:markers fill stroke"/>
-  <path d="m67.216 9.901-5.0433 41.694-36.747 15.658-1.5283-47.355z" fill="url(#radialGradient2054)" style="paint-order:markers fill stroke"/>
- </g>
+ <path d="m1.2635 6.553 22.635 13.345 43.318-9.9971-29.144-9.2864z" fill="url(#radialGradient2161)" style="paint-order:markers fill stroke"/>
+ <path d="m1.2635 6.553 4.205 38.495 19.958 22.205-1.5283-47.355z" fill="url(#radialGradient1128)" style="paint-order:markers fill stroke"/>
+ <path d="m67.216 9.901-5.0433 41.694-36.747 15.658-1.5283-47.355z" fill="url(#radialGradient2054)" style="paint-order:markers fill stroke"/>
 </svg>

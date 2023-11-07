@@ -1,4 +1,4 @@
-.iconpack-form-icon {
+.iconpack-icon {
   height: 32px;
   min-width: 32px;
   width: 58px;
@@ -28,7 +28,7 @@
   }
 }
 
-.has-change .iconpack-form-icon {
+.has-change .iconpack-icon {
   border-color: #6daae0;
   box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
 }
@@ -56,7 +56,7 @@
     &>.form-group {
       display: flex;
       flex-direction: column;
-      margin-bottom: 1em;
+      margin-bottom: 0.8em;
     }
 
     .form-group .form-section {
@@ -94,13 +94,12 @@
     background: #fff;
     border-radius: 4px;
     padding: 10px;
-    min-width: 60px;
+    min-width: 80px;
     flex: none;
     height: 60px;
     margin-left: auto;
 
     &>div {
-      width: 100%;
       margin: auto;
       height: 100%;
       text-align: center;
@@ -110,7 +109,7 @@
       svg,
       img,
       span {
-        font-size: 40px;
+        font-size: 3.34em;
         margin: auto;
         color: #333;
         -moz-osx-font-smoothing: grayscale;
@@ -119,9 +118,8 @@
         text-rendering: auto;
         line-height: 1;
         height: 100%;
-        width: 100%;
-        height: 40px !important;
-        min-width: 40px;
+        height: 1em !important;
+        min-width: 1em;
       }
     }
   }

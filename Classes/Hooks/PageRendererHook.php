@@ -39,11 +39,6 @@ final class PageRendererHook
             foreach ($styleSheets as $styleSheet) {
                 $pageRenderer->addCssFile($styleSheet);
             }
-            // Add JavaScripts
-            $javaScripts = $iconpackFactory->queryAssets('js', 'frontend');
-            foreach ($javaScripts as $javaScript) {
-                $pageRenderer->addJsFile($javaScript);
-            }
         }
     }
 }

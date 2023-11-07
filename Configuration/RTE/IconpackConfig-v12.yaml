@@ -1,0 +1,18 @@
+# ****************************************************
+# CKEditor5 configuration
+# ****************************************************
+
+editor:
+  config:
+    contentsCss:
+      - 'EXT:iconpack/Resources/Public/Css/Backend/CKEditor.min.css'
+
+    # Load modules for plugins when CKEditor is initialized
+    # See CKEditor plugin API for details
+    importModules:
+      - { module: '@quellenform/iconpack-ckeditor.js', exports: [ 'Iconpack' ] }
+
+    toolbar:
+      items:
+        - '|'
+        - Iconpack

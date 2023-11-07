@@ -14,13 +14,17 @@ namespace Quellenform\Iconpack\Sanitizer;
 use TYPO3\CMS\Core\Html\DefaultSanitizerBuilder;
 use TYPO3\HtmlSanitizer\Behavior;
 use TYPO3\HtmlSanitizer\Behavior\Attr;
+use TYPO3\HtmlSanitizer\Behavior\Attr\UriAttrValueBuilder;
 use TYPO3\HtmlSanitizer\Behavior\Tag;
-use TYPO3\HtmlSanitizer\Behavior\RegExpAttrValue;
+use TYPO3\HtmlSanitizer\Builder\BuilderInterface;
 
 /**
  * Custom sanitizer for SVG content output in frontend (Only content coming from RTE).
+ *
+ * Note: This is a very rudimentary sanitizer intended for highly simplified SVG icons
+ * that contain only essential elements and is not generally suitable for processing SVG.
  */
-class IconpackHtmlSanitizer extends DefaultSanitizerBuilder
+class IconpackHtmlSanitizer extends DefaultSanitizerBuilder implements BuilderInterface
 {
 
     /**
@@ -30,73 +34,132 @@ class IconpackHtmlSanitizer extends DefaultSanitizerBuilder
 
     public function createBehavior(): Behavior
     {
-        $svgPresentationAttrs = $this->createSvgAttrs();
+        $svgPresentationAttributes = $this->createSvgPresentationAttributes();
+        $xmlnsAttrValueBuilder = (new UriAttrValueBuilder())
+            ->allowSchemes('http', 'https');
+        $hrefAttrValueBuilder = (new UriAttrValueBuilder())
+            ->allowLocal(true);
+
         return parent::createBehavior()
             ->withName('default')
             ->withTags(
                 (new Tag('svg', Tag::ALLOW_CHILDREN))->addAttrs(
-                    (new Attr('xmlns'))->addValues(
-                        new RegExpAttrValue('#^?:https?://#')
-                    ),
-                    (new Attr('xmlns:xlink')),
+                    (new Attr('xmlns'))->addValues(...$xmlnsAttrValueBuilder->getValues()),
+                    (new Attr('xmlns:xlink'))->addValues(...$xmlnsAttrValueBuilder->getValues()),
                     (new Attr('viewBox')),
                     (new Attr('width')),
                     (new Attr('height')),
-                    ...$this->globalAttrs,
-                    ...$svgPresentationAttrs
-                ),
-                (new Tag('use'))->addAttrs(
+                    (new Attr('preserveAspectRatio')),
                     (new Attr('x')),
                     (new Attr('y')),
-                    (new Attr('xmlns:xlink')),
-                    (new Attr('xlink:href')),
-                    ...$this->globalAttrs
+                    (new Attr('version')),
+                    ...$this->globalAttrs,
+                    ...$svgPresentationAttributes
+                ),
+                (new Tag('use'))->addAttrs(
+                    (new Attr('href'))->addValues(...$hrefAttrValueBuilder->getValues()),
+                    (new Attr('xlink:href'))->addValues(...$hrefAttrValueBuilder->getValues()),
+                    (new Attr('x')),
+                    (new Attr('y')),
+                    (new Attr('width')),
+                    (new Attr('height')),
+                    ...$this->globalAttrs,
+                    ...$svgPresentationAttributes,
+                ),
+                (new Tag('image'))->addAttrs(
+                    (new Attr('href'))->addValues(...$hrefAttrValueBuilder->getValues()),
+                    (new Attr('x')),
+                    (new Attr('y')),
+                    (new Attr('width')),
+                    (new Attr('height')),
+                    (new Attr('preserveAspectRatio'))
+                ),
+                (new Tag('title', Tag::ALLOW_CHILDREN))->addAttrs(
+                    (new Attr('id'))
+                ),
+                (new Tag('desc', Tag::ALLOW_CHILDREN))->addAttrs(
+                    (new Attr('id'))
+                ),
+                (new Tag('defs', Tag::ALLOW_CHILDREN))->addAttrs(
+                    ...$this->globalAttrs,
+                    ...$svgPresentationAttributes,
+                ),
+                (new Tag('linearGradient', Tag::ALLOW_CHILDREN))->addAttrs(
+                    (new Attr('gradientUnits')),
+                    (new Attr('gradientTransform')),
+                    (new Attr('spreadMethod')),
+                    (new Attr('x1')),
+                    (new Attr('x2')),
+                    (new Attr('y1')),
+                    (new Attr('y2')),
+                    ...$this->globalAttrs,
+                    ...$svgPresentationAttributes,
+                ),
+                (new Tag('radialGradient', Tag::ALLOW_CHILDREN))->addAttrs(
+                    (new Attr('gradientUnits')),
+                    (new Attr('gradientTransform')),
+                    (new Attr('spreadMethod')),
+                    (new Attr('cx')),
+                    (new Attr('cy')),
+                    (new Attr('fx')),
+                    (new Attr('fy')),
+                    (new Attr('r')),
+                    ...$this->globalAttrs,
+                    ...$svgPresentationAttributes,
+                ),
+                (new Tag('stop'))->addAttrs(
+                    (new Attr('stop-color')),
+                    (new Attr('stop-opacity')),
+                    (new Attr('offset')),
+                    ...$this->globalAttrs,
+                    ...$svgPresentationAttributes,
                 ),
                 (new Tag('g', Tag::ALLOW_CHILDREN))->addAttrs(
                     ...$this->globalAttrs,
-                    ...$svgPresentationAttrs
+                    ...$svgPresentationAttributes
                 ),
                 (new Tag('line'))->addAttrs(
                     (new Attr('x1')),
                     (new Attr('y1')),
                     (new Attr('x2')),
                     (new Attr('y2')),
-                    ...$svgPresentationAttrs
+                    ...$svgPresentationAttributes
                 ),
                 (new Tag('path'))->addAttrs(
                     (new Attr('d')),
-                    ...$svgPresentationAttrs
+                    (new Attr('style')),
+                    ...$svgPresentationAttributes
                 ),
                 (new Tag('polyline'))->addAttrs(
                     (new Attr('points')),
                     ...$this->globalAttrs,
-                    ...$svgPresentationAttrs
+                    ...$svgPresentationAttributes
                 ),
                 (new Tag('polygon'))->addAttrs(
                     (new Attr('points')),
-                    ...$svgPresentationAttrs
+                    ...$svgPresentationAttributes
                 ),
                 (new Tag('rect'))->addAttrs(
-                    (new Attr('x')),
-                    (new Attr('y')),
                     (new Attr('width')),
                     (new Attr('height')),
+                    (new Attr('x')),
+                    (new Attr('y')),
                     (new Attr('rx')),
                     (new Attr('ry')),
-                    ...$svgPresentationAttrs
+                    ...$svgPresentationAttributes
                 ),
                 (new Tag('circle'))->addAttrs(
                     (new Attr('cx')),
                     (new Attr('cy')),
                     (new Attr('r')),
-                    ...$svgPresentationAttrs
+                    ...$svgPresentationAttributes
                 ),
                 (new Tag('ellipse'))->addAttrs(
                     (new Attr('cx')),
                     (new Attr('cy')),
                     (new Attr('rx')),
                     (new Attr('ry')),
-                    ...$svgPresentationAttrs
+                    ...$svgPresentationAttributes
                 )
             );
     }
@@ -106,7 +169,7 @@ class IconpackHtmlSanitizer extends DefaultSanitizerBuilder
      *
      * @return Behavior\Attr[]
      */
-    protected function createSvgAttrs(): array
+    protected function createSvgPresentationAttributes(): array
     {
         // https://developer.mozilla.org/en-US/docs/Web/SVG/
         $attrs = $this->createAttrs(
@@ -130,7 +193,7 @@ class IconpackHtmlSanitizer extends DefaultSanitizerBuilder
             'stroke-opacity',
             'stroke-width',
             'transform',
-            'visibility'
+            'visibility',
         );
         return $attrs;
     }

@@ -9,7 +9,7 @@ $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1591191626] = [
     'class' => \Quellenform\Iconpack\Form\Element\IconpackWizardElement::class,
 ];
 
-// Register extension icon
+// Register extension icon for the backend
 $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
     \TYPO3\CMS\Core\Imaging\IconRegistry::class
 )->registerIcon(
@@ -27,42 +27,28 @@ if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][
         ??= \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
 }
 
-// Override HTML sanitizer to allow SVG tags and attributes in bodytext
+// Extend HTML sanitizer to allow SVG tags and attributes in bodytext
 $GLOBALS['TYPO3_CONF_VARS']['SYS']['htmlSanitizer']['default']
     = \Quellenform\Iconpack\Sanitizer\IconpackHtmlSanitizer::class;
 
-// Add transformation class for parsing the bodytext content (RTE <-> DB)
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_parsehtml_proc.php']['transformation']['icon']
-    = \Quellenform\Iconpack\Html\IconpackRteTransformation::class;
+// XLCASS \TYPO3\CMS\Core\Html\RteHtmlParser for transforming the bodytext content (RTE <-> DB)
+$GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Core\Html\RteHtmlParser::class] = [
+    'className' => \Quellenform\Iconpack\Xclass\RteHtmlParser::class
+];
 
-// Set overrule mode to allow icon-transformations
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('RTE.default.proc.overruleMode = default,icon');
-
-// Add some values to the list of allowed attributes for span-tags
 if (
     (bool) \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
         \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
     )->get('iconpack', 'autoConfigRte')
 ) {
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
-    RTE.default.proc {
-        # Allow additional attributes in SPAN-tags on the way from RTE to DB
-        HTMLparser_db.tags.span.allowedAttribs := addToList(data-iconfig, style)
-        # Allow various tags to be processed and transformed
-        # TODO: addToList does not work in this case, so we use this ugly thing instead
-        allowTags {
-            101 = icon
-            102 = svg
-            103 = use
-            104 = g
-            105 = line
-            106 = path
-            107 = polygon
-            108 = polyline
-            109 = rect
-            110 = circle
-            111 = ellipse
-        }
-    }
-');
+    // Allow additional attributes in <span> tags on the way from RTE to DB (used by HTMLcleaner)
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+        'RTE.default.proc.HTMLparser_db.tags.span.allowedAttribs:=addToList(data-iconfig,id,name,class,style,alt,title)'
+    );
+}
+
+if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12.3.0', '>=')) {
+    // https://docs.typo3.org/c/typo3/cms-core/12.4/en-us/Changelog/12.3/Deprecation-100033-TBE_STYLESStylesheetAndStylesheet2.html
+    $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['iconpack']
+        = 'EXT:iconpack/Resources/Public/Css/Backend/FormEngine/IconpackWizard.min.css';
 }

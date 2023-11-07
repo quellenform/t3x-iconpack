@@ -6,12 +6,12 @@
                 <label>{optionConf.label}</label>
                 <f:switch expression="{optionConf.type}">
                     <f:case value="select">
-                        <f:form.select class="form-control form-control-adapt iconpack-option" data="{key:optionKey}">
-                            <f:form.select.option value="" />
+                        <select class="form-control form-control-adapt iconpack-option" data-key="{optionKey}">
+                            <option value="" />
                             <f:for each="{optionConf.values}" key="key" as="item">
-                                <f:form.select.option data="{attributes:item.attributesString}" value="{key}" additionalAttributes="{item.additionalAttributes}">{item.label}</f:form.select.option>
+                                <option data-attributes="{f:format.htmlspecialchars(value:item.attributesString)}" value="{key}" {f:if(condition: item.selected, then: ' selected' )}>{item.label}</option>
                             </f:for>
-                        </f:form.select>
+                        </select>
                     </f:case>
                     <f:case value="checkbox">
                         <div class="checkbox form-check checkbox-type-icon-toggle form-check-type-icon-toggle">
