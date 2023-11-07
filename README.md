@@ -134,8 +134,8 @@ headers, but it can also be used to extend fields of your own extensions.
     - [Octicons](https://github.com/quellenform/t3x-iconpack-octicons)
     - [Themify Icons](https://github.com/quellenform/t3x-iconpack-themify)
     - ...or create your own iconpack provider
-1. Add the provided TypoScript to your template
-2. [Optional] Install the [Iconpack for Bootstrap
+3. Add the provided TypoScript to your template
+4. [Optional] Install the [Iconpack for Bootstrap
    Package](https://github.com/quellenform/t3x-bootstrap-package-iconpack)
    extension if you want to use iconpacks in conjunction with [Bootstrap
    Package](https://github.com/benjaminkott/bootstrap_package/).
