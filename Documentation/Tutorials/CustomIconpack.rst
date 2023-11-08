@@ -96,7 +96,7 @@ information about the iconpack is recorded and the definitions for the available
                role: "img"
 
          svg:
-            # Source folder of the SVG files, which are rendered as <im> tag:
+            # Source folder of the SVG files, which are rendered as <img> tag:
             source: "EXT:iconpack_customicons/Resources/Public/Icons/"
             attributes:
                class: "mci"

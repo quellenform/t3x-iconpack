@@ -27,16 +27,16 @@ probably be the only icon extension you will need in the future.
 The biggest differences are among others:
 
 - Not limited to a specific iconset! Existing iconpacks can be installed, or
-  custom iconpacks can be created, depending on your requirements.
+  custom iconpacks can be created, depending on your requirements
 - Easy to use: Install, :ref:`add the provided TypoScript-template
-  <configuration>` & use it, no further configuration needed (but possible!).
+  <configuration>` & use it, no further configuration needed (but possible!)
 - Offers the use of various icons in the header, page, in the bodytext (CKEditor
   4/5) and in your :ref:`own fields <usage>`
 - All required assets (JavaScripts, StyleSheets, etc.) are automatically added
   in frontend and backend by default, depending on the configuration of the icon
-  set used.
+  set used
 - All settings of an iconpack can be overridden via an individual configuration
-  (:ref:`YAML <yamlExamples>`).
+  (:ref:`YAML <yamlExamples>`)
 - Individual iconsets can be easily added (see instructions for :ref:`creating
   your own iconpack provider <customIconpack>`
 - Can also be integrated into :ref:`own extensions <usage>` via the provided form wizard
@@ -73,7 +73,7 @@ the database fields, a short configuration string is stored instead (also in the
 RTE). This string is called "iconfig" and looks something like
 `fa6:solid,star,transform:spin`. This example will render the icon *Star* from
 the iconpack *Font Awesome 6* (solid style) with the additional property of a
-spinng rotation.
+spinnig rotation.
 
 This string is only converted into HTML code according to the configuration
 during rendering in the backend or frontend, which ensures the greatest possible
