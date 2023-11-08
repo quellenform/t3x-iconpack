@@ -118,7 +118,7 @@ headers, but it can also be used to extend fields of your own extensions.
 ## Configuration
 
 You can find a detailed description of the extension here: [Iconpack
-Documentation](https://docs.typo3.org/p/quellenform/iconpack/main/en-us/Index.html)
+Documentation](https://docs.typo3.org/p/quellenform/t3x-iconpack/main/en-us/)
 
 
 ## Contribute | Say Thanks!
