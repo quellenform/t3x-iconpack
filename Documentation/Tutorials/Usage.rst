@@ -74,12 +74,11 @@ ViewHelper. All that needs to be done is to add the namespace
 .. code-block:: html
 
    <html xmlns:i="http://typo3.org/ns/Quellenform/Iconpack/ViewHelpers" data-namespace-typo3-fluid="true">
-      <i:icon iconfig="{headerIcon}" preferredRenderTypes="svgInline,webfont"/>
+      <i:icon iconfig="{headerIcon}" preferredRenderTypes="svgInline,webfont" />
    </html>
 
 You can also call up a specific icon directly from Fluid:
 
 .. code-block:: html
 
-   <i:icon iconfig="fa6:brands,youtube" additionalAttributes="{class:'social'}"
-   />
+   <i:icon iconfig="fa6:brands,youtube" additionalAttributes="{class:'social'}" />
