@@ -217,3 +217,41 @@ Example 3 (Complex)
       #  - icon1
       #  - icon2
       #  - icon3
+
+
+Example 4 (Path substitution)
+=============================
+
+The following example shows the setting in which parts of a path are replaced
+with parts of an icon identifier.
+
+For example, the identifier is `actions-archive`, which in the case of an SVG
+sprite leads to the path
+`EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons-4.1.0/sprites/actions.svg#actions-archive`,
+or in the case of an SVG to
+`EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons-4.1.0/svgs/actions-archive.svg`.
+
+.. code-block:: yaml
+
+   iconpack:
+      title: "TYPO3 Icons"
+      key: "t3"
+      version: 4.1.0
+      url: "https://typo3.github.io/TYPO3.Icons/"
+
+      renderTypes:
+
+         _default:
+            css: "EXT:iconpack_typo3/Resources/Public/Css/t3-icons.min.css"
+            prefix: "t3-"
+
+         svg:
+            source: "EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons-4.1.0/svgs/%1$s/"
+
+         svgSprite:
+            source: "EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons-4.1.0/sprites/%1$s.svg"
+
+         svgInline:
+            source: "EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons-4.1.0/svgs/%1$s/"
+            attributes:
+               role: "img"
