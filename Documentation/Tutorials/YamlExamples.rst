@@ -154,13 +154,13 @@ Example 3 (Complex)
 
          svgSprite:
             _default:
-            css:
-               backend: "EXT:iconpack_fontawesome/Resources/Public/Css/SvgBackend.css"
-               ckeditor: "EXT:iconpack_fontawesome/Resources/Public/Css/SvgBackend.css"
-               frontend: "EXT:iconpack_fontawesome/Resources/Public/Css/SvgFrontend.css"
-            attributes:
-               fill: "currentColor"
-               role: "img"
+               css:
+                  backend: "EXT:iconpack_fontawesome/Resources/Public/Css/SvgBackend.css"
+                  ckeditor: "EXT:iconpack_fontawesome/Resources/Public/Css/SvgBackend.css"
+                  frontend: "EXT:iconpack_fontawesome/Resources/Public/Css/SvgFrontend.css"
+               attributes:
+                  fill: "currentColor"
+                  role: "img"
             regular:
                source: "EXT:iconpack_fontawesome/Resources/Public/Sprites/regular.svg"
             solid:
@@ -195,14 +195,14 @@ Example 3 (Complex)
             type: "select"
             label: "Custom CSS-Style"
             values:
-            red:
-               label: "Red"
-               attributes:
-                  style: "color: red"
-            green:
-               label: "Green"
-               attributes:
-                  style: "color: green"
+               red:
+                  label: "Red"
+                  attributes:
+                     style: "color: red"
+               green:
+                  label: "Green"
+                  attributes:
+                     style: "color: green"
 
       categories: "EXT:iconpack_fontawesome/Resources/Public/Vendor/fontawesome-free-5.15.4-web/metadata/categories.yml"
 

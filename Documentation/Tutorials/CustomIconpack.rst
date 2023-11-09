@@ -112,8 +112,8 @@ information about the iconpack is recorded and the definitions for the available
       # In this case, the values here correspond to the file names (without file name extension)
       icons:
          - icon1
-         - icon1
-         - icon1
+         - icon2
+         - icon3
          - ...
          - ...
          - iconZ
