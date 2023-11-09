@@ -63,10 +63,11 @@ class IconpackRenderer
      *
      * @param string $iconKey
      * @param array $conf
+     * @param string $context
      *
      * @return array
      */
-    public static function createIconElement(string $iconKey, array $conf, $context): array
+    public static function createIconElement(string $iconKey, array $conf, string $context): array
     {
         switch ($conf['type']) {
             case 'svgInline':
@@ -205,13 +206,15 @@ class IconpackRenderer
     /**
      * Get the content from a given SVG file.
      *
-     * @param array $sourceFile
+     * @param string $sourceFile
      * @param array $attributes
      *
      * @return array
      */
-    private static function getSvgData($sourceFile, $attributes): array
-    {
+    private static function getSvgData(
+        string $sourceFile,
+        array $attributes
+    ): array {
         if (isset(self::$svgData[$sourceFile])) {
             [$svgAttributes, $innerHtml] = self::$svgData[$sourceFile];
         } else {
@@ -261,14 +264,17 @@ class IconpackRenderer
     /**
      * Get the viewBox attribute from a specific SVG sprite symbol.
      *
-     * @param array $sourceFile
      * @param string $iconKey
+     * @param string $sourceFile
      * @param bool $isSprite
      *
      * @return ?string
      */
-    private static function getSvgViewBox($iconKey, $sourceFile, $isSprite = true): ?string
-    {
+    private static function getSvgViewBox(
+        string $iconKey,
+        string $sourceFile,
+        bool $isSprite = true
+    ): ?string {
         $viewBox = null;
         $key = $sourceFile . '#' . $iconKey;
         if (isset(self::$svgViewBox[$key])) {
@@ -306,13 +312,17 @@ class IconpackRenderer
      *
      * @param string $elementName
      * @param array $attributes
-     * @param array $innerHtml
+     * @param string $innerHtml
      * @param string $context
      *
      * @return void
      */
-    private static function finalizeAttributes($elementName, &$attributes, &$innerHtml, $context): void
-    {
+    private static function finalizeAttributes(
+        string $elementName,
+        array &$attributes,
+        string &$innerHtml,
+        string $context
+    ): void {
         if ($context === 'backend') {
             switch ($elementName) {
                 case 'svgSprite':
