@@ -105,7 +105,8 @@ class IconpackRenderer
     {
         $attributes = self::getAtrributes($iconKey, $conf);
 
-        $source = ($conf['source'] ?? '') . $iconKey . '.svg';
+        $sourcePath = self::resolveSourcePath($iconKey, $conf);
+        $source = $sourcePath . $iconKey . '.svg';
         [$attributes, $innerHtml] = self::getSvgData($source, $attributes);
 
         return ['svg', $attributes, $innerHtml];
@@ -123,9 +124,9 @@ class IconpackRenderer
     {
         $attributes = self::getAtrributes($iconKey, $conf);
 
-        $source = $conf['source'] ?? '';
-        $innerHtml = '<use href="' . $source . '#' . $iconKey . '" />';
-        $attributes['viewBox'] = self::getSvgViewBox($iconKey, $source);
+        $sourcePath = self::resolveSourcePath($iconKey, $conf);
+        $innerHtml = '<use href="' . $sourcePath . '#' . $iconKey . '" />';
+        $attributes['viewBox'] = self::getSvgViewBox($iconKey, $sourcePath);
 
         return ['svg', $attributes, $innerHtml];
     }
@@ -142,8 +143,8 @@ class IconpackRenderer
     {
         $attributes = self::getAtrributes($iconKey, $conf);
 
-        $source = $conf['source'] ?? '';
-        $attributes['src'] = $source . $iconKey . '.svg';
+        $sourcePath = self::resolveSourcePath($iconKey, $conf);
+        $attributes['src'] = $sourcePath . $iconKey . '.svg';
         $attributes['loading'] = 'lazy';
 
         return ['img', $attributes, ''];
@@ -201,6 +202,24 @@ class IconpackRenderer
         }
 
         return $attributes;
+    }
+
+    /**
+     * Replace placeholders in the given path with parts of the iconKey.
+     *
+     * @param string $iconKey
+     * @param array $conf
+     *
+     * @return string
+     */
+    private static function resolveSourcePath(string $iconKey, array $conf): string
+    {
+        $source = ($conf['source'] ?? '');
+        if (strpos($source, '%') !== false) {
+            $keyArray = explode('-', $iconKey);
+            $source = vsprintf($source, $keyArray);
+        }
+        return $source;
     }
 
     /**
