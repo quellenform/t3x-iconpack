@@ -178,7 +178,7 @@ class IconpackRenderer
 
         // Add default CSS class
         if (!empty($conf['defaultCssClass'])) {
-            if (is_array($attributes['class'])) {
+            if (!empty($attributes['class']) && is_array($attributes['class'])) {
                 array_unshift($attributes['class'], $conf['defaultCssClass']);
             } else {
                 $attributes['class'] = [$conf['defaultCssClass']];
