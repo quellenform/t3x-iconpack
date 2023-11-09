@@ -8,6 +8,19 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.1.0
+=====
+
+Feature
+-------
+
+- 4750398 Added substitution of path segments with icon names in YAML-configuration files
+
+1.0.1
+=====
+
+- Updated docuentation
+
 1.0.0
 =====
 

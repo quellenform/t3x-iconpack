@@ -2,13 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.1.0
+
+### Feature
+
+- 4750398 Added substitution of path segments with icon names in YAML-configuration files
+
+## 1.0.1
+
+- Updated docuentation
+
 ## 1.0.0
 
 First stable version...
 
 ### Feature
 
-- 64a41d5 [FEATURE ] Compatibility with CKEditor 5 and TYPO3 version 12
+- 64a41d5 Compatibility with CKEditor 5 and TYPO3 version 12
 - Icons can now be selected and edited directly in the RTE by double-clicking
 - Added title and description to SVG elements (title will be converted to
   `<title>` and alt to `<desc>`)
