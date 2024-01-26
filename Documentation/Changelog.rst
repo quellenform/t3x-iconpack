@@ -8,6 +8,15 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.1.1
+=====
+
+Feature
+-------
+
+- f494765 [FEATURE] add icons to sys_category and sys_file_collection (thanks to @t3brightside)
+
+
 1.1.0
 =====
 
