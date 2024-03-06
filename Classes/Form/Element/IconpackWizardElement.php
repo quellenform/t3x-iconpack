@@ -15,8 +15,8 @@ namespace Quellenform\Iconpack\Form\Element;
 
 use Quellenform\Iconpack\IconpackFactory;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
-use TYPO3\CMS\Backend\Form\NodeFactory;
 use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -38,24 +38,14 @@ class IconpackWizardElement extends AbstractFormElement
     protected $iconpackFactory;
 
     /**
-     * Container objects give $nodeFactory down to other containers.
-     *
-     * @param NodeFactory $nodeFactory
-     * @param array $data
-     */
-    public function __construct(NodeFactory $nodeFactory, array $data)
-    {
-        parent::__construct($nodeFactory, $data);
-        $this->iconpackFactory = GeneralUtility::makeInstance(IconpackFactory::class);
-    }
-
-    /**
      * This will render a button, which allows to select an Icon for the header.
      *
      * @return array As defined in initializeResultArray() of AbstractNode
      */
-    public function render()
+    public function render(): array
     {
+        $this->iconpackFactory = GeneralUtility::makeInstance(IconpackFactory::class);
+
         /** @var PageRenderer $pageRenderer */
         $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
 
@@ -82,7 +72,8 @@ class IconpackWizardElement extends AbstractFormElement
         if (!empty($itemValue)) {
             $iconMarkup = $this->iconpackFactory->getIconMarkup($itemValue);
             if (empty($iconMarkup)) {
-                $iconMarkup = $this->iconFactory->getIcon('default-not-found', Icon::SIZE_SMALL)->render();
+                $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
+                $iconMarkup = $iconFactory->getIcon('default-not-found', Icon::SIZE_SMALL)->render();
             }
         }
         $icon = '<span class="t3js-icon icon icon-size-small">' . $iconMarkup . '</span>';
