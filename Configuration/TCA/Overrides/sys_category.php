@@ -12,8 +12,7 @@ defined('TYPO3') || die();
                 'type' => 'user',
                 'renderType' => 'IconpackWizard',
             ]
-        ],
-
+        ]
     ]
 );
 
