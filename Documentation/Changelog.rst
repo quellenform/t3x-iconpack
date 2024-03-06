@@ -8,6 +8,14 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.1.2
+=====
+
+Feature
+-------
+
+- 37556e3 [FEATURE] Added compatibility to TYPO3 v13
+
 1.1.1
 =====
 
@@ -15,7 +23,6 @@ Feature
 -------
 
 - f494765 [FEATURE] add icons to sys_category and sys_file_collection (thanks to @t3brightside)
-
 
 1.1.0
 =====
@@ -40,7 +47,7 @@ Feature
 
 .. rst-class:: compact-list
 
-- Compatibility with CKEditor 5 and TYPO3 version 12
+- 64a41d5 [FEATURE ] Compatibility with CKEditor 5 and TYPO3 version 12
 - Icons can now be selected and edited directly in the RTE by double-clicking
 - Added title and description to SVG elements (title will be converted to
   `<title>` and alt to `<desc>`)
