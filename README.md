@@ -1,13 +1,13 @@
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg?style=for-the-badge)](https://www.paypal.me/quellenform)
 [![Latest Stable Version](https://img.shields.io/packagist/v/quellenform/t3x-iconpack?style=for-the-badge)](https://packagist.org/packages/quellenform/t3x-iconpack)
-[![TYPO3](https://img.shields.io/badge/TYPO3-10|11|12-%23f49700.svg?style=for-the-badge)](https://get.typo3.org/)
+[![TYPO3](https://img.shields.io/badge/TYPO3-10|11|12|13-%23f49700.svg?style=for-the-badge)](https://get.typo3.org/)
 [![License](https://img.shields.io/packagist/l/quellenform/t3x-iconpack?style=for-the-badge)](https://packagist.org/packages/quellenform/t3x-iconpack)
 
 # Iconpack
 
 TYPO3 CMS Extension `iconpack`
 
-The most flexible icon system for TYPO3 10, 11 and 12!
+The most flexible icon system for TYPO3 10, 11, 12 and 13!
 
 ---
 
@@ -30,18 +30,19 @@ probably be the only icon extension you will need in the future.
 The biggest differences are among others:
 
 - Not limited to a specific iconset! Existing iconpacks can be installed, or
-  custom iconpacks can be created, depending on your requirements.
+  custom iconpacks can be created, depending on your requirements
 - Easy to use: Install, add the provided TypoScript-template & use it, no
-  further configuration needed (but possible!).
+  further configuration needed (but possible!)
 - Offers the use of various icons in the header, page, in the bodytext (CKEditor
   4/5) and in your own fields
 - All required assets (JavaScripts, StyleSheets, etc.) are automatically added
   in frontend and backend by default, depending on the configuration of the icon
-  set used.
+  set used
 - All settings of an iconpack can be overridden via an individual configuration
-  (YAML).
-- Individual iconsets can be easily added (see instructions for creating your
-  own iconpack provider
+  (YAML)
+- Individual iconsets can be easily added (see
+  [instructions](https://docs.typo3.org/p/quellenform/t3x-iconpack/main/en-us/Tutorials/CustomIconpack.html)
+  for creating your own iconpack provider)
 - Can also be integrated into own extensions via the provided form wizard
 - Multilingual labels for icons
 - Uses the backend caching integrated in TYPO3 for the configuration of the
@@ -71,7 +72,7 @@ the database fields, a short configuration string is stored instead (also in the
 RTE). This string is called "iconfig" and looks something like
 `fa6:solid,star,transform:spin`. This example will render the icon *Star* from
 the iconpack *Font Awesome 6* (solid style) with the additional property of a
-spinng rotation.
+spinning rotation.
 
 This string is only converted into HTML code according to the configuration
 during rendering in the backend or frontend, which ensures the greatest possible
