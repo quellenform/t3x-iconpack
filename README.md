@@ -62,7 +62,7 @@ The biggest differences are among others:
 - Optimize the UI/Modal
 - Add more detailed information on using and creating your own iconpacks
 
-[Sponsoring required](https://www.paypal.me/quellenform>)
+[Sponsoring required](https://www.paypal.me/quellenform)
 
 
 ## How does it work?
