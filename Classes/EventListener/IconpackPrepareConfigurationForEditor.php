@@ -56,8 +56,8 @@ class IconpackPrepareConfigurationForEditor
                     'EXT:iconpack/Configuration/RTE/IconpackConfig-v12.yaml'
                 );
             }
+            $iconpackConfiguration = $yaml['editor']['config'];
         }
-        $iconpackConfiguration = $yaml['editor']['config'];
         $event->setConfiguration(array_merge_recursive($configuration, $iconpackConfiguration));
     }
 }
