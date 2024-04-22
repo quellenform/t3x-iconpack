@@ -8,6 +8,16 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.1.4
+=====
+
+- 50bc2db [BUGFIX] iconpack Configuration is null (#17)
+
+1.1.3
+=====
+
+- d13ac36 [BUGFIX] HiRes Icon for RTE is missing (thanks to @christianhaendel)
+
 1.1.2
 =====
 
@@ -35,7 +45,7 @@ Feature
 1.0.1
 =====
 
-- Updated docuentation
+- Updated documentation
 
 1.0.0
 =====
