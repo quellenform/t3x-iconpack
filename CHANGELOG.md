@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.1.5
+
+- 214c9b7 Wrap content of ext_localconf.php with call_user_func() (thanks to @froemken)
+- 69aa787 Remove autoloader from ext_emconf.php (thanks to @froemken)
+
 ## 1.1.4
 
 - 50bc2db [BUGFIX] iconpack Configuration is null (#17)
