@@ -17,7 +17,4 @@ $EM_CONF[$_EXTKEY] = [
         'conflicts' => [],
         'suggests' => []
     ],
-    'autoload' => [
-        'psr-4' => ['Quellenform\\Iconpack\\' => 'Classes']
-    ],
 ];
