@@ -3,13 +3,14 @@ $iconpackCssClass: iconpack;
 svg,
 span,
 img {
-  &.#{$iconpackCssClass} {
-    width: auto;
-    height: 1em;
-    vertical-align: -0.125em;
-    margin-right: 0.125em;
-  }
+	&.#{$iconpackCssClass} {
+		width: auto;
+		height: 1em;
+		vertical-align: -0.125em;
+		margin-right: 0.125em;
+	}
 }
+
 span.iconpack {
-  vertical-align: 0;
+	vertical-align: 0;
 }

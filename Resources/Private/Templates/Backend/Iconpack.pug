@@ -1,33 +1,33 @@
 //- doctype html
 html(xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers" data-namespace-typo3-fluid="true")
 
-    fieldset(class="form-section")
+	fieldset(class="form-section")
 
-        input(type="hidden" id="iconpack-stylesheets" value="{modalStylesheets}")/
+		input(type="hidden" id="iconpack-stylesheets" value="{modalStylesheets}")/
 
-        div(class="form-group")
-            label
-                core:icon(identifier="ext-iconpack" size="small" alternativeMarkupIdentifier="inline")/
-                f:translate(key="LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.iconpack")
+		div(class="form-group")
+			label
+				core:icon(identifier="ext-iconpack" size="small" alternativeMarkupIdentifier="inline")/
+				f:translate(key="LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.iconpack")
 
-            select(class="form-control form-control-adapt" name="header_icon[style]" id="iconpack-style")
-                f:for(each="{iconpackStyles}" key="key" as="item")
-                    | <option value="{key}" {f:if(condition: item.selected, then: ' selected="selected"')}>{item.label}</option>
+			select(class="form-control form-control-adapt" name="header_icon[style]" id="iconpack-style")
+				f:for(each="{iconpackStyles}" key="key" as="item")
+					| <option value="{key}" {f:if(condition: item.selected, then: ' selected="selected"')}>{item.label}</option>
 
-        div(class="form-group" id="iconpack-options")
-            f:if(condition="{iconpackOptions}")
-                f:render(partial="Options" arguments="{iconpackOptions: iconpackOptions}")/
+		div(class="form-group" id="iconpack-options")
+			f:if(condition="{iconpackOptions}")
+				f:render(partial="Options" arguments="{iconpackOptions: iconpackOptions}")/
 
-        div(class="form-group iconpack-icon" id="iconpack-selected")
-            div
-                f:if(condition="{icon}")
-                    #{'f:format.raw'} {icon}
+		div(class="form-group iconpack-icon" id="iconpack-selected")
+			div
+				f:if(condition="{icon}")
+					#{'f:format.raw'} {icon}
 
-    fieldset(id="iconpack-icons")
-        f:if(condition="{iconpackIcons}")
-            f:render(partial="Icons" arguments="{iconpackIcons: iconpackIcons}")/
+	fieldset(id="iconpack-icons")
+		f:if(condition="{iconpackIcons}")
+			f:render(partial="Icons" arguments="{iconpackIcons: iconpackIcons}")/
 
-    div(class="form-control-clearable-wrapper form-control-clearable col-xs-5" id="iconpack-search")
-        input(type="text" class="form-control t3js-clearable" maxlength="120" placeholder="{f:translate(key:'LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.search')}")
-        button(type="button" tabindex="-1" class="close" style="visibility: hidden;")
-            core:icon(identifier="actions-close" size="small" alternativeMarkupIdentifier="inline")/
+	div(class="form-control-clearable-wrapper form-control-clearable col-xs-5" id="iconpack-search")
+		input(type="text" class="form-control t3js-clearable" maxlength="120" placeholder="{f:translate(key:'LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.search')}")
+		button(type="button" tabindex="-1" class="close" style="visibility: hidden;")
+			core:icon(identifier="actions-close" size="small" alternativeMarkupIdentifier="inline")/
