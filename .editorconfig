@@ -8,21 +8,30 @@ root = true
 charset = utf-8
 end_of_line = lf
 indent_style = space
-indent_size = 4
+indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
 
-# TS/JS-Files
-[*.{ts,js}]
-indent_size = 2
+# PHP-Files
+[*.php]
+indent_size = 4
+
+# CSS-Files
+[*.{css,scss,sass,less}]
+indent_style = tab
+
+# HTML-Files
+[*.{pug,htm,html}]
+indent_style = tab
+insert_final_newline = false
+
+# PUG-Files
+[*.pug]
+indent_size = 4
 
 # JSON-Files
 [*.json]
 indent_style = tab
-
-# composer files
-[composer.json]
-indent_size = 2
 
 # ReST-Files
 [*.{rst,rst.txt}]
@@ -33,27 +42,6 @@ max_line_length = 80
 [*.md]
 max_line_length = 80
 
-# YAML-Files
-[*.{yaml,yml}]
-indent_size = 2
-
-#.eslintrc.json
-[.eslintrc.json]
-indent_size = 2
-indent_style = space
-
-# stylelint
-[.stylelintrc]
-indent_size = 2
-
-# package.json
-[package.json]
-indent_size = 2
-
-# TypoScript
-[*.{typoscript,tsconfig}]
-indent_size = 2
-
 # XLF-Files
 [*.xlf]
 indent_style = tab
@@ -61,8 +49,11 @@ indent_style = tab
 # SQL-Files
 [*.sql]
 indent_style = tab
-indent_size = 2
 
 # .htaccess
 [{_.htaccess,.htaccess}]
+indent_style = tab
+
+# Editor configuration
+[{.jsbeautifyrc,.stylelintrc,.uglifyrc,.eslintrc.json}]
 indent_style = tab
