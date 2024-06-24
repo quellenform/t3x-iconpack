@@ -37,6 +37,7 @@ class RteHtmlParser extends CoreRteHtmlParser
         // Traverse modes
         foreach ($modes as $cmd) {
             // Checking for user defined transformation:
+            // @extensionScannerIgnoreLine
             if (
                 version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '<') &&
                 !empty($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_parsehtml_proc.php']['transformation'][$cmd])
@@ -91,6 +92,7 @@ class RteHtmlParser extends CoreRteHtmlParser
         // Traverse modes
         foreach ($modes as $cmd) {
             // Checking for user defined transformation:
+            // @extensionScannerIgnoreLine
             if (
                 version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12', '<') &&
                 !empty($GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_parsehtml_proc.php']['transformation'][$cmd])
