@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.1.6
+
+- e98e5d8 Switched from PageRenderer to AssetCollector (this changes the way CSS files are included in BE/FE)
+- 77aec61 Suppress false positive messages in Install Tool
+
 ## 1.1.5
 
 - 214c9b7 Wrap content of ext_localconf.php with call_user_func() (thanks to @froemken)
