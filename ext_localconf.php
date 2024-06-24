@@ -53,4 +53,8 @@ call_user_func(static function () {
         $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['iconpack']
             = 'EXT:iconpack/Resources/Public/Css/Backend/FormEngine/IconpackWizard.min.css';
     }
+
+    // Hook to add iconpack assets to the AssetsCollector in the FE/BE:
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-preProcess']['quellenform/assetcollector']
+        = \Quellenform\Iconpack\Hooks\AssetRenderer::class . '->addCss';
 });

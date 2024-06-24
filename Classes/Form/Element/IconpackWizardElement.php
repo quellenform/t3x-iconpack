@@ -52,11 +52,6 @@ class IconpackWizardElement extends AbstractFormElement
         // Add inline labels
         $pageRenderer->addInlineLanguageLabelFile('EXT:iconpack/Resources/Private/Language/locallang_be.xlf', 'js.');
 
-        $cssFiles = $this->iconpackFactory->queryAssets('css', 'backend');
-        foreach ($cssFiles as $cssFile) {
-            $pageRenderer->addCssFile($cssFile);
-        }
-
         $languageService = $this->getLanguageService();
         $parameterArray = $this->data['parameterArray'];
         $itemName = $parameterArray['itemFormElName'];
