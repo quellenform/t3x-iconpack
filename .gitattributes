@@ -8,7 +8,6 @@
 /.phplint.yml export-ignore
 /.vscode export-ignore
 /Build/ export-ignore
-/Documentation/ export-ignore
 /Tests/ export-ignore
 /crowdin.yml export-ignore
 /phpcs.xml export-ignore
