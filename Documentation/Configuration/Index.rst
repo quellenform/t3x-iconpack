@@ -18,10 +18,11 @@ TypoScript Configuration
 To enable the icons to be output in the frontend, a few things need to be
 defined in the TypoScript:
 
-- RTE content (bodytext) is transferred to a DataProcessor
+- RTE content is parsed by `lib.parseFunc_RTE.nonTypoTagUserFunc`
 - Allowed content is defined for the RTE to enable the output of SVG elements
 - Templates are added so that the icon field contained in the extension can be
-  rendered for the title of a record.
+  rendered for the title of a record. Keep this in mind if you use your own
+  templates for the header.
 - A small CSS is added to the frontend output to achieve a consistent display of
   different icons.
 

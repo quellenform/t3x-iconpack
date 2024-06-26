@@ -39,6 +39,8 @@ Installation
 
 #. Add the provided TypoScript to your template
 
+   (Make sure that `lib.parseFunc_RTE` is not overwritten by any subsequent templates!)
+
 #. [Optional] Install the `Iconpack for Bootstrap Package
    <https://extensions.typo3.org/extension/bootstrap_package_iconpack>`_
    extension
@@ -46,3 +48,16 @@ Installation
    ...if you want to use Iconpack with `Bootstrap Package
    <https://extensions.typo3.org/extension/bootstrap_package>`_ and want to
    replace the hard-coded icons with a better and flexible system.
+
+.. note::
+   If you use `EXT:bootstrap_package_iconpack
+   <https://github.com/quellenform/t3x-bootstrap-package-iconpack>`_, make sure
+   you include the templates **at the end**, otherwise `lib.parseFunc_RTE` will be
+   overwritten by `EXT:bootstrap_package
+   <https://github.com/benjaminkott/bootstrap_package/>`_ and the icons cannot
+   be displayed.
+
+.. note::
+   If you are using your own templates for the header, please note that a
+   ViewHelper is used to display icons. In this case, simply take a look at
+   the supplied template and migrate these settings.

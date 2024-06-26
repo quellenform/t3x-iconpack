@@ -8,6 +8,11 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.1.7
+=====
+
+- b628dc5 Switched from DataProcessor to lib.parseFunc_RTE for automatic conversion of icons in all RTE fields
+
 1.1.6
 =====
 

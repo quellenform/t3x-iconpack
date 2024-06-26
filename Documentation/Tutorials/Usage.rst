@@ -40,8 +40,11 @@ RTE Fields
 ==========
 
 If you want to use Iconpack in your own RTE fields, the configuration is done
-via TypoScript in `setup.txt`, which activates the transformation of the icons
-via a DataProcessor during output in the frontend.
+automatically in the TypoScript setup, where `lib.parseFunc_RTE.nonTypoTagUserFunc`
+performs the transformation of the icons.
+
+If this is not desired or possible, the content can optionally be preprocessed in
+the field via a DataProcessor.
 
 Use the following TypoScript to add the DataProcessor to your own RTE field:
 
