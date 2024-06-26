@@ -27,15 +27,15 @@ lib.contentElement {
     5 = EXT:iconpack/Resources/Private/Partials/FluidStyledContent/
   }
   dataProcessing {
-    # This is required to render icons in RTE fields!
-    # The output is controlled exclusively by the DataProcessor and then cleaned up by the Sanitizer.
+    # If you don't use 'lib.parseFunc_RTE.nonTypoTagUserFunc', this is required to render icons in RTE fields!
+    # The output is then controlled exclusively by the DataProcessor and then cleaned up by the Sanitizer.
     #
     # In this case the "bodytext" field is used, but you can also use your own RTE fields with this configuration.
-    2212170002 = Quellenform\Iconpack\DataProcessing\IconpackProcessor
-    2212170002 {
-      fieldName = bodytext
-      fieldType = rte
-    }
+    #2212170002 = Quellenform\Iconpack\DataProcessing\IconpackProcessor
+    #2212170002 {
+    #  fieldName = bodytext
+    #  fieldType = rte
+    #}
     # If you don't want to use the provided ViewHelper, you can render individual ifonfig fields directly:
     #[number] = Quellenform\Iconpack\DataProcessing\IconpackProcessor
     #[number] {
@@ -66,3 +66,6 @@ lib.parseFunc_RTE.allowTags := addToList(icon, svg, use, g, line, path, polyline
 
 # Restrict various attributes in SVG elements
 lib.parseFunc_RTE.nonTypoTagStdWrap.HTMLparser.tags.svg.allowedAttribs = id, name, class, style, fill, viewBox, xmlns, width, height, role, aria-hidden
+
+# Render icons in RTE fields
+lib.parseFunc_RTE.nonTypoTagUserFunc = Quellenform\Iconpack\UserFunc\ParseFuncRte->replaceIcons
