@@ -37,9 +37,10 @@ class IconpackPrepareConfigurationForEditor
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class);
         // Auto configure RTE
         if ((bool) $extConf->get('iconpack', 'autoConfigRte')) {
+            $yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
             // Add configuration from YAML
             if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
-                $yaml = (new YamlFileLoader())->load(
+                $yaml = $yamlFileLoader->load(
                     'EXT:iconpack/Configuration/RTE/IconpackConfig-v11.yaml'
                 );
                 // Get CSS for CKEditor from installed iconpacks
@@ -52,7 +53,7 @@ class IconpackPrepareConfigurationForEditor
                     $yaml['editor']['config']['contentsCss'][] = $cssFile;
                 }
             } else {
-                $yaml = (new YamlFileLoader())->load(
+                $yaml = $yamlFileLoader->load(
                     'EXT:iconpack/Configuration/RTE/IconpackConfig-v12.yaml'
                 );
             }

@@ -36,7 +36,8 @@ class IconpackGetExternalPlugins
         ) {
             $configuration = $event->getConfiguration();
             // Get the external plugin configuration from YAML file
-            $yaml = (new YamlFileLoader())->load(
+            $yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
+            $yaml = $yamlFileLoader->load(
                 'EXT:iconpack/Configuration/RTE/IconpackConfig-v11.yaml'
             );
             $iconpackConfiguration = $yaml['editor']['externalPlugins'];

@@ -69,7 +69,8 @@ class IconpackRegistry implements SingletonInterface
                 2100109271
             );
         }
-        $configuration = (new YamlFileLoader())->load($configurationFile);
+        $yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
+        $configuration = $yamlFileLoader->load($configurationFile);
         if (!isset($configuration['iconpack'])) {
             throw new InvalidArgumentException(
                 'The iconpack configuration could not be found in YAML file.',
@@ -81,7 +82,7 @@ class IconpackRegistry implements SingletonInterface
         if ($configurationFileMerge && !empty($configurationFileMerge)) {
             $sourceFileMerge = GeneralUtility::getFileAbsFileName($configurationFileMerge);
             if (file_exists($sourceFileMerge)) {
-                $configurationMerge = (new YamlFileLoader())->load($configurationFileMerge);
+                $configurationMerge = $yamlFileLoader->load($configurationFileMerge);
                 if (isset($configurationMerge['iconpack'])) {
                     // Merge only main keys!
                     $configuration['iconpack'] = array_merge(
@@ -118,7 +119,7 @@ class IconpackRegistry implements SingletonInterface
                     $sourceFile = GeneralUtility::getFileAbsFileName($conf);
                     if (file_exists($sourceFile)) {
                         if ($fileExt === 'yml' || $fileExt === 'yaml') {
-                            $conf = (new YamlFileLoader())->load($sourceFile);
+                            $conf = $yamlFileLoader->load($sourceFile);
                         } elseif ($fileExt === 'json') {
                             $jsonData = file_get_contents($sourceFile);
                             $conf = json_decode($jsonData, true);
