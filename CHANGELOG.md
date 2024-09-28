@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.1.8
+
+- 36ac5b0 [BUGFIX] Error on installation with TYPO3 13.3 (#24)
+- 36ac5b0 [BUGFIX] Missing argument when calling YamlFileLoader in version 13.3+ (#23)
+- 2a2bebc Added event listener for v13.3 (XCLASS is no longer necessary due to new events in RteHtmlParser)
+
 ## 1.1.7
 
 - b628dc5 Switched from DataProcessor to lib.parseFunc_RTE for automatic conversion of icons in all RTE fields
