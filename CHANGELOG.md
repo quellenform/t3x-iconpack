@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.1.9
+
+- 0930730 [BUGFIX] Fixed typos & added variable in header template (#30)
+- 5e30902 Drop deprecated renderStatic
+- 300c230 Added compatibility to 13.*.*@dev
+- 50c1da1 Moved PageTSConfig to file page.tsconfig for v12+
+
 ## 1.1.8
 
 - 36ac5b0 [BUGFIX] Error on installation with TYPO3 13.3 (#24)
