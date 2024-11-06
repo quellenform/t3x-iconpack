@@ -1,0 +1,1 @@
+RTE.default.proc.HTMLparser_db.tags.span.allowedAttribs:=addToList(data-iconfig,id,name,class,style,alt,title)

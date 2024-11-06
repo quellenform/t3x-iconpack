@@ -45,9 +45,12 @@ call_user_func(static function () {
         )->get('iconpack', 'autoConfigRte')
     ) {
         // Allow additional attributes in <span> tags on the way from RTE to DB (used by HTMLcleaner)
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
-            'RTE.default.proc.HTMLparser_db.tags.span.allowedAttribs:=addToList(data-iconfig,id,name,class,style,alt,title)'
-        );
+        if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12', '<')) {
+            // @extensionScannerIgnoreLine
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+                'RTE.default.proc.HTMLparser_db.tags.span.allowedAttribs:=addToList(data-iconfig,id,name,class,style,alt,title)'
+            );
+        }
     }
 
     if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12.3.0', '>=')) {
