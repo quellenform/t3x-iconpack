@@ -2,10 +2,11 @@
 <f:if condition="{data.header_layout} != 100">
 	<f:if condition="{data.header} || {data.subheader} || {data.date}">
 		<header>
+			<f:variable name="positionClass" value="{f:if(condition: data.header_position, then: 'ce-headline-{data.header_position}')}" />
 			<f:render partial="Header/Header" arguments="{
 						header: data.header,
 						layout: data.header_layout,
-						positionClass: '{f:if(condition: data.header_position, then: \'ce-headline-{data.header_position}\')}'
+						positionClass: positionClass,
 						link: data.header_link,
 						default: settings.defaultHeaderType,
 						headerIcon: data.header_icon
@@ -13,12 +14,12 @@
 			<f:render partial="Header/SubHeader" arguments="{
 						subheader: data.subheader,
 						layout: data.header_layout,
-						positionClass: '{f:if(condition: data.header_position, then: \'ce-headline-{data.header_position}\')}'
+						positionClass: positionClass,
 						default: settings.defaultHeaderType
 					}" />
 			<f:render partial="Header/Date" arguments="{
 						date: data.date,
-						positionClass: '{f:if(condition: data.header_position, then: \'ce-headline-{data.header_position}\')}'
+						positionClass: positionClass
 					}" />
 		</header>
 	</f:if>
