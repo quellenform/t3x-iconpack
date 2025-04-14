@@ -17,6 +17,7 @@ use Quellenform\Iconpack\IconpackFactory;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Imaging\Icon;
 use TYPO3\CMS\Core\Imaging\IconFactory;
+use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Page\PageRenderer;
@@ -85,6 +86,7 @@ class IconpackWizardElement extends AbstractFormElement
             'data-item-name' => htmlspecialchars($itemName)
         ];
         $expansionHtml = [];
+        $expansionHtml = $this->maybeAddLabelforTYPO3v13($expansionHtml, $fieldId);
         $expansionHtml[] = '<div class="form-control-wrap">';
         $expansionHtml[] = '<button type="button" ' . GeneralUtility::implodeAttributes($buttonAttributes, true) . '">';
         $expansionHtml[] = $icon;
@@ -131,5 +133,29 @@ class IconpackWizardElement extends AbstractFormElement
     protected function getLanguageService(): LanguageService
     {
         return $GLOBALS['LANG'];
+    }
+
+    /**
+     * Changed in version 13.3
+     * The label of a custom field does not get rendered automatically anymore but must be rendered with $this->renderLabel($fieldId) or $this->wrapWithFieldsetAndLegend().
+     * see https://docs.typo3.org/m/typo3/reference-tca/main/en-us/ColumnsConfig/Type/User/Index.html
+     *
+     * @param array $expansionHtml
+     * @param string $fieldId
+     * @return array
+     */
+    protected function maybeAddLabelforTYPO3v13(array $expansionHtml, string $fieldId): array
+    {
+        /** @var Typo3Version $versionService */
+        $versionService = GeneralUtility::makeInstance(Typo3Version::class);
+        if ($versionService->getVersion()>='13.3') {
+            /**
+             * method may not exist prior to TYPO3 v13.3
+             * @noinspection PhpUndefinedMethodInspection
+             */
+            $expansionHtml[] = $this->renderLabel($fieldId);
+        }
+
+        return $expansionHtml;
     }
 }
