@@ -320,7 +320,7 @@ class IconpackUtility
         }
         // Split string into configuration parts
         $parts = explode(',', $iconfigString);
-        // Split first part into 'iconpack' and 'syle'
+        // Split first part into 'iconpack' and 'style'
         $iconpackStyle = explode(':', $parts[0]);
         // The combination of the iconpack identifier and an iconpack style
         $iconfig['iconpackStyle'] = $parts[0];
@@ -367,7 +367,7 @@ class IconpackUtility
      *
      * @return array
      */
-    public static function uniqueFlattendAssetArray(array $data, bool $streamlined = false): array
+    public static function uniqueFlattenedAssetArray(array $data, bool $streamlined = false): array
     {
         $assets = array_unique(
             iterator_to_array(

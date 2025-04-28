@@ -429,13 +429,13 @@ class IconpackProvider
                     } else {
                         // The array is associative: css['...']...
                         if (in_array($key, $scopes)) {
-                            // Scope specific asset is defined: css['backennd']
+                            // Scope specific asset is defined: css['backend']
                             $scope = $key;
                             if (!is_array($assets)) {
                                 $newAssets[$scope][] = $assets;
                             } else {
                                 foreach ($assets as $customKey => $asset) {
-                                    // The scope specific asset-array has a custom or numeric key: css['backennd']['custom_key']
+                                    // The scope specific asset-array has a custom or numeric key: css['backend']['custom_key']
                                     $newAssets[$scope][$customKey] = $asset;
                                 }
                             }

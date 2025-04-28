@@ -36,7 +36,7 @@ lib.contentElement {
     #  fieldName = bodytext
     #  fieldType = rte
     #}
-    # If you don't want to use the provided ViewHelper, you can render individual ifonfig fields directly:
+    # If you don't want to use the provided ViewHelper, you can render individual iconfig fields directly:
     #[number] = Quellenform\Iconpack\DataProcessing\IconpackProcessor
     #[number] {
     #  fieldName = myCustomField

@@ -148,7 +148,7 @@ class IconpackWizardElement extends AbstractFormElement
     {
         /** @var Typo3Version $versionService */
         $versionService = GeneralUtility::makeInstance(Typo3Version::class);
-        if ($versionService->getVersion()>='13.3') {
+        if ($versionService->getVersion() >= '13.3') {
             /**
              * method may not exist prior to TYPO3 v13.3
              * @noinspection PhpUndefinedMethodInspection

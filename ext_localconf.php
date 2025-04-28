@@ -33,7 +33,7 @@ call_user_func(static function () {
         = \Quellenform\Iconpack\Sanitizer\IconpackHtmlSanitizer::class;
 
     if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '13.3', '<')) {
-        // XLCASS \TYPO3\CMS\Core\Html\RteHtmlParser for transforming the bodytext content (RTE <-> persistence) in TYPO3 <13.3
+        // XCLASS \TYPO3\CMS\Core\Html\RteHtmlParser for transforming the bodytext content (RTE <-> persistence) in TYPO3 <13.3
         $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Core\Html\RteHtmlParser::class] = [
             'className' => \Quellenform\Iconpack\Xclass\RteHtmlParser::class
         ];

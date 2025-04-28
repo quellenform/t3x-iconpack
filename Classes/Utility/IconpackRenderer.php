@@ -103,7 +103,7 @@ class IconpackRenderer
      */
     private static function createSvgInlineElement(string $iconKey, array $conf): array
     {
-        $attributes = self::getAtrributes($iconKey, $conf);
+        $attributes = self::getAttributes($iconKey, $conf);
 
         $sourcePath = self::resolveSourcePath($iconKey, $conf);
         $source = $sourcePath . $iconKey . '.svg';
@@ -122,7 +122,7 @@ class IconpackRenderer
      */
     private static function createSvgSpriteElement(string $iconKey, array $conf): array
     {
-        $attributes = self::getAtrributes($iconKey, $conf);
+        $attributes = self::getAttributes($iconKey, $conf);
 
         $sourcePath = self::resolveSourcePath($iconKey, $conf);
         $innerHtml = '<use href="' . $sourcePath . '#' . $iconKey . '" />';
@@ -141,7 +141,7 @@ class IconpackRenderer
      */
     private static function createImageElement(string $iconKey, array $conf): array
     {
-        $attributes = self::getAtrributes($iconKey, $conf);
+        $attributes = self::getAttributes($iconKey, $conf);
 
         $sourcePath = self::resolveSourcePath($iconKey, $conf);
         $attributes['src'] = $sourcePath . $iconKey . '.svg';
@@ -160,7 +160,7 @@ class IconpackRenderer
      */
     private static function createWebfontElement(string $iconKey, array $conf): array
     {
-        $attributes = self::getAtrributes($iconKey, $conf);
+        $attributes = self::getAttributes($iconKey, $conf);
 
         return ['span', $attributes, ''];
     }
@@ -173,7 +173,7 @@ class IconpackRenderer
      *
      * @return array
      */
-    private static function getAtrributes(string $iconKey, array $conf): array
+    private static function getAttributes(string $iconKey, array $conf): array
     {
         $attributes = $conf['attributes'] ?? [];
 

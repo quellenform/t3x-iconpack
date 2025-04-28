@@ -380,7 +380,7 @@ class IconpackFactory implements SingletonInterface
             }
         }
         // Return flattened asset array with unique values
-        return IconpackUtility::uniqueFlattendAssetArray($assets, $streamlined);
+        return IconpackUtility::uniqueFlattenedAssetArray($assets, $streamlined);
     }
 
     /**

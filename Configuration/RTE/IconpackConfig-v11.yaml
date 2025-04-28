@@ -30,7 +30,7 @@ editor:
       - img[!data-iconfig,id,name,class,style,alt,title]{margin,padding,align,vertical-align}
       # svgSprite: Allow SVG (inline, sprites)
       - svg(*)[!data-iconfig,id,name,class,style,alt,title]{color,background*,margin,padding,align,vertical-align}
-      # svgSprite: Allow <use> element inseide <svg>
+      # svgSprite: Allow <use> element inside <svg>
       - use[!href]
 
     extraPlugins:
