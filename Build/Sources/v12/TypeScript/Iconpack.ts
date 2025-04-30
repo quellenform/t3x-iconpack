@@ -383,6 +383,12 @@ class Iconpack {
         element.classList.add('active');
         this.selectIcon(iconIdentifier);
       }, true);
+      iconElement.addEventListener('dblclick', () => {
+        console.log('⭘ TRIGGER: Icon has been doubleclicked!'); //# DEBUG MESSAGE
+        const okButton =
+            this.elementModalFooter.querySelector('button[name="ok"]');
+          okButton.dispatchEvent(new Event("click"));
+      }, true);
       iconElement.addEventListener('mouseover', (event) => {
         const element = <HTMLElement>event.currentTarget;
         const iconTitle = element.getAttribute('data-title');
