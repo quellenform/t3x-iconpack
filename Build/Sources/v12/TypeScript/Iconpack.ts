@@ -21,6 +21,8 @@ enum iconpackSelectors {
   options = '#iconpack-options',
   // The iconwall
   icons = '#iconpack-icons',
+  // The tooltip
+  tooltip = '#iconpack-tooltip',
   // The currently selected icon
   iconSelection = '#iconpack-selected > div',
   // The searchbox
@@ -73,6 +75,7 @@ class Iconpack {
   private elementSearch: HTMLElement = null;
   private elementOptions: HTMLElement = null;
   private elementIcons: HTMLElement = null;
+  private elementTooltip: HTMLElement = null;
   private elementStyles: HTMLSelectElement = null;
   private elementModalFooter: HTMLElement = null;
   private elementIconSelection: HTMLElement = null;
@@ -133,6 +136,7 @@ class Iconpack {
     this.elementStyles = this.iconpackModal.querySelector(iconpackSelectors.styles);
     this.elementOptions = this.iconpackModal.querySelector(iconpackSelectors.options);
     this.elementIcons = this.iconpackModal.querySelector(iconpackSelectors.icons);
+    this.elementTooltip = this.iconpackModal.querySelector(iconpackSelectors.tooltip);
     this.elementIconSelection = this.iconpackModal.querySelector(iconpackSelectors.iconSelection);
     this.elementSearch = this.iconpackModal.querySelector(iconpackSelectors.search);
 
@@ -378,6 +382,16 @@ class Iconpack {
         });
         element.classList.add('active');
         this.selectIcon(iconIdentifier);
+      }, true);
+      iconElement.addEventListener('mouseover', (event) => {
+        const element = <HTMLElement>event.currentTarget;
+        const iconTitle = element.getAttribute('data-title');
+        this.elementTooltip.innerHTML = iconTitle;
+        this.elementTooltip.style.display = 'block';
+      }, true);
+      iconElement.addEventListener('mouseleave', () => {
+        this.elementTooltip.innerHTML = '';
+        this.elementTooltip.style.display = 'none';
       }, true);
     });
 

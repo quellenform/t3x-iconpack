@@ -27,6 +27,8 @@ html(xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http:
 		f:if(condition="{iconpackIcons}")
 			f:render(partial="Icons" arguments="{iconpackIcons: iconpackIcons}")/
 
+	div(id="iconpack-tooltip")
+
 	div(class="form-control-clearable-wrapper form-control-clearable col-xs-5" id="iconpack-search")
 		input(type="text" class="form-control t3js-clearable" maxlength="120" placeholder="{f:translate(key:'LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.search')}")
 		button(type="button" tabindex="-1" class="close" style="visibility: hidden;")

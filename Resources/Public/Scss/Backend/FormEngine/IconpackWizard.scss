@@ -213,4 +213,12 @@
 			margin: 0;
 		}
 	}
+
+	#iconpack-tooltip {
+		display: none;
+		padding: 2px 20px 3px;
+		position: absolute;
+		bottom: 0;
+		background-color: var(--typo3-state-default-bg, #f2f2f2)
+	}
 }

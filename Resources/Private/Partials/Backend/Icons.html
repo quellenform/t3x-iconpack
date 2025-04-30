@@ -6,7 +6,7 @@
 		</f:if>
 		<ul>
 			<f:for each="{category.icons}" key="iconKey" as="icon">
-				<li name="{iconKey}" title="{icon.label}">
+				<li name="{iconKey}" data-title="{icon.label}">
 					<f:format.raw>{icon.markup}</f:format.raw>
 				</li>
 			</f:for>
