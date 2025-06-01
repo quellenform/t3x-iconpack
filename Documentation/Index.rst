@@ -29,8 +29,8 @@ Iconpack
 
 ----
 
-The most flexible icon system for TYPO3 10/11/12/13
-===================================================
+The most flexible icon system for TYPO3
+=======================================
 
 .. image:: /Images/Screenshot.png
 

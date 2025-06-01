@@ -76,22 +76,27 @@ fields.
 
 .. code-block:: typoscript
 
+   # Typoscript setup
    plugin.tx_iconpack {
       settings {
-         # This classname will be the added in the frontend to all icons
-         cssClass = iconpack
-         # This can be used to override the rendering of the icons in the frontend.
-         overrides {
-            renderTypes {
-               _default {
-                  native = svgSprite, webfont
-                  rte = webfont
-               }
-               fa5 {
-                  native = svgInline
-               }
-               glyphicons = webfont
+         # If you change the CSS class, please also note that you have to change it in your CSS files accordingly!
+         #   You can also remove this completely if you don't need it.
+         cssClass = {$plugin.tx_iconpack.cssClass}
+         # Define the order of the renderTypes here.
+         #   If an Iconpack provides one of the types defined here (separated by commas), it will be used (the order is crucial!).
+         #   This can be specified differently for icons from a field or the RTE with the keys "native" and "rte".
+         #   Available values: svgInline, svgSprite, webfont, svg
+         renderTypes {
+            # Override default values for all iconpacks
+            _default {
+               native = svgSprite, webfont
+               rte = webfont
             }
+            # Override values only for specific iconpacks by using their key
+            fa6 {
+               native = svgInline
+            }
+            glyphicons = webfont
          }
       }
    }
