@@ -28,7 +28,7 @@
 	],
 	"require": {
 		"php": ">=7.4.0",
-		"typo3/cms-core": ">=10.4.11 <12 || ~12.4.7 || ^13 || 13.*.*@dev"
+		"typo3/cms-core": ">=10.4.11 <12 || ~12.4.7 || ^13 || 14.*.*@dev"
 	},
 	"autoload": {
 		"psr-4": {
@@ -47,6 +47,9 @@
 	"extra": {
 		"typo3/cms": {
 			"extension-key": "iconpack"
+		},
+		"branch-alias": {
+			"dev-main": "1.x-dev"
 		}
 	}
 }
