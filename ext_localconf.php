@@ -10,16 +10,18 @@ call_user_func(static function () {
         'class' => \Quellenform\Iconpack\Form\Element\IconpackWizardElement::class,
     ];
 
-    // Register extension icon for the backend
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-        \TYPO3\CMS\Core\Imaging\IconRegistry::class
-    )->registerIcon(
-        'ext-iconpack',
-        \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-        [
-            'source' => 'EXT:iconpack/Resources/Public/Icons/Extension.svg'
-        ]
-    );
+    if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '14', '<')) {
+        // Register extension icon for the backend
+        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Imaging\IconRegistry::class
+        )->registerIcon(
+            'ext-iconpack',
+            \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+            [
+                'source' => 'EXT:iconpack/Resources/Public/Icons/Extension.svg'
+            ]
+        );
+    }
 
     // Configure the caching frontend/backend
     if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['iconpack'])) {
