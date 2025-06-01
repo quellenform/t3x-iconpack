@@ -48,12 +48,11 @@
 /* CKEditor 5 */
 .ck-widget-iconpack {
 	padding: 0 3px;
-}
+	display: inline-block;
+	cursor: default;
 
-img.ck-widget-iconpack {
-	height: 1em;
-}
-
-img.ck-widget-iconpack {
-	vertical-align: -.125em;
+	img {
+		height: 1em;
+		vertical-align: -.125em;
+	}
 }

@@ -44,3 +44,4 @@ declare module '@typo3/backend/modal.js';
 declare module '@typo3/core/ajax/ajax-request.js';
 declare module '@typo3/core/ajax/ajax-response.js';
 declare module '@typo3/core/document-service.js';
+declare module '@typo3/rte-ckeditor/plugin/typo3-link';

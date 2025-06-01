@@ -12,6 +12,7 @@ import { Widget, toWidget } from '@ckeditor/ckeditor5-widget';
 import { ButtonView } from '@ckeditor/ckeditor5-ui';
 import { DomEventObserver } from '@ckeditor/ckeditor5-engine';
 import IconpackModal from '@quellenform/iconpack-modal.js';
+import type { Element as ModelElement } from '@ckeditor/ckeditor5-engine';
 
 const iconpackIcon = '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><g stroke="#000" stroke-linecap="round" stroke-linejoin="bevel" stroke-width=".295"><path d="m0.2628 1.9151 6.6836 3.9405 12.791-2.9519-8.6056-2.7421z" fill="#a5a6a5"/><path d="m0.2628 1.9151 1.2416 11.367 5.8931 6.5566-0.45127-13.983z" fill="#8c8d8c"/><path d="m19.737 2.9037-1.4892 12.311-10.851 4.6234-0.45127-13.983z" fill="#bec0be" style="paint-order:normal"/></g></svg>';
 
@@ -76,12 +77,15 @@ export class IconpackEditing extends Plugin {
 
   /**
    * Define schema
+   *
+   * @private
    */
-  _defineSchema() {
+  private _defineSchema() {
     const schema = this.editor.model.schema;
 
     schema.register('iconpackWebfont', {
       allowAttributes: Object.values(this.attributes),
+      allowAttributesOf: '$text',
       allowWhere: '$text',
       isInline: true,
       isObject: true,
@@ -89,6 +93,7 @@ export class IconpackEditing extends Plugin {
     });
     schema.register('iconpackImage', {
       allowAttributes: Object.values(this.attributes).concat('src'),
+      allowAttributesOf: '$text',
       allowWhere: '$text',
       isInline: true,
       isObject: true,
@@ -101,8 +106,10 @@ export class IconpackEditing extends Plugin {
 
   /**
    * Define webfont converters
+   *
+   * @private
    */
-  _defineWebfontConverters() {
+  private _defineWebfontConverters() {
     const conversion = this.editor.conversion;
 
     conversion.for('upcast').elementToElement({
@@ -127,7 +134,7 @@ export class IconpackEditing extends Plugin {
       }) => {
         return writer.createEmptyElement(
           'span',
-          modelElement.getAttributes()
+          this._getViewAttributes(modelElement)
         );
       }
     });
@@ -136,10 +143,14 @@ export class IconpackEditing extends Plugin {
       view: (modelElement, {
         writer: viewWriter
       }) => {
-        const viewElement = viewWriter.createContainerElement(
+        const iconElement = viewWriter.createContainerElement(
           'span',
-          modelElement.getAttributes()
+          this._getViewAttributes(modelElement)
         );
+        const viewElement = viewWriter.createContainerElement(
+          'data'
+        );
+        viewElement._appendChild(iconElement);
         viewElement._addClass('ck-widget-iconpack');
         return toWidget(viewElement, viewWriter, {
           label: 'Iconpack widget'
@@ -150,8 +161,10 @@ export class IconpackEditing extends Plugin {
 
   /**
    * Define image converters
+   *
+   * @private
    */
-  _defineImageConverters() {
+  private _defineImageConverters() {
     const conversion = this.editor.conversion;
 
     conversion.for('upcast').elementToElement({
@@ -178,7 +191,7 @@ export class IconpackEditing extends Plugin {
         modelElement._removeAttribute('loading');
         return writer.createEmptyElement(
           'img',
-          modelElement.getAttributes()
+          this._getViewAttributes(modelElement, 'src')
         );
       }
     });
@@ -187,16 +200,44 @@ export class IconpackEditing extends Plugin {
       view: (modelElement, {
         writer: viewWriter
       }) => {
-        const viewElement = viewWriter.createContainerElement(
+        const iconElement = viewWriter.createContainerElement(
           'img',
-          modelElement.getAttributes()
+          this._getViewAttributes(modelElement, 'src')
         );
+        const viewElement = viewWriter.createContainerElement(
+          'data'
+        );
+        viewElement._appendChild(iconElement);
         viewElement._addClass('ck-widget-iconpack');
         return toWidget(viewElement, viewWriter, {
           label: 'Iconpack widget'
         });
+
       }
     });
+  }
+
+  /**
+   * Get all the necessary attributes for the Iconpack view element
+   *
+   * @param {ModelElement} modelElement
+   * @param {string} additionalAttributes
+   *
+   * @private
+   */
+  private _getViewAttributes(modelElement: ModelElement, additionalAttributes?: string): Record<string, any> {
+    const viewAttributes: Record<string, any> = {};
+    let attributes = this.attributes;
+    if (additionalAttributes) {
+      attributes = Object.values(this.attributes).concat('src');
+    }
+    attributes.forEach((attributeName: string) => {
+      const attributeValue = modelElement.getAttribute(attributeName);
+      if (attributeValue && attributeValue != '') {
+        viewAttributes[attributeName] = attributeValue;
+      }
+    });
+    return viewAttributes;
   }
 }
 
@@ -246,18 +287,67 @@ export class IconpackCommand extends Command {
 
   /**
    * Add icon to the initiating RTE.
+   *
+   * @param {string} iconfigString
+   * @param {string} iconMarkup
+   *
+   * @private
    */
   private _addIconToRte(iconfigString: string, iconMarkup: string) {
     console.log('⮜ CKEditor: Add icon to RTE'); //# DEBUG MESSAGE
     if (iconMarkup) {
-      // https://stackoverflow.com/questions/47729450/ckeditor-5-how-to-insert-some-html-aka-wheres-the-source-mode
+      // Wrap the iconMarkup in an A-tag and take the attributes from the parent node
+      // This is a nasty hack (help needed!), but it works...
+      const parent = this._getSelectionParent();
+      const linkAttributes: Record<string, any> = {};
+      if (parent && parent.name === 'a') {
+        const parentAttributes = [...parent.getAttributes()];
+        if (parent.hasAttribute('href')) {
+          linkAttributes.href = parent.getAttribute('href');
+        }
+        if (parent.hasAttribute('target')) {
+          linkAttributes.target = parent.getAttribute('target');
+        }
+        if (parent.hasAttribute('title')) {
+          linkAttributes.title = parent.getAttribute('title');
+        }
+        if (parent.hasClass()) {
+          let classes: Array<string> = [...parent.getClassNames()];
+          classes = classes.filter(
+            (item) => (item != 'ck-link_selected')).map((item) => item);
+          if (classes.length != 0) {
+            linkAttributes.class = Object.values(classes).join(' ');
+          }
+        }
+        let aParams: string = '';
+        Object.entries(linkAttributes).forEach(([key, value]) => {
+          aParams += ' ' + key + '="' + value + '"';
+        });
+        iconMarkup = '<a' + aParams + '>' + iconMarkup + '</a>';
+      }
+
       const viewFragment = this.editor.data.processor.toView(iconMarkup);
       const modelFragment = this.editor.data.toModel(viewFragment);
       this.editor.model.insertContent(modelFragment);
     }
   }
+
+  /**
+   * Get the parent element of the current selection.
+   *
+   * @private
+   */
+  private _getSelectionParent() {
+    const viewDocument = this.editor.editing.view.document;
+    return viewDocument.selection.focus.getAncestors()
+      .reverse()
+      .find(node => node.is('element'));
+  }
+
   /**
    * Remove icon from the initiating RTE.
+   *
+   * @private
    */
   private _removeIconFromRte() {
     console.log('⮜ CKEditor: Remove icon from RTE'); //# DEBUG MESSAGE
@@ -310,12 +400,14 @@ export class IconpackUI extends Plugin {
     view.addObserver(DoubleClickObserver);
 
     editor.listenTo(viewDocument, 'dblclick', (evt, data) => {
-      const modelElement = editor.editing.mapper.toModelElement(data.target);
-      if (modelElement && typeof modelElement.name !== 'undefined' && (
-        modelElement.name === 'iconpackWebfont' || modelElement.name === 'iconpackImage'
-      )) {
-        console.log('⭘ CKEditor: Iconpack element has been clicked!'); //# DEBUG MESSAGE
-        editor.execute('iconpack')
+      if (data.target.parent) {
+        const modelElement = editor.editing.mapper.toModelElement(data.target.parent);
+        if (modelElement && typeof modelElement.name !== 'undefined' && (
+          modelElement.name === 'iconpackWebfont' || modelElement.name === 'iconpackImage'
+        )) {
+          console.log('⭘ CKEditor: Iconpack element has been double-clicked!'); //# DEBUG MESSAGE
+          editor.execute('iconpack')
+        }
       }
     });
   }

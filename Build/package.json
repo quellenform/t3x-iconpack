@@ -5,7 +5,7 @@
 	"readme": "../README.md",
 	"homepage": "",
 	"author": "",
-	"version": "1.0.1",
+	"version": "1.1.10",
 	"license": "GPL-2.0+",
 	"engines": {
 		"npm": ">=9.0.0 <10.2"
@@ -13,9 +13,11 @@
 	"devDependencies": {
 		"@ckeditor/ckeditor5-core": "^40.0.0",
 		"@ckeditor/ckeditor5-html-support": "^40.0.0",
+		"@ckeditor/ckeditor5-link": "40.0.0",
 		"@ckeditor/ckeditor5-ui": "^40.0.0",
 		"@types/ckeditor": "^4.9.10",
 		"@types/jquery": "2.0.47",
+		"@types/node": "^22.15.3",
 		"typescript": "~5.0.0"
 	}
 }
