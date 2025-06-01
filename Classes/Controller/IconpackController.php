@@ -21,6 +21,9 @@ use Quellenform\Iconpack\Utility\IconpackUtility;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\JsonResponse;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Core\View\ViewFactoryData;
+use TYPO3\CMS\Core\View\ViewFactoryInterface;
 use TYPO3\CMS\Fluid\View\StandaloneView;
 
 /**
@@ -53,7 +56,7 @@ class IconpackController
         $this->initialize($request);
 
         if (!$this->iconpackFactory->areThereAnyIconpacksInstalled()) {
-            $html = $this->renderStandaloneView('NoIconpack', []);
+            $html = $this->renderStandaloneView($request, 'NoIconpack', []);
         } else {
             $styles = $this->iconpackFactory->queryIconpackStyles($this->iconfig['fieldType']);
             if (
@@ -80,7 +83,7 @@ class IconpackController
                 'icon' => IconpackRenderer::renderIcon($this->iconpackFactory->getIconElement($this->iconfig)),
                 'modalStylesheets' => \json_encode($this->iconpackFactory->queryAssets('css', 'backend', true))
             ];
-            $html = $this->renderStandaloneView('Iconpack', $settings);
+            $html = $this->renderStandaloneView($request, 'Iconpack', $settings);
         }
         return new HtmlResponse($html);
     }
@@ -99,6 +102,7 @@ class IconpackController
         if ($this->iconfig) {
             $settings = [
                 'iconpackOptions' => $this->renderStandaloneView(
+                    $request,
                     'Options',
                     [
                         'iconpackOptions' => $this->iconpackFactory->queryIconpackOptions(
@@ -108,6 +112,7 @@ class IconpackController
                     true
                 ),
                 'iconpackIcons' => $this->renderStandaloneView(
+                    $request,
                     'Icons',
                     [
                         'iconpackIcons' => $this->iconpackFactory->queryIconpackIcons(
@@ -183,32 +188,59 @@ class IconpackController
     }
 
     /**
-     * Render a Fluid StandaloneView
+     * Render output for the iconpack modal.
      *
+     * @param ServerRequestInterface $request
      * @param string $templateName
      * @param array $settings
      * @param bool $partial
      *
      * @return string
      */
-    protected function renderStandaloneView(string $templateName, array $settings, bool $partial = false): string
-    {
-        /** @var StandaloneView $standaloneView */
-        $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
-        $standaloneView->setFormat('html');
-        if ($partial) {
-            $path = 'EXT:iconpack/Resources/Private/Partials/Backend/' . $templateName . '.html';
-            $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($path));
+    protected function renderStandaloneView(
+        ServerRequestInterface $request,
+        string $templateName,
+        array $settings,
+        bool $partial = false
+    ): string {
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.0.0', '>=')) {
+            $viewFactory = GeneralUtility::makeInstance(ViewFactoryInterface::class);
+            $templateRootPaths = ['EXT:iconpack/Resources/Private/Templates/Backend/'];
+            $partialRootPaths = ['EXT:iconpack/Resources/Private/Partials/Backend/'];
+            if ($partial) {
+                $templateRootPaths = ['EXT:iconpack/Resources/Private/Partials/Backend/'];
+                $partialRootPaths = null;
+            }
+            $viewFactoryData = new ViewFactoryData(
+                $templateRootPaths,
+                $partialRootPaths,
+                null,
+                null,
+                $request,
+                'html'
+            );
+            $view = $viewFactory->create($viewFactoryData);
+            $view->assignMultiple($settings);
+            return $view->render($templateName);
         } else {
-            $standaloneView->setTemplate($templateName);
-            $standaloneView->setTemplateRootPaths([
-                'EXT:iconpack/Resources/Private/Templates/Backend/'
-            ]);
-            $standaloneView->setPartialRootPaths([
-                'EXT:iconpack/Resources/Private/Partials/Backend/'
-            ]);
+            // @extensionScannerIgnoreLine
+            /** @var StandaloneView $standaloneView */
+            $standaloneView = GeneralUtility::makeInstance(StandaloneView::class);
+            $standaloneView->setFormat('html');
+            if ($partial) {
+                $path = 'EXT:iconpack/Resources/Private/Partials/Backend/' . $templateName . '.html';
+                $standaloneView->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName($path));
+            } else {
+                $standaloneView->setTemplate($templateName);
+                $standaloneView->setTemplateRootPaths([
+                    'EXT:iconpack/Resources/Private/Templates/Backend/'
+                ]);
+                $standaloneView->setPartialRootPaths([
+                    'EXT:iconpack/Resources/Private/Partials/Backend/'
+                ]);
+            }
+            $standaloneView->assignMultiple($settings);
+            return $standaloneView->render();
         }
-        $standaloneView->assignMultiple($settings);
-        return $standaloneView->render();
     }
 }
