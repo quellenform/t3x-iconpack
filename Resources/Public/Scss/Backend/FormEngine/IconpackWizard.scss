@@ -48,7 +48,7 @@
 
 	.form-section {
 		border: 0;
-		border-bottom: 1px solid silver;
+		border-bottom: 1px solid var(--module-docheader-border-color, silver);
 		display: flex;
 		justify-content: flex-start;
 		padding: 15px 15px 2px;
@@ -147,7 +147,7 @@
 		h2 {
 			margin-top: 1.5rem;
 			margin-bottom: .3rem;
-			border-bottom: 1px solid #eee;
+			border-bottom: 1px solid var(--module-docheader-border-color, #eee);
 			padding-bottom: .4rem;
 			width: 100%;
 		}
