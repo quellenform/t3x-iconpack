@@ -16,6 +16,7 @@ namespace Quellenform\Iconpack\Form\Element;
 use Quellenform\Iconpack\IconpackFactory;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Imaging\Icon;
+use TYPO3\CMS\Core\Imaging\IconSize;
 use TYPO3\CMS\Core\Imaging\IconFactory;
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Localization\LanguageService;
@@ -64,12 +65,19 @@ class IconpackWizardElement extends AbstractFormElement
         $fieldInformationHtml = $fieldInformationResult['html'];
         $resultArray = $this->mergeChildReturnIntoExistingResult($resultArray, $fieldInformationResult, false);
 
+        $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
+
         $iconMarkup = '';
         if (!empty($itemValue)) {
             $iconMarkup = $this->iconpackFactory->getIconMarkup($itemValue);
             if (empty($iconMarkup)) {
                 $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
-                $iconMarkup = $iconFactory->getIcon('default-not-found', Icon::SIZE_SMALL)->render();
+                if (version_compare($typo3Version, '13.0.0', '>=')) {
+                    $iconMarkup = $iconFactory->getIcon('default-not-found', IconSize::SMALL)->render();
+                } else {
+                    // @extensionScannerIgnoreLine
+                    $iconMarkup = $iconFactory->getIcon('default-not-found', Icon::SIZE_SMALL)->render();
+                }
             }
         }
         $icon = '<span class="t3js-icon icon icon-size-small">' . $iconMarkup . '</span>';
@@ -98,12 +106,12 @@ class IconpackWizardElement extends AbstractFormElement
         $resultArray = [];
 
         // Add JavaScript module
-        $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
         if (version_compare($typo3Version, '12.0.0', '>=')) {
             $resultArray['javaScriptModules'][] = JavaScriptModuleInstruction::create(
                 '@quellenform/iconpack-wizard.js'
             )->instance('#' . $fieldId);
         } elseif (version_compare($typo3Version, '11.5.0', '>=')) {
+            // @extensionScannerIgnoreLine
             $resultArray['requireJsModules'][] = JavaScriptModuleInstruction::forRequireJS(
                 'TYPO3/CMS/Iconpack/v11/IconpackWizard'
             )->instance('#' . $fieldId);
