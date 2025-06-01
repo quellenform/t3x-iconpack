@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.1.10
+
+- 8b6b4a8 Cleanup & correct various typos
+- cb079b4 Link icons in CKEditor5!
+- a357b9a Added v14 compatibility and branch alias to composer.json
+- c7b82a8 Removed resolveBackPath() to ensure compatibility to v14
+- b9d4ddc Register extension icon for TYPO3 14
+- 36f8126 Render modal with ViewFactory (v13+)
+- f128aa8 Added plugin translation for CKEditor4
+- 6f05ca2 Optimized CSS for dark mode (v13+)
+- 7c90777 Added IconSize if icon could not be found (v13+)
+- 5d46a14 Update documentation
+- 32b7f62 Optimized translation, added IconpackLocalization.php
+- 4b6c390 Added aria-hidden to all icons (...if there is no title/alt)
+- 54f54c4 Changed order of preferred renderTypes in the Backend (svgInline loads faster)
+- ea3ae24 Added constants description
+- 83adead Query correct assets for backend/frontend
+- ce55e69 Return empty array if there are no styles available
+- 8a02b82 Added exception if configuration file could not be found
+- 6ba4600 Added .cache to .gitignore
+- ac0fe28 Select the icon by double-clicking on it
+- c1e69a4 Tooltip with icon name added to modal window
+- 6c8c60b Fixed typos/formatting
+- 982928b Display icons in the correct color when dark mode is selected
+- ac18d6e Render Label for TYPO3 >=v13.3 (thanks to @bigbozo)
+
 ## 1.1.9
 
 - 0930730 [BUGFIX] Fixed typos & added variable in header template (#30)
