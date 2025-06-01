@@ -13,12 +13,13 @@ namespace Quellenform\Iconpack;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Quellenform\Iconpack\Domain\Model\IconpackProvider;
 use Quellenform\Iconpack\Exception\IconpackException;
 use Quellenform\Iconpack\IconpackCache;
 use Quellenform\Iconpack\IconpackRegistry;
+use Quellenform\Iconpack\Utility\IconpackLocalization;
 use Quellenform\Iconpack\Utility\IconpackRenderer;
 use Quellenform\Iconpack\Utility\IconpackUtility;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -67,11 +68,6 @@ class IconpackFactory implements SingletonInterface
     protected static $context = null;
 
     /**
-     * @var string|null
-     */
-    protected static $langCode = null;
-
-    /**
      * @var array|null
      */
     protected static $availableIconpacks = null;
@@ -96,7 +92,6 @@ class IconpackFactory implements SingletonInterface
         $this->setAvailableIconpacks();
         $this->iconpackCache = GeneralUtility::makeInstance(IconpackCache::class, $cacheEnabled);
         $this->setContext();
-        $this->setLanguageCode();
     }
 
     /**
@@ -175,27 +170,6 @@ class IconpackFactory implements SingletonInterface
             }
             static::$context = $context;
         }
-    }
-
-    /**
-     * Set current language code.
-     *
-     * @return void
-     */
-    public function setLanguageCode()
-    {
-        if (static::$context === 'backend') {
-            if (isset($GLOBALS['BE_USER']->uc['lang'])) {
-                $langCode = str_replace('default', 'en', $GLOBALS['BE_USER']->uc['lang']);
-            }
-        } else {
-            $context = GeneralUtility::makeInstance(Context::class);
-            /** @var \TYPO3\CMS\Core\Site\Entity\Site $site */
-            $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
-            $langId = $context->getPropertyFromAspect('language', 'id');
-            $langCode = $site->getLanguageById($langId)->getTypo3Language();
-        }
-        static::$langCode = !empty($langCode) ? $langCode : 'en';
     }
 
     /**
@@ -692,8 +666,9 @@ class IconpackFactory implements SingletonInterface
      */
     private function getCacheIdentifier(string $cacheIdentifier): string
     {
-        //$cacheIdentifier = 'Iconpack_' . static::$langCode . '_' . str_replace(':', '-', $cacheIdentifier); // DEV
-        $cacheIdentifier = 'Iconpack_' . md5(static::$langCode . '_' . $cacheIdentifier);
+        $langCode = GeneralUtility::makeInstance(IconpackLocalization::class)->getLanguageCode();
+        //$cacheIdentifier = 'Iconpack_' . $langCode . '_' . str_replace(':', '-', $cacheIdentifier); // DEV
+        $cacheIdentifier = 'Iconpack_' . md5($langCode . '_' . $cacheIdentifier);
         return $cacheIdentifier;
     }
 }

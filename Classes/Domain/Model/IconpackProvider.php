@@ -13,8 +13,8 @@ namespace Quellenform\Iconpack\Domain\Model;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Quellenform\Iconpack\Utility\IconpackLocalization;
 use Quellenform\Iconpack\Utility\IconpackUtility;
-use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
@@ -111,6 +111,13 @@ class IconpackProvider
      */
     protected $icons = null;
 
+    /**
+     * The iconpack localization helper.
+     *
+     * @var IconpackLocalization
+     */
+    protected $localization = null;
+
     public function __construct(array $config)
     {
         $this->setTitle($config['title']);
@@ -127,6 +134,7 @@ class IconpackProvider
         $this->setAdditionalOptions($config['options'] ?? null);
         $this->setCategories($config['categories'] ?? null);
         $this->setIcons($config['icons'] ?? null);
+        $this->localization = GeneralUtility::makeInstance(IconpackLocalization::class);
     }
 
     /**
@@ -142,7 +150,7 @@ class IconpackProvider
      */
     public function getTitle(): string
     {
-        return $this->getTranslatedLabel($this->title);
+        return $this->localization->getTranslatedLabel($this->title);
     }
 
     /**
@@ -366,7 +374,7 @@ class IconpackProvider
             if (in_array($key, $allowedKeys)) {
                 switch ($key) {
                     case 'label':
-                        $configArray[$key] = $this->getTranslatedLabel($value, null);
+                        $configArray[$key] = $this->localization->getTranslatedLabel($value, null);
                         break;
                     case 'css':
                         $configArray[$key] = $this->mergeAsset($key, $config);
@@ -484,7 +492,7 @@ class IconpackProvider
             foreach ($this->options as $optionKey => $option) {
                 if (isset($option['type']) && !empty($option['type'])) {
                     $optionConf = [
-                        'label' => $this->getTranslatedLabel($option['label'], $optionKey),
+                        'label' => $this->localization->getTranslatedLabel($option['label'], $optionKey),
                         'type' => $option['type']
                     ];
                     switch ($option['type']) {
@@ -493,7 +501,7 @@ class IconpackProvider
                                 foreach ($option['values'] as $key => $values) {
                                     if (isset($values['attributes']) && is_array($values['attributes'])) {
                                         $optionConf['values'][$key]['label']
-                                            = $this->getTranslatedLabel($values['label']);
+                                            = $this->localization->getTranslatedLabel($values['label']);
                                         $optionConf['values'][$key]['attributes']
                                             = IconpackUtility::explodeAttributes($values['attributes']);
                                         // This is required for JavaScript
@@ -539,7 +547,10 @@ class IconpackProvider
         if ($this->categories) {
             foreach ($this->categories as $key => $category) {
                 $categories[$key] = [
-                    'label' => $this->getTranslatedLabel($category['label'], IconpackUtility::keyToWord($key)),
+                    'label' => $this->localization->getTranslatedLabel(
+                        $category['label'],
+                        IconpackUtility::keyToWord($key)
+                    ),
                     'icons' => $category['icons'] ?? []
                 ];
             }
@@ -587,32 +598,5 @@ class IconpackProvider
             }
         }
         return $icons;
-    }
-
-    /**
-     * Get a translated label.
-     *
-     * @param string $label
-     * @param string|null $default
-     *
-     * @return string
-     */
-    protected function getTranslatedLabel(string $label, ?string $default = ''): string
-    {
-        if (!empty($label)) {
-            // TODO: Optimize this nasty way to get a translated label
-            if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
-                if ($GLOBALS['LANG']) {
-                    $label = $GLOBALS['LANG']->sL($label);
-                }
-            } else {
-                if ($GLOBALS['TSFE']) {
-                    $label = $GLOBALS['TSFE']->sL($label);
-                }
-            }
-        } else {
-            $label = $default;
-        }
-        return $label;
     }
 }
