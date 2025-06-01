@@ -136,14 +136,12 @@
    * Open iconpack modal
    */
   function openIconpackModal(editor: CKEDITOR.editor, iconfigString: string) {
-    require([
-      'TYPO3/CMS/Iconpack/v11/IconpackModal'
-    ], function (IconpackModal) {
-      IconpackModal.openIconpackModal(TYPO3.lang['js.label.iconRte'], {
-        fieldType: 'rte',
-        iconfigString: iconfigString
-      }, addIconToRte, removeIconFromRte);
-    });
+
+    const IconpackModal = require('TYPO3/CMS/Iconpack/v11/IconpackModal');
+    IconpackModal.openIconpackModal(TYPO3.lang['js.label.iconRte'], {
+      fieldType: 'rte',
+      iconfigString: iconfigString
+    }, addIconToRte, removeIconFromRte);
 
     /**
      * Add icon to the initiating RTE.

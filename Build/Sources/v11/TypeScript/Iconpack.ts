@@ -15,11 +15,11 @@ import BackendIcons from 'TYPO3/CMS/Backend/Icons';
 enum iconpackSelectors {
   // The footer element of the modal
   modalFooter = '.modal-footer',
-  // The dropdown which selects the iconspack
+  // The dropdown which selects the iconpack
   styles = '#iconpack-style',
   // The section with additional options
   options = '#iconpack-options',
-  // The iconwall
+  // The icon wall
   icons = '#iconpack-icons',
   // The tooltip
   tooltip = '#iconpack-tooltip',
@@ -384,7 +384,7 @@ class Iconpack {
         this.selectIcon(iconIdentifier);
       }, true);
       iconElement.addEventListener('dblclick', () => {
-        console.log('⭘ TRIGGER: Icon has been doubleclicked!'); //# DEBUG MESSAGE
+        console.log('⭘ TRIGGER: Icon has been double-clicked!'); //# DEBUG MESSAGE
         const okButton =
             this.elementModalFooter.querySelector('button[name="ok"]');
           okButton.dispatchEvent(new Event("click"));
@@ -624,7 +624,7 @@ class Iconpack {
         iconpack: iconpackStyle[0] || null,
         style: iconpackStyle[1] || null,
         icon: iconfigArray[1] || null,
-        options: options,
+        options: options
       }
       for (let i = 2; i < iconfigArray.length; i++) {
         const options = iconfigArray[i].split(':');

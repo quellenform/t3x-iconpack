@@ -1,22 +1,24 @@
 plugin.tx_iconpack {
   settings {
-    # If you change the CSS class here, please also note that you have to change it in your CSS files accordingly!
-    # You can also remove this completely if you don't need it.
+    # If you change the CSS class, please also note that you have to change it in your CSS files accordingly!
+    #   You can also remove this completely if you don't need it.
     cssClass = {$plugin.tx_iconpack.cssClass}
     # Define the order of the renderTypes here.
-    # If an Iconpack provides one of the types defined here, it will be used (the order is crucial!)
-    renderTypes {
-      # Override default values for all iconpacks
-      #_default {
-      #  native = svgInline,svgSprite,webfont,image
-      #  rte = svgInline,svgSprite,webfont,image
-      #}
-      # Override values for a specific iconpack
-      #fa6 {
-      #  native = svgSprite,webfont
-      #}
-      #glyphicons = webfont
-    }
+    #   If an Iconpack provides one of the types defined here (separated by commas), it will be used (the order is crucial!).
+    #   This can be specified differently for icons from a field or the RTE with the keys "native" and "rte".
+    #   Available values: svgInline, svgSprite, webfont, svg
+    #renderTypes {
+    #   Override default values for all iconpacks
+    #  _default {
+    #     native = svgSprite, webfont
+    #     rte = webfont
+    #  }
+    #   Override values only for specific iconpacks by using their key
+    #  fa6 {
+    #     native = svgInline
+    #  }
+    #  glyphicons = webfont
+    #}
   }
 }
 

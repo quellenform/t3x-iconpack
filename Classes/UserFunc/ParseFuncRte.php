@@ -20,13 +20,13 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 final class ParseFuncRte
 {
 
-   /**
-    * This replaces all <span> tags that contain the "data-iconfig" attribute.
-    *
-    * @param  string The content to be processed.
-    * @param  array  TypoScript properties.
-    * @return string The content with replaced icon-tags.
-    */
+    /**
+     * This replaces all <span> tags that contain the "data-iconfig" attribute.
+     *
+     * @param  string The content to be processed.
+     * @param  array  TypoScript properties.
+     * @return string The content with replaced icon-tags.
+     */
     public function replaceIcons(string $content, array $conf): string
     {
         /** @var HtmlParser $htmlParser */

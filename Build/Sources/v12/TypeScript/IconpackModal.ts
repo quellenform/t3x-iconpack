@@ -27,7 +27,7 @@ class IconpackModal {
     modalTitle: string,
     urlParams: UrlParams,
     callbackAddIcon: CallableFunction,
-    callbackCearIcon: CallableFunction
+    callbackClearIcon: CallableFunction
   ) {
     console.groupCollapsed('IconpackModal::openIconpackModal()'); //? DEBUG GROUP
 
@@ -80,7 +80,7 @@ class IconpackModal {
         btnClass: 'btn-warning',
         name: 'clear',
         action: new DeferredAction((() => {
-          callbackCearIcon();
+          callbackClearIcon();
         }))
       });
     }
