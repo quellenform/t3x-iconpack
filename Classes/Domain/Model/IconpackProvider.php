@@ -66,8 +66,8 @@ class IconpackProvider
      */
     protected $preferredRenderTypes = [
         'backend' => [
-            'native' => ['svgSprite', 'svgInline', 'webfont', 'svg'],
-            // Note: svgSprite is currently implemented and available in principle, but not functional in TYPO3 v12,
+            'native' => ['svgInline', 'svgSprite', 'webfont', 'svg'],
+            // Note: svgSprite is currently implemented and available in principle, but not functional in TYPO3 v12+,
             // ...and svgInline causes more problems in RTE than it solves and therefore makes no sense.
             'rte' => ['webfont', 'svg']
         ],
