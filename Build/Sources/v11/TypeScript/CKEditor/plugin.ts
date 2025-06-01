@@ -18,7 +18,7 @@
   // Add plugin Iconpack
   CKEDITOR.plugins.add('iconpack', {
 
-    lang: 'en,de',
+    lang: 'en,de,da',
     requires: 'widget',
     icons: 'iconpack',
     hidpi: true,
