@@ -10,3 +10,4 @@
 /Makefile
 /Documentation/conf.py
 /.terignore
+.cache
