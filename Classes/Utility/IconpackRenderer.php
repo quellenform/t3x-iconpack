@@ -256,9 +256,9 @@ class IconpackRenderer
                     foreach ($nodeAttributes as $key => $value) {
                         $svgAttributes[strtolower($key)] = $value->__toString();
                     }
-                   // Unset additional CSS-classes from SVG file
+                    // Unset additional CSS-classes from SVG file
                     unset($svgAttributes['class']);
-                   // Add all child nodes to innerHtml
+                    // Add all child nodes to innerHtml
                     $svgNodes = $xml->xpath('//xmlns:svg/*') ?? [];
                     foreach ($svgNodes as $value) {
                         $innerHtml .= $value->asXML();
@@ -350,10 +350,14 @@ class IconpackRenderer
                     break;
             }
             unset($attributes['role']);
-            unset($attributes['aria-hidden']);
+            $attributes['aria-hidden'] = 'true';
         } else {
             // Remove data attribute in the frontend output, we don't need it there...
             unset($attributes['data-iconfig']);
+            // Add aria-hidden if there is no title or alt attribute to hide it in screen readers
+            if (empty($attributes['title']) && empty($attributes['alt'])) {
+                $attributes['aria-hidden'] = 'true';
+            }
             switch ($elementName) {
                 case 'svg':
                     // Set empty alt attribute if it does not exist
