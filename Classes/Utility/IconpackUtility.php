@@ -144,7 +144,11 @@ class IconpackUtility
     public static function selectIconpackStyleConf(array $styles, ?string $style): array
     {
         if ($style) {
-            return $styles[$style];
+            if (isset($styles[$style])) {
+                return $styles[$style];
+            } else {
+                return [];
+            }
         } else {
             return reset($styles);
         }
