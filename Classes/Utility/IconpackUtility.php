@@ -401,8 +401,9 @@ class IconpackUtility
      */
     protected static function getStreamlinedFileName(string $file): string
     {
+        $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
         if (strpos($file, 'EXT:') === 0) {
-            if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.4.0', '>=')) {
+            if (version_compare($typo3Version, '11.4.0', '>=')) {
                 $file = Environment::getPublicPath() . '/' . PathUtility::getPublicResourceWebPath($file, false);
             } else {
                 $file = GeneralUtility::getFileAbsFileName($file);
@@ -411,7 +412,10 @@ class IconpackUtility
             $file = PathUtility::getRelativePathTo($file) ?? '';
             $file = rtrim($file, '/');
         } else {
-            $file = GeneralUtility::resolveBackPath($file);
+            if (version_compare($typo3Version, '14.0.0', '<')) {
+
+                $file = GeneralUtility::resolveBackPath($file);
+            }
         }
         $file = GeneralUtility::createVersionNumberedFilename($file);
         $file = PathUtility::getAbsoluteWebPath($file);
