@@ -366,9 +366,9 @@ class IconpackFactory implements SingletonInterface
     {
         $assets = [];
         foreach (static::$availableIconpacks as $iconpack) {
-            $fieldType = ($scope === 'ckeditor' ? ['rte'] : ['native', 'rte']);
+            $fieldTypes = ($scope === 'ckeditor' ? ['rte'] : ['native', 'rte']);
             $renderTypesConfig = $this->queryConfig($iconpack, 'renderTypes');
-            foreach (['native', 'rte'] as $fieldType) {
+            foreach ($fieldTypes as $fieldType) {
                 $renderType = $this->resolvePreferredRenderType($renderTypesConfig, $iconpack, $fieldType);
                 if ($renderType) {
                     foreach ($renderTypesConfig[$renderType] as $styleConf) {
