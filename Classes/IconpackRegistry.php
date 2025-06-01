@@ -124,6 +124,11 @@ class IconpackRegistry implements SingletonInterface
                             $jsonData = file_get_contents($sourceFile);
                             $conf = json_decode($jsonData, true);
                         }
+                    } else {
+                        throw new InvalidArgumentException(
+                            'Iconpack configuration file \'' . $sourceFile . '\' could not be found!',
+                            2100109275
+                        );
                     }
                 }
             }
