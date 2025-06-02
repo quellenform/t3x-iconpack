@@ -413,7 +413,7 @@ class IconpackUtility
             $file = rtrim($file, '/');
         } else {
             if (version_compare($typo3Version, '14.0.0', '<')) {
-
+                // @extensionScannerIgnoreLine
                 $file = GeneralUtility::resolveBackPath($file);
             }
         }
