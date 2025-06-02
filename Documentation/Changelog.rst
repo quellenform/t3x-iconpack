@@ -8,6 +8,12 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.1.11
+======
+
+- 9cc6073 That thing with localization has been rolled back and implemented correctly
+- 8679068 Fixed false positive in extension scanner (v14)
+
 1.1.10
 ======
 
