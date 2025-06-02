@@ -13,10 +13,10 @@ namespace Quellenform\Iconpack\Domain\Model;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use Quellenform\Iconpack\Utility\IconpackLocalization;
 use Quellenform\Iconpack\Utility\IconpackUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * IconpackProvider
@@ -134,7 +134,6 @@ class IconpackProvider
         $this->setAdditionalOptions($config['options'] ?? null);
         $this->setCategories($config['categories'] ?? null);
         $this->setIcons($config['icons'] ?? null);
-        $this->localization = GeneralUtility::makeInstance(IconpackLocalization::class);
     }
 
     /**
@@ -150,7 +149,7 @@ class IconpackProvider
      */
     public function getTitle(): string
     {
-        return $this->localization->getTranslatedLabel($this->title);
+        return $this->getTranslatedLabel($this->title);
     }
 
     /**
@@ -374,7 +373,7 @@ class IconpackProvider
             if (in_array($key, $allowedKeys)) {
                 switch ($key) {
                     case 'label':
-                        $configArray[$key] = $this->localization->getTranslatedLabel($value, null);
+                        $configArray[$key] = $this->getTranslatedLabel($value, null);
                         break;
                     case 'css':
                         $configArray[$key] = $this->mergeAsset($key, $config);
@@ -492,7 +491,7 @@ class IconpackProvider
             foreach ($this->options as $optionKey => $option) {
                 if (isset($option['type']) && !empty($option['type'])) {
                     $optionConf = [
-                        'label' => $this->localization->getTranslatedLabel($option['label'], $optionKey),
+                        'label' => $this->getTranslatedLabel($option['label'], $optionKey),
                         'type' => $option['type']
                     ];
                     switch ($option['type']) {
@@ -501,7 +500,7 @@ class IconpackProvider
                                 foreach ($option['values'] as $key => $values) {
                                     if (isset($values['attributes']) && is_array($values['attributes'])) {
                                         $optionConf['values'][$key]['label']
-                                            = $this->localization->getTranslatedLabel($values['label']);
+                                            = $this->getTranslatedLabel($values['label']);
                                         $optionConf['values'][$key]['attributes']
                                             = IconpackUtility::explodeAttributes($values['attributes']);
                                         // This is required for JavaScript
@@ -547,7 +546,7 @@ class IconpackProvider
         if ($this->categories) {
             foreach ($this->categories as $key => $category) {
                 $categories[$key] = [
-                    'label' => $this->localization->getTranslatedLabel(
+                    'label' => $this->getTranslatedLabel(
                         $category['label'],
                         IconpackUtility::keyToWord($key)
                     ),
@@ -598,5 +597,25 @@ class IconpackProvider
             }
         }
         return $icons;
+    }
+
+    /**
+     * Get a translated label.
+     *
+     * @param string $label
+     * @param string|null $default
+     *
+     * @return string
+     */
+    public function getTranslatedLabel(string $label, ?string $default = ''): string
+    {
+        if (!empty($label)) {
+            if (strpos(trim($label), 'LLL:') === 0) {
+                $label = LocalizationUtility::translate($label, 'iconpack');
+            }
+        } else {
+            $label = $default;
+        }
+        return $label;
     }
 }

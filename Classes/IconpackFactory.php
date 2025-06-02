@@ -17,12 +17,16 @@ use Quellenform\Iconpack\Domain\Model\IconpackProvider;
 use Quellenform\Iconpack\Exception\IconpackException;
 use Quellenform\Iconpack\IconpackCache;
 use Quellenform\Iconpack\IconpackRegistry;
-use Quellenform\Iconpack\Utility\IconpackLocalization;
 use Quellenform\Iconpack\Utility\IconpackRenderer;
 use Quellenform\Iconpack\Utility\IconpackUtility;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Core\Localization\Locale;
+use TYPO3\CMS\Core\Localization\Locales;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
@@ -66,6 +70,11 @@ class IconpackFactory implements SingletonInterface
      * @var string|null
      */
     protected static $context = null;
+
+    /**
+     * @var string|null
+     */
+    protected static $langCode = null;
 
     /**
      * @var array|null
@@ -666,9 +675,43 @@ class IconpackFactory implements SingletonInterface
      */
     private function getCacheIdentifier(string $cacheIdentifier): string
     {
-        $langCode = GeneralUtility::makeInstance(IconpackLocalization::class)->getLanguageCode();
+        $langCode = $this->getLanguageCode();
         //$cacheIdentifier = 'Iconpack_' . $langCode . '_' . str_replace(':', '-', $cacheIdentifier); // DEV
         $cacheIdentifier = 'Iconpack_' . md5($langCode . '_' . $cacheIdentifier);
         return $cacheIdentifier;
+    }
+
+    /**
+     * Get current language code.
+     *
+     * @return string
+     */
+    private function getLanguageCode(): string
+    {
+        if (empty(static::$langCode)) {
+            $langCode = 'default';
+            if (static::$context === 'backend') {
+                if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.4', '>=')) {
+                    $localeFactory = GeneralUtility::makeInstance(Locales::class);
+                    /** @var Locale|null $locale */
+                    $locale = $localeFactory->createLocaleFromRequest($GLOBALS['TYPO3_REQUEST'] ?? null);
+                    if ($langCode) {
+                        $langCode = $locale->getLanguageCode();
+                    }
+                } else {
+                    if (isset($GLOBALS['BE_USER']->uc['lang'])) {
+                        $langCode = $GLOBALS['BE_USER']->uc['lang'];
+                    }
+                }
+            } else {
+                $context = GeneralUtility::makeInstance(Context::class);
+                /** @var Site $site */
+                $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
+                $langId = $context->getPropertyFromAspect('language', 'id');
+                $langCode = $site->getLanguageById($langId)->getTypo3Language();
+            }
+            static::$langCode = (empty($langCode) || $langCode === 'en') ? 'default' : $langCode;
+        }
+        return static::$langCode;
     }
 }
