@@ -100,6 +100,7 @@ headers, but it can also be used to extend fields of your own extensions.
     - [Feather Icons](https://github.com/quellenform/t3x-iconpack-feather)
     - [Font Awesome](https://github.com/quellenform/t3x-iconpack-fontawesome)
     - [Helium Icons](https://github.com/quellenform/t3x-iconpack-helium)
+    - [Iconoir Icon](https://github.com/quellenform/t3x-iconpack-iconoir)
     - [Ikons vector icons](https://github.com/quellenform/t3x-iconpack-ikons)
     - [Ionicons](https://github.com/quellenform/t3x-iconpack-ionicons)
     - [Linea Icons](https://github.com/quellenform/t3x-iconpack-linea)
@@ -107,7 +108,9 @@ headers, but it can also be used to extend fields of your own extensions.
     - [Lineicons](https://github.com/quellenform/t3x-iconpack-lineicons)
     - Material Icons (WIP)
     - [Octicons](https://github.com/quellenform/t3x-iconpack-octicons)
+    - [Tabler Icons](https://github.com/quellenform/t3x-iconpack-tabler-icons)
     - [Themify Icons](https://github.com/quellenform/t3x-iconpack-themify)
+    - [TYPO3 Icons](https://github.com/quellenform/t3x-iconpack-typo3)
     - ...or create your own iconpack provider
 3. Add the provided TypoScript to your template
 4. [Optional] Install the [Iconpack for Bootstrap
