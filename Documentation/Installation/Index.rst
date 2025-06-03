@@ -25,13 +25,16 @@ Installation
    - `Feather Icons <https://extensions.typo3.org/extension/iconpack_feather>`_
    - `Font Awesome <https://extensions.typo3.org/extension/iconpack_fontawesome>`_
    - `Helium Icons <https://extensions.typo3.org/extension/iconpack_helium>`_
+   - `Iconoir Icon <https://github.com/quellenform/t3x-iconpack-iconoir>`_
    - `Ikons vector icons <https://extensions.typo3.org/extension/iconpack_ikons>`_
    - `Ionicons <https://extensions.typo3.org/extension/iconpack_ionicons>`_
    - `Linea Icons <https://extensions.typo3.org/extension/iconpack_linea>`_
    - `Linearicons <https://extensions.typo3.org/extension/iconpack_linearicons>`_
    - `Lineicons <https://extensions.typo3.org/extension/iconpack_lineicons>`_
    - `Octicons <https://extensions.typo3.org/extension/iconpack_octicons>`_
+   - `Tabler Icons <https://github.com/quellenform/t3x-iconpack-tabler-icons>`_
    - `Themify Icons <https://extensions.typo3.org/extension/iconpack_themify>`_
+   - `TYPO3 Icons <https://github.com/quellenform/t3x-iconpack-typo3>`_
 
    .. rst-class:: horizbuttons-tip-m
 

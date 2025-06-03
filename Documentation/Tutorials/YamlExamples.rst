@@ -23,10 +23,10 @@ Example 1 (Simple)
 
       renderTypes:
          webfont:
-            css: "EXT:iconpack_mfg/Resources/Public/Css/CustomWebfont.css"
-            prefix: "mfg-"
+            css: "EXT:iconpack_ci/Resources/Public/Css/CustomWebfont.css"
+            prefix: "ci-"
             attributes:
-               class: "mfg"
+               class: "ci"
                aria-hidden: "true"
                role: "img"
 

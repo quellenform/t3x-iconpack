@@ -59,7 +59,7 @@ commas, which represent a sequence. If an iconpack does not contain the
 requested *renderType*, the next defined *renderType* is used.
 
 To override the default settings for rendering iconpacks, the key
-`plugin.tx_iconpack.overrides.renderTypes` is created in the template or in the
+`plugin.tx_iconpack.settings.renderTypes` is created in the template or in the
 respective page. The settings can apply to all iconpacks with the key
 `_default`, or can refer to a specific iconpack.
 
@@ -180,8 +180,8 @@ Example of manual CKEditor 4 configuration (TYPO3 v10/11)
 
 
 
-Example of manual CKEditor 5 configuration (TYPO3 v12)
-------------------------------------------------------
+Example of manual CKEditor 5 configuration (TYPO3 v12+)
+-------------------------------------------------------
 
 .. code-block:: yaml
 

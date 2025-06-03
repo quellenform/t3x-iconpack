@@ -160,7 +160,7 @@ TypoScript:
 
 .. code-block:: typoscript
 
-   plugin.tx_iconpack.settings.overrides.renderTypes.mci = svg
+   plugin.tx_iconpack.settings.renderTypes.mci = svg
 
 
 
