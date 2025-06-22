@@ -23,7 +23,6 @@ use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
  */
 class IconpackProvider
 {
-
     /**
      * Title of the iconpack
      *

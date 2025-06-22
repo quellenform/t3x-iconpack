@@ -26,7 +26,6 @@ use TYPO3\HtmlSanitizer\Builder\BuilderInterface;
  */
 class IconpackHtmlSanitizer extends DefaultSanitizerBuilder implements BuilderInterface
 {
-
     /**
      * @var Behavior\Attr
      */

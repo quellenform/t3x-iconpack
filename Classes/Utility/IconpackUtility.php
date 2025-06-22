@@ -27,7 +27,6 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  */
 class IconpackUtility
 {
-
     /**
      * Parse the TypoScript/TS configuration for overriding the current rendertypes in Backend and Frontend.
      *

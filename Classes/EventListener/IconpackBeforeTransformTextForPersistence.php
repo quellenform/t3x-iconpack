@@ -22,7 +22,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 #[AsEventListener('IconpackBeforeTransformTextForPersistence')]
 final class IconpackBeforeTransformTextForPersistence
 {
-
     public function __invoke(BeforeTransformTextForPersistenceEvent $event): void
     {
         // Convert HTML markup to icon elements

@@ -26,7 +26,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 final class AssetRenderer
 {
-
     public function addCss()
     {
         if (($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface) {

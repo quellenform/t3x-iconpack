@@ -31,7 +31,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class IconpackRegistry implements SingletonInterface
 {
-
     /**
      * Array of iconpack provider objects.
      *

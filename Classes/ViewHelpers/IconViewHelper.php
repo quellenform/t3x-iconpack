@@ -25,7 +25,6 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
  */
 class IconViewHelper extends AbstractViewHelper
 {
-
     protected $escapeOutput = false;
 
     public function initializeArguments(): void

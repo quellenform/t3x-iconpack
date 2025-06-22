@@ -19,7 +19,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class ParseFuncRte
 {
-
     /**
      * This replaces all <span> tags that contain the "data-iconfig" attribute.
      *

@@ -25,7 +25,6 @@ use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforePrepareConfigurationForEditor
  */
 class IconpackPrepareConfigurationForEditor
 {
-
     /**
      * This event is fired before starting the prepare of the editor configuration.
      */

@@ -33,7 +33,6 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  */
 class IconpackWizardElement extends AbstractFormElement
 {
-
     /**
      * @var IconpackFactory
      */
@@ -111,7 +110,7 @@ class IconpackWizardElement extends AbstractFormElement
                 '@quellenform/iconpack-wizard.js'
             )->instance('#' . $fieldId);
         } elseif (version_compare($typo3Version, '11.5.0', '>=')) {
-            // @php-ignore
+            /** @disregard P1013 Undefined method */
             // @extensionScannerIgnoreLine
             $resultArray['requireJsModules'][] = JavaScriptModuleInstruction::forRequireJS(
                 'TYPO3/CMS/Iconpack/v11/IconpackWizard'

@@ -21,7 +21,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class IconpackHtmlParser
 {
-
     /**
      * Run-away brake for recursive calls.
      *

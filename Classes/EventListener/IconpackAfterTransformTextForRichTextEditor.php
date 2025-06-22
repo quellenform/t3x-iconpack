@@ -22,7 +22,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 #[AsEventListener('IconpackAfterTransformTextForRichTextEditor')]
 final class IconpackAfterTransformTextForRichTextEditor
 {
-
     public function __invoke(AfterTransformTextForRichTextEditorEvent $event): void
     {
         $event->setHtmlContent(

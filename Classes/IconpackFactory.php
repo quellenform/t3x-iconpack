@@ -46,7 +46,6 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
  */
 class IconpackFactory implements SingletonInterface
 {
-
     /**
      * @var IconpackRegistry
      */

@@ -24,7 +24,6 @@ use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforeGetExternalPluginsEvent;
  */
 class IconpackGetExternalPlugins
 {
-
     /**
      * This event is fired before processing external plugin configuration.
      */

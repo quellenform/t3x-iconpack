@@ -19,7 +19,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class IconpackRenderer
 {
-
     /**
      * The SVG content for SVG inline element
      *
