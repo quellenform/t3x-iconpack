@@ -1,0 +1,16 @@
+// sizing icons
+// -------------------------
+
+// literal magnification scale
+@for $i from 1 through 10 {
+  .#{$iconpack-css-prefix}-#{$i}x {
+    font-size: $i * 1em;
+  }
+}
+
+// step-based scale (with alignment)
+@each $size, $value in $iconpack-sizes {
+  .#{$iconpack-css-prefix}-#{$size} {
+     @include iconpack-size($value);
+  }
+}

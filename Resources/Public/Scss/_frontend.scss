@@ -1,0 +1,18 @@
+.#{$iconpack-css-prefix} {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: var(--#{$iconpack-css-prefix}-display, #{$iconpack-display});
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-rendering: auto;
+	width: var(--#{$iconpack-css-prefix}-width, #{$iconpack-width});
+	height: var(--#{$iconpack-css-prefix}-height, #{$iconpack-height});
+	vertical-align: var(--#{$iconpack-css-prefix}-vertical-align, #{$iconpack-vertical-align});
+	margin-right: var(--#{$iconpack-css-prefix}-margin-right, #{$iconpack-margin-right});
+
+}
+
+span.#{$iconpack-css-prefix} {
+	vertical-align: 0;
+}

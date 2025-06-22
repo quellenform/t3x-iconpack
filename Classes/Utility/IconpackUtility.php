@@ -13,8 +13,10 @@ namespace Quellenform\Iconpack\Utility;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use InvalidArgumentException;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
+use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -193,7 +195,13 @@ class IconpackUtility
     public static function filterAttributes(?array $attributes): array
     {
         $allowedAttributes = [
-            'data-iconfig', 'id', 'name', 'class', 'style', 'alt', 'title'
+            'data-iconfig',
+            'id',
+            'name',
+            'class',
+            'style',
+            'alt',
+            'title'
         ];
         foreach ($attributes as $key => $value) {
             if (!in_array($key, $allowedAttributes)) {
@@ -269,6 +277,34 @@ class IconpackUtility
             }
         }
         return $arr1;
+    }
+
+    /**
+     * Merge two multidimensional asset arrays recursively.
+     * Unlike array_merge_recursive, existing keys are not overwritten, but numeric keys are appended.
+     *
+     * @param array $arr1
+     * @param array $arr2
+     *
+     * @return array
+     */
+    public static function mergeAssets(array &$arr1, array $arr2): array
+    {
+        $merged = $arr1;
+        foreach ($arr2 as $key => &$value) {
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = self::mergeAssets($merged[$key], $value);
+            } else {
+                if (is_int($key)) {
+                    $merged[] = $value;
+                } else {
+                    if (!isset($merged[$key])) {
+                        $merged[$key] = $value;
+                    }
+                }
+            }
+        }
+        return $merged;
     }
 
     /**
@@ -420,5 +456,27 @@ class IconpackUtility
         $file = GeneralUtility::createVersionNumberedFilename($file);
         $file = PathUtility::getAbsoluteWebPath($file);
         return $file;
+    }
+
+    /**
+     * Load configuration from YAML file.
+     *
+     * @param string $filename The name of the YAML file to be loaded.
+     * @param string $requireKey The specified key must exist.
+     *
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    public static function loadYamlFile(string $filename, string $requireKey = ''): array
+    {
+        $yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
+        $yamlContent = $yamlFileLoader->load($filename);
+        if (!empty($requireKey) && !isset($yamlContent[$requireKey])) {
+            throw new InvalidArgumentException(
+                'Failed to load YAML file: Missing key \'' . $requireKey . '\'.',
+                2100109272
+            );
+        }
+        return $yamlContent;
     }
 }

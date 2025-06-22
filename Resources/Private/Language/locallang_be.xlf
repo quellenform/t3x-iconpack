@@ -13,6 +13,9 @@
 			<trans-unit id="extConf.autoAddAssets" resname="extConf.autoAddAssets">
 				<source>Add Assets to the Frontend: If activated, the assets required by the installed iconpacks (Stylesheets &amp; JavaScripts) will be automatically added to the Frontend.</source>
 			</trans-unit>
+			<trans-unit id="extConf.defaultConfig" resname="extConf.defaultConfig">
+				<source>Default configuration: Path to the YAML configuration file containing the default options for all installed icon packs. Leave this field blank to disable it, or use your own configuration file. (Don't forget to clear the cache!) Default value: EXT:iconpack/Configuration/Iconpack/Default.yaml</source>
+			</trans-unit>
 			<trans-unit id="extConf.configFile" resname="extConf.configFile">
 				<source>Configuration File: Path to the YAML-configuration file (Leave empty for default value).</source>
 			</trans-unit>
@@ -160,7 +163,7 @@
 				<source>Fade Left</source>
 			</trans-unit>
 			<trans-unit id="transform.fade-right" resname="transform.fade-right">
-				<source>Fade Down</source>
+				<source>Fade Right</source>
 			</trans-unit>
 			<trans-unit id="transform.fade-up" resname="transform.fade-up">
 				<source>Fade Up</source>

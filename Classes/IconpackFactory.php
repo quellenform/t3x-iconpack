@@ -19,6 +19,7 @@ use Quellenform\Iconpack\IconpackCache;
 use Quellenform\Iconpack\IconpackRegistry;
 use Quellenform\Iconpack\Utility\IconpackRenderer;
 use Quellenform\Iconpack\Utility\IconpackUtility;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Localization\Locale;
@@ -302,30 +303,7 @@ class IconpackFactory implements SingletonInterface
                 if (!isset($this->config[$iconpackKey])) {
                     // Check if any iconpacks are installed at all
                     if ($this->areThereAnyIconpacksInstalled()) {
-                        // Create a new configuration from all registered iconpacks
-                        foreach (static::$availableIconpacks as $iconpack) {
-                            /** @var IconpackProvider $iconpackProvider */
-                            $iconpackProvider
-                                = $this->iconpackRegistry->getIconpackProviderByIdentifier($iconpack);
-                            $this->config[$iconpack] = [
-                                'title' => $iconpackProvider->getTitle(),
-                                'key' => $iconpackProvider->getKey(),
-                                'version' => $iconpackProvider->getVersion(),
-                                'url' => $iconpackProvider->getUrl(),
-                                'logo' => $iconpackProvider->getLogo(),
-                                'renderTypes' => $iconpackProvider->getRenderTypes(),
-                                'stylesEnabled' => $iconpackProvider->getStylesEnabled(),
-                                'categories' => $iconpackProvider->getCategories(),
-                                'icons' => $iconpackProvider->getIcons(),
-                                'options' => $iconpackProvider->getAdditionalOptions()
-                            ];
-                        }
-                        if ($this->config) {
-                            $this->iconpackCache->setCacheByIdentifier(
-                                $this->getCacheIdentifier('config'),
-                                $this->config
-                            );
-                        }
+                        $this->queryConfigFromAvailableIconpacks();
                     }
                 }
             }
@@ -334,6 +312,63 @@ class IconpackFactory implements SingletonInterface
             return $this->config[$iconpackKey][$selection] ?? null;
         }
         return $this->config[$iconpackKey] ?? null;
+    }
+
+    /**
+     * Query configuration from all available iconpacks.
+     *
+     * @return void
+     */
+    private function queryConfigFromAvailableIconpacks(): void
+    {
+        $defaultConfiguration = $this->getDefaultConfigurationFromYaml();
+        // Create a new configuration from all registered iconpacks
+        foreach (static::$availableIconpacks as $iconpack) {
+            /** @var IconpackProvider $iconpackProvider */
+            $iconpackProvider = $this->iconpackRegistry->getIconpackProviderByIdentifier($iconpack);
+            $iconpackProvider->setAdditionalOptionsCss(
+                $defaultConfiguration
+            );
+            $this->config[$iconpack] = [
+                'title' => $iconpackProvider->getTitle(),
+                'key' => $iconpackProvider->getKey(),
+                'version' => $iconpackProvider->getVersion(),
+                'url' => $iconpackProvider->getUrl(),
+                'logo' => $iconpackProvider->getLogo(),
+                'renderTypes' => $iconpackProvider->getRenderTypes(),
+                'stylesEnabled' => $iconpackProvider->getStylesEnabled(),
+                'categories' => $iconpackProvider->getCategories(),
+                'icons' => $iconpackProvider->getIcons(),
+                'options' => $iconpackProvider->getAdditionalOptions(
+                    $defaultConfiguration['options'] ?? []
+                )
+            ];
+        }
+        if ($this->config) {
+            $this->iconpackCache->setCacheByIdentifier(
+                $this->getCacheIdentifier('config'),
+                $this->config
+            );
+        }
+    }
+
+    /**
+     * Load default configuration for all iconpacks from YAML file.
+     *
+     * @return array
+     */
+    protected function getDefaultConfigurationFromYaml(): array
+    {
+        $configuration = [];
+        /** @var ExtensionConfiguration $extConf */
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+        $yamlFile = (string) trim($extConf->get('iconpack', 'defaultConfig'));
+        if (!empty($yamlFile)) {
+            $configuration = IconpackUtility::loadYamlFile($yamlFile, 'iconpack');
+            return $configuration['iconpack'];
+        } else {
+            return [];
+        }
     }
 
     /**

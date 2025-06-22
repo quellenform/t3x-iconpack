@@ -97,6 +97,14 @@ class IconpackProvider
      * @var array|null
      */
     protected $options = null;
+
+    /**
+     * The default CSS transforms for iconpack options
+     *
+     * @var array|null
+     */
+    protected $optionsCss = null;
+
     /**
      * Iconpack categories
      *
@@ -306,6 +314,7 @@ class IconpackProvider
                     );
                 }
             }
+            $this->mergeOptionsCss($renderTypes);
         }
         // Explode attributes into array after merging
         foreach ($renderTypes as $typeKey => $typeConf) {
@@ -317,6 +326,31 @@ class IconpackProvider
             }
         }
         return $renderTypes;
+    }
+
+    /**
+     * Merge the default CSS for the iconpack options into the renderTypes array.
+     *
+     * @param array $renderTypes
+     *
+     * @return void
+     */
+    private function mergeOptionsCss(array &$renderTypes): void
+    {
+        if ($this->optionsCss) {
+            $optionsCssConfig = $this->mergeAsset('css', $this->optionsCss);
+            foreach ($renderTypes as $typeKey => $typeConf) {
+                foreach ($typeConf as $styleKey => $styleConf) {
+                    if (!isset($styleConf['css'])) {
+                        $renderTypes[$typeKey][$styleKey]['css'] = [];
+                    }
+                    $renderTypes[$typeKey][$styleKey]['css'] = IconpackUtility::mergeAssets(
+                        $renderTypes[$typeKey][$styleKey]['css'],
+                        $optionsCssConfig
+                    );
+                }
+            }
+        }
     }
 
     /**
@@ -482,47 +516,92 @@ class IconpackProvider
     /**
      * Get additional options for this iconpack.
      *
+     * @param array|null $optionsConfig
+     *
      * @return array|null
      */
-    public function getAdditionalOptions(): ?array
+    public function getAdditionalOptions(?array $optionsConfig = null): ?array
     {
-        $additionalOptions = null;
         if ($this->options) {
-            foreach ($this->options as $optionKey => $option) {
-                if (isset($option['type']) && !empty($option['type'])) {
-                    $optionConf = [
-                        'label' => $this->getTranslatedLabel($option['label'], $optionKey),
-                        'type' => $option['type']
-                    ];
-                    switch ($option['type']) {
-                        case 'select':
-                            if (isset($option['values']) && is_array($option['values'])) {
-                                foreach ($option['values'] as $key => $values) {
-                                    if (isset($values['attributes']) && is_array($values['attributes'])) {
-                                        $optionConf['values'][$key]['label']
-                                            = $this->getTranslatedLabel($values['label']);
-                                        $optionConf['values'][$key]['attributes']
-                                            = IconpackUtility::explodeAttributes($values['attributes']);
-                                        // This is required for JavaScript
-                                        $optionConf['values'][$key]['attributesString']
-                                            = json_encode($values['attributes']);
-                                    }
-                                }
-                            }
-                            break;
-                        case 'checkbox':
-                            if (isset($option['attributes']) && is_array($option['attributes'])) {
-                                $optionConf['attributes'] = IconpackUtility::explodeAttributes($option['attributes']);
-                                // This is required for JavaScript
-                                $optionConf['attributesString'] = json_encode($option['attributes']);
-                            }
-                            break;
-                    }
-                    $additionalOptions[$optionKey] = $optionConf;
+            return $this->parseOptions($this->options);
+        } elseif ($optionsConfig && is_array($optionsConfig)) {
+            return $this->parseOptions($optionsConfig);
+        }
+        return [];
+    }
+
+    /**
+     * Sets the default CSS used by the iconpack options.
+     *
+     * @param array|null $config
+     *
+     * @return void
+     */
+    public function setAdditionalOptionsCss(?array $config = []): void
+    {
+        if (isset($config['optionsCss'])) {
+            $this->optionsCss['css'] = $config['optionsCss'];
+        }
+    }
+
+    /**
+     * Parse the options configuration from the given array.
+     *
+     * @param array $options
+     *
+     * @return array
+     */
+    private function parseOptions(array $optionsConfig): array
+    {
+        $result = [];
+        foreach ($optionsConfig as $optionKey => $option) {
+            if (isset($option['type']) && !empty($option['type'])) {
+                $options = [
+                    'label' => $this->getTranslatedLabel($option['label'], $optionKey),
+                    'type' => $option['type']
+                ];
+                switch ($option['type']) {
+                    case 'select':
+                        if (isset($option['values']) && is_array($option['values'])) {
+                            $options['values'] = $this->getOptionsSelectValues($option);
+                        }
+                        break;
+                    case 'checkbox':
+                        if (isset($option['attributes']) && is_array($option['attributes'])) {
+                            $options['attributes'] = IconpackUtility::explodeAttributes($option['attributes']);
+                            // This is required for JavaScript
+                            $options['attributesString'] = json_encode($option['attributes']);
+                        }
+                        break;
                 }
+                $result[$optionKey] = $options;
             }
         }
-        return $additionalOptions;
+        return $result;
+    }
+
+    /**
+     * Get the select items for the options dropdown.
+     *
+     * @param array $option
+     *
+     * @return array
+     */
+    private function getOptionsSelectValues(array $option): array
+    {
+        $selectValues = [];
+        foreach ($option['values'] as $key => $values) {
+            if (isset($values['attributes']) && is_array($values['attributes'])) {
+                $selectValues[$key]['label']
+                    = $this->getTranslatedLabel($values['label']);
+                $selectValues[$key]['attributes']
+                    = IconpackUtility::explodeAttributes($values['attributes']);
+                // This is required for JavaScript
+                $selectValues[$key]['attributesString']
+                    = json_encode($values['attributes']);
+            }
+        }
+        return $selectValues;
     }
 
     /**

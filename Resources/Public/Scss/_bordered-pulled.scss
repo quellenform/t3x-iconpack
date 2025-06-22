@@ -1,0 +1,20 @@
+// bordered + pulled icons
+// -------------------------
+
+.#{$iconpack-css-prefix}-border {
+  border-color: var(--#{$iconpack-css-prefix}-border-color, #{$iconpack-border-color});
+  border-radius: var(--#{$iconpack-css-prefix}-border-radius, #{$iconpack-border-radius});
+  border-style: var(--#{$iconpack-css-prefix}-border-style, #{$iconpack-border-style});
+  border-width: var(--#{$iconpack-css-prefix}-border-width, #{$iconpack-border-width});
+  padding: var(--#{$iconpack-css-prefix}-border-padding, #{$iconpack-border-padding});
+}
+
+.#{$iconpack-css-prefix}-pull-left {
+  float: left;
+  margin-right: var(--#{$iconpack-css-prefix}-pull-margin, #{$iconpack-pull-margin});
+}
+
+.#{$iconpack-css-prefix}-pull-right {
+  float: right;
+  margin-left: var(--#{$iconpack-css-prefix}-pull-margin, #{$iconpack-pull-margin});
+}

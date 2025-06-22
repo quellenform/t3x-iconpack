@@ -1,16 +1,6 @@
-$iconpackCssClass: iconpack;
+// Iconpack frontend CSS
+// -------------------------
 
-svg,
-span,
-img {
-	&.#{$iconpackCssClass} {
-		width: auto;
-		height: 1em;
-		vertical-align: -0.125em;
-		margin-right: 0.125em;
-	}
-}
-
-span.iconpack {
-	vertical-align: 0;
-}
+@import 'functions';
+@import 'variables';
+@import 'frontend';

@@ -2,3 +2,5 @@
 autoConfigRte = 1
 # cat=basic/enable/4; type=boolean; label=LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:extConf.autoAddAssets
 autoAddAssets = 1
+# cat=basic/1; type=string; label=LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:extConf.defaultConfig
+defaultConfig = EXT:iconpack/Configuration/Iconpack/Default.yaml

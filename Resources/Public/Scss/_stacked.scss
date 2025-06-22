@@ -1,0 +1,32 @@
+// stacking icons
+// -------------------------
+
+.#{$iconpack-css-prefix}-stack {
+  display: inline-block;
+  height: 2em;
+  line-height: 2em;
+  position: relative;
+  vertical-align: $iconpack-stack-vertical-align;
+  width: $iconpack-stack-width;
+}
+
+.#{$iconpack-css-prefix}-stack-1x,
+.#{$iconpack-css-prefix}-stack-2x {
+  left: 0;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  z-index: var(--#{$iconpack-css-prefix}-stack-z-index, #{$iconpack-stack-z-index});
+}
+
+.#{$iconpack-css-prefix}-stack-1x {
+  line-height: inherit;
+}
+
+.#{$iconpack-css-prefix}-stack-2x {
+  font-size: 2em;
+}
+
+.#{$iconpack-css-prefix}-inverse {
+  color: var(--#{$iconpack-css-prefix}-inverse, #{$iconpack-inverse});
+}
