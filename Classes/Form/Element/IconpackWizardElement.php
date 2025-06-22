@@ -111,6 +111,7 @@ class IconpackWizardElement extends AbstractFormElement
                 '@quellenform/iconpack-wizard.js'
             )->instance('#' . $fieldId);
         } elseif (version_compare($typo3Version, '11.5.0', '>=')) {
+            // @php-ignore
             // @extensionScannerIgnoreLine
             $resultArray['requireJsModules'][] = JavaScriptModuleInstruction::forRequireJS(
                 'TYPO3/CMS/Iconpack/v11/IconpackWizard'
@@ -145,7 +146,8 @@ class IconpackWizardElement extends AbstractFormElement
 
     /**
      * Changed in version 13.3
-     * The label of a custom field does not get rendered automatically anymore but must be rendered with $this->renderLabel($fieldId) or $this->wrapWithFieldsetAndLegend().
+     * The label of a custom field does not get rendered automatically anymore but must be
+     * rendered with $this->renderLabel($fieldId) or $this->wrapWithFieldsetAndLegend().
      * see https://docs.typo3.org/m/typo3/reference-tca/main/en-us/ColumnsConfig/Type/User/Index.html
      *
      * @param array $expansionHtml

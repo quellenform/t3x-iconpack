@@ -695,6 +695,6 @@ class IconpackProvider
         } else {
             $label = $default;
         }
-        return $label;
+        return $label ?? '';
     }
 }

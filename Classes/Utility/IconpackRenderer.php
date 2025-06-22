@@ -84,7 +84,11 @@ class IconpackRenderer
                 break;
         }
 
-        self::finalizeAttributes($conf['type'], $attributes, $innerHtml, $context);
+        if ($context === 'backend') {
+            self::finalizeElementForBackend($conf['type'], $attributes);
+        } else {
+            self::finalizeElementForFrontend($conf['type'], $attributes, $innerHtml);
+        }
         return [
             'type' => $conf['type'],
             'elementName' => $conf['elementName'] ?? $elementName,
@@ -327,59 +331,68 @@ class IconpackRenderer
     }
 
     /**
-     * Cleanup some attributes.
+     * Cleanup attributes for backend output.
+     *
+     * @param string $elementName
+     * @param array $attributes
+     *
+     * @return void
+     */
+    private static function finalizeElementForBackend(
+        string $elementName,
+        array &$attributes
+    ): void {
+        switch ($elementName) {
+            case 'svgSprite':
+            case 'svgInline':
+                $attributes['xmlns'] = 'http://www.w3.org/2000/svg';
+                break;
+        }
+        unset($attributes['role']);
+        $attributes['aria-hidden'] = 'true';
+    }
+
+    /**
+     * Cleanup attributes for frontend output.
      *
      * @param string $elementName
      * @param array $attributes
      * @param string $innerHtml
-     * @param string $context
      *
      * @return void
      */
-    private static function finalizeAttributes(
+    private static function finalizeElementForFrontend(
         string $elementName,
         array &$attributes,
-        string &$innerHtml,
-        string $context
+        string &$innerHtml
     ): void {
-        if ($context === 'backend') {
-            switch ($elementName) {
-                case 'svgSprite':
-                case 'svgInline':
-                    $attributes['xmlns'] = 'http://www.w3.org/2000/svg';
-                    break;
-            }
-            unset($attributes['role']);
+        // Remove data attribute in the frontend output, we don't need it there...
+        unset($attributes['data-iconfig']);
+        // Add aria-hidden if there is no title or alt attribute to hide it in screen readers
+        if (empty($attributes['title']) && empty($attributes['alt'])) {
             $attributes['aria-hidden'] = 'true';
-        } else {
-            // Remove data attribute in the frontend output, we don't need it there...
-            unset($attributes['data-iconfig']);
-            // Add aria-hidden if there is no title or alt attribute to hide it in screen readers
-            if (empty($attributes['title']) && empty($attributes['alt'])) {
-                $attributes['aria-hidden'] = 'true';
-            }
-            switch ($elementName) {
-                case 'svg':
-                    // Set empty alt attribute if it does not exist
-                    if (!isset($attributes['alt'])) {
-                        $attributes['alt'] = '';
-                    }
-                    break;
-                case 'svgSprite':
-                case 'svgInline':
-                    unset($attributes['name']);
-                    $attributes['xmlns'] = 'http://www.w3.org/2000/svg';
-                    // Moves the alt and title attribute to the innerHtml.
-                    if (!empty($attributes['alt'])) {
-                        $innerHtml = '<desc>' . $attributes['alt'] . '</desc>' . $innerHtml;
-                        unset($attributes['alt']);
-                    }
-                    if (!empty($attributes['title'])) {
-                        $innerHtml = '<title>' . $attributes['title'] . '</title>' . $innerHtml;
-                        unset($attributes['title']);
-                    }
-                    break;
-            }
+        }
+        switch ($elementName) {
+            case 'svg':
+                // Set empty alt attribute if it does not exist
+                if (!isset($attributes['alt'])) {
+                    $attributes['alt'] = '';
+                }
+                break;
+            case 'svgSprite':
+            case 'svgInline':
+                unset($attributes['name']);
+                $attributes['xmlns'] = 'http://www.w3.org/2000/svg';
+                // Moves the alt and title attribute to the innerHtml.
+                if (!empty($attributes['alt'])) {
+                    $innerHtml = '<desc>' . $attributes['alt'] . '</desc>' . $innerHtml;
+                    unset($attributes['alt']);
+                }
+                if (!empty($attributes['title'])) {
+                    $innerHtml = '<title>' . $attributes['title'] . '</title>' . $innerHtml;
+                    unset($attributes['title']);
+                }
+                break;
         }
     }
 }
