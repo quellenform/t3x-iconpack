@@ -1,51 +1,18 @@
-/* CKEditor 4 */
+// Iconpack for CKEditor 4
+// -------------------------
+
 .cke_widget_wrapper {
-
 	&.cke_widget_iconpack {
-
-		margin: 0 2px 0 1px;
-		padding: 0 3px;
-		pointer-events: visiblepainted;
-		cursor: default;
-
-		>.cke_widget_element {
-			fill: currentColor;
-			width: auto;
-			height: 1em;
-			vertical-align: -.125em;
-		}
-
 		>span.cke_widget_element {
-			vertical-align: 0;
-		}
-
-		&:hover>.cke_widget_element {
-			outline: 2px solid #ffd25c;
-			outline: none;
-		}
-
-		&:hover {
-			outline: 2px solid #ffd25c;
-
-		}
-
-		>.cke_widget_drag_handler_container {
-			background-color: rgba(220, 220, 220, 0.5);
-			top: -15px;
-			left: 0px;
-		}
-
-		&.cke_widget_focused>.cke_widget_element {
-			outline: none;
-		}
-
-		&.cke_widget_focused {
-			outline: 2px solid #47a4f5;
+			padding: 0 3px;
+			cursor: default;
 		}
 	}
 }
 
-/* CKEditor 5 */
+// Iconpack for CKEditor 5
+// -------------------------
+
 .ck-widget-iconpack {
 	padding: 0 3px;
 	display: inline-block;
