@@ -23,6 +23,7 @@ Installation
    - `Dripicons <https://extensions.typo3.org/extension/iconpack_dripicons>`_
    - `Elegant Icons <https://extensions.typo3.org/extension/iconpack_elegant>`_
    - `Feather Icons <https://extensions.typo3.org/extension/iconpack_feather>`_
+   - `Flag Icons <https://github.com/CMS-Internetsolutions/iconpack_flagicons>`_
    - `Font Awesome <https://extensions.typo3.org/extension/iconpack_fontawesome>`_
    - `Helium Icons <https://extensions.typo3.org/extension/iconpack_helium>`_
    - `Iconoir Icon <https://github.com/quellenform/t3x-iconpack-iconoir>`_

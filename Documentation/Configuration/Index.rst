@@ -133,13 +133,24 @@ The following settings are currently available:
    If enabled, all CSS files required by the installed iconpacks are
    automatically included in the frontend.
 
+.. confval:: defaultConfig
+
+   :type: string
+   :default: EXT:iconpack/Configuration/Iconpack/Default.yaml
+
+   Path to the YAML configuration file containing the default options for all
+   installed icon packs. Leave this field blank to disable it, or use your own
+   configuration file. If you specify your own file here, it will overwrite
+   the default options for all icon packs, unless they contain their own options.
+   Please also note that you must specify a corresponding CSS file for rendering
+   the respective options in the YAML file with the key *optionsCss* (see example below).
+
 .. important::
    Changing the extension configuration requires an emptying of the TYPO3 cache
    for the changes to take effect!
 
-If you deactivate these settings, however, you will have to make the required
-configuration yourself and integrate it into your own setup. Use the following
-two examples...
+If you deactivate *autoConfigRte* or *autoAddAssets*, however, you will have to make the required
+configuration yourself and integrate it into your own setup. Use the following two examples...
 
 
 
@@ -202,3 +213,152 @@ Example of manual CKEditor 5 configuration (TYPO3 v12+)
                - Iconpack
 
 (Please take at look at the examples, located in *Configuration/RTE/*)
+
+
+
+Example of a YAML file for custom options
+-----------------------------------------
+
+.. code-block:: yaml
+
+   iconpack:
+      optionsCss:
+         transforms: "EXT:iconpack/Resources/Public/Css/IconpackTransforms.min.css"
+
+      options:
+         size:
+            type: "select"
+            label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.size"
+            values:
+            xs:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.xs"
+               attributes:
+                  class: "iconpack-xs"
+            sm:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.sm"
+               attributes:
+                  class: "iconpack-sm"
+            md:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.md"
+               attributes:
+                  class: "iconpack-md"
+            lg:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.lg"
+               attributes:
+                  class: "iconpack-lg"
+            1x:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.1x"
+               attributes:
+                  class: "iconpack-1x"
+            2x:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.2x"
+               attributes:
+                  class: "iconpack-2x"
+            3x:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.3x"
+               attributes:
+                  class: "iconpack-3x"
+            4x:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.4x"
+               attributes:
+                  class: "iconpack-4x"
+            5x:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.5x"
+               attributes:
+                  class: "iconpack-5x"
+            6x:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.6x"
+               attributes:
+                  class: "iconpack-6x"
+            7x:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.7x"
+               attributes:
+                  class: "iconpack-7x"
+            8x:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.8x"
+               attributes:
+                  class: "iconpack-8x"
+            9x:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.9x"
+               attributes:
+                  class: "iconpack-9x"
+            10x:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:size.10x"
+               attributes:
+                  class: "iconpack-10x"
+
+         decoration:
+            type: "select"
+            label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.decoration"
+            values:
+            border:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:decoration.border"
+               attributes:
+                  class: "iconpack-border"
+
+         transform:
+            type: "select"
+            label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.transform"
+            values:
+            r90:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.90"
+               attributes:
+                  class: "iconpack-rotate-90"
+            r180:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.180"
+               attributes:
+                  class: "iconpack-rotate-180"
+            r270:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.270"
+               attributes:
+                  class: "iconpack-rotate-270"
+            fx:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.flipHorizontal"
+               attributes:
+                  class: "iconpack-flip-horizontal"
+            fy:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.flipVertical"
+               attributes:
+                  class: "iconpack-flip-vertical"
+            fxy:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.flipBoth"
+               attributes:
+                  class: "iconpack-flip-both"
+            beat:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.beat"
+               attributes:
+                  class: "iconpack-beat"
+            bounce:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.bounce"
+               attributes:
+                  class: "iconpack-bounce"
+            fade:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.fade"
+               attributes:
+                  class: "iconpack-fade"
+            beat-fade:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.beat-fade"
+               attributes:
+                  class: "iconpack-beat-fade"
+            flip:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.flip"
+               attributes:
+                  class: "iconpack-flip"
+            shake:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.shake"
+               attributes:
+                  class: "iconpack-shake"
+            spin:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.spin"
+               attributes:
+                  class: "iconpack-spin"
+            spin-pulse:
+               label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:transform.spin-pulse"
+               attributes:
+                  class: "iconpack-spin-pulse"
+
+         fixed:
+            type: "checkbox"
+            label: "LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.fixed"
+            attributes:
+            class: "iconpack-fw"

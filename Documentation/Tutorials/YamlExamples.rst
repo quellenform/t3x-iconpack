@@ -27,8 +27,6 @@ Example 1 (Simple)
             prefix: "ci-"
             attributes:
                class: "ci"
-               aria-hidden: "true"
-               role: "img"
 
       icons:
          - cloud
@@ -57,9 +55,6 @@ Example 2 (Extended)
          webfont:
             css: "EXT:iconpack_bootstrap/Resources/Public/Vendor/icons-1.10.2/font/bootstrap-icons.css"
             prefix: "bi-"
-            attributes:
-               aria-hidden: "true"
-               role: "img"
 
          image:
             source: "EXT:iconpack_bootstrap/Resources/Public/Vendor/icons-1.10.2/icons/"
@@ -69,7 +64,7 @@ Example 2 (Extended)
          svgSprite:
             source: "EXT:iconpack_bootstrap/Resources/Public/Vendor/icons-1.10.2/bootstrap-icons.svg"
             attributes:
-            class: "bi"
+               class: "bi"
                fill: "currentColor"
 
          svgInline:
@@ -142,9 +137,6 @@ Example 3 (Complex)
                css:
                   # Include in all webfonts-styles in all scopes (backend, CKEeditor, frontend)
                   shared: "EXT:iconpack_fontawesome/Resources/Public/Css/StylesForAllWebfonts.css"
-               attributes:
-                  aria-hidden: "true"
-                  role: "img"
             regular:
                css: "EXT:iconpack_fontawesome/Resources/Public/Css/regular.css"
             solid:
@@ -160,7 +152,6 @@ Example 3 (Complex)
                   frontend: "EXT:iconpack_fontawesome/Resources/Public/Css/SvgFrontend.css"
                attributes:
                   fill: "currentColor"
-                  role: "img"
             regular:
                source: "EXT:iconpack_fontawesome/Resources/Public/Sprites/regular.svg"
             solid:
@@ -176,7 +167,6 @@ Example 3 (Complex)
                   frontend: "EXT:iconpack_fontawesome/Resources/Public/Css/SvgFrontend.css"
                attributes:
                   fill: "currentColor"
-                  role: "img"
             regular:
                source: "EXT:iconpack_fontawesome/Resources/Public/Svg/regular/"
             solid:
@@ -184,6 +174,8 @@ Example 3 (Complex)
             brands:
                source: "EXT:iconpack_fontawesome/Resources/Public/Svg/brands/"
 
+      # If you specify your own options here, they will be used instead of the default options.
+      # Please note that you must also use the corresponding CSS in the renderTypes above.
       options:
          customCheckbox:
             type: "checkbox"
@@ -253,5 +245,3 @@ or in the case of an SVG to
 
          svgInline:
             source: "EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons-4.1.0/svgs/%1$s/"
-            attributes:
-               role: "img"
