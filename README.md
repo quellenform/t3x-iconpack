@@ -98,6 +98,7 @@ headers, but it can also be used to extend fields of your own extensions.
     - [Dripicons](https://github.com/quellenform/t3x-iconpack-dripicons)
     - [Elegant Icons](https://github.com/quellenform/t3x-iconpack-elegant)
     - [Feather Icons](https://github.com/quellenform/t3x-iconpack-feather)
+    - [Flag Icons](https://github.com/CMS-Internetsolutions/iconpack_flagicons)
     - [Font Awesome](https://github.com/quellenform/t3x-iconpack-fontawesome)
     - [Helium Icons](https://github.com/quellenform/t3x-iconpack-helium)
     - [Iconoir Icon](https://github.com/quellenform/t3x-iconpack-iconoir)
