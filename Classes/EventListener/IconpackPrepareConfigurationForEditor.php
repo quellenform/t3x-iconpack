@@ -14,8 +14,8 @@ namespace Quellenform\Iconpack\EventListener;
  */
 
 use Quellenform\Iconpack\IconpackFactory;
+use Quellenform\Iconpack\Utility\IconpackUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforePrepareConfigurationForEditorEvent;
@@ -37,10 +37,9 @@ class IconpackPrepareConfigurationForEditor
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class);
         // Auto configure RTE
         if ((bool) $extConf->get('iconpack', 'autoConfigRte')) {
-            $yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
             // Add configuration from YAML
             if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
-                $yaml = $yamlFileLoader->load(
+                $yaml = IconpackUtility::loadYamlFile(
                     'EXT:iconpack/Configuration/RTE/IconpackConfig-v11.yaml'
                 );
                 // Get CSS for CKEditor from installed iconpacks
@@ -53,7 +52,7 @@ class IconpackPrepareConfigurationForEditor
                     $yaml['editor']['config']['contentsCss'][] = $cssFile;
                 }
             } else {
-                $yaml = $yamlFileLoader->load(
+                $yaml = IconpackUtility::loadYamlFile(
                     'EXT:iconpack/Configuration/RTE/IconpackConfig-v12.yaml'
                 );
             }

@@ -13,8 +13,8 @@ namespace Quellenform\Iconpack\EventListener;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Quellenform\Iconpack\Utility\IconpackUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforeGetExternalPluginsEvent;
@@ -36,8 +36,7 @@ class IconpackGetExternalPlugins
         ) {
             $configuration = $event->getConfiguration();
             // Get the external plugin configuration from YAML file
-            $yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
-            $yaml = $yamlFileLoader->load(
+            $yaml = IconpackUtility::loadYamlFile(
                 'EXT:iconpack/Configuration/RTE/IconpackConfig-v11.yaml'
             );
             $iconpackConfiguration = $yaml['editor']['externalPlugins'];

@@ -15,7 +15,7 @@ namespace Quellenform\Iconpack;
 
 use InvalidArgumentException;
 use Quellenform\Iconpack\Domain\Model\IconpackProvider;
-use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
+use Quellenform\Iconpack\Utility\IconpackUtility;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -69,27 +69,19 @@ class IconpackRegistry implements SingletonInterface
                 2100109271
             );
         }
-        $yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
-        $configuration = $yamlFileLoader->load($configurationFile);
-        if (!isset($configuration['iconpack'])) {
-            throw new InvalidArgumentException(
-                'The iconpack configuration could not be found in YAML file.',
-                2100109272
-            );
-        }
+
+        $configuration = IconpackUtility::loadYamlFile($configurationFile, 'iconpack');
 
         // Merge configuration files
         if ($configurationFileMerge && !empty($configurationFileMerge)) {
             $sourceFileMerge = GeneralUtility::getFileAbsFileName($configurationFileMerge);
             if (file_exists($sourceFileMerge)) {
-                $configurationMerge = $yamlFileLoader->load($configurationFileMerge);
-                if (isset($configurationMerge['iconpack'])) {
-                    // Merge only main keys!
-                    $configuration['iconpack'] = array_merge(
-                        $configuration['iconpack'],
-                        $configurationMerge['iconpack']
-                    );
-                }
+                $configurationMerge = IconpackUtility::loadYamlFile($configurationFileMerge, 'iconpack');
+                // Merge only main keys!
+                $configuration['iconpack'] = array_merge(
+                    $configuration['iconpack'],
+                    $configurationMerge['iconpack']
+                );
             }
         }
 
@@ -119,7 +111,7 @@ class IconpackRegistry implements SingletonInterface
                     $sourceFile = GeneralUtility::getFileAbsFileName($conf);
                     if (file_exists($sourceFile)) {
                         if ($fileExt === 'yml' || $fileExt === 'yaml') {
-                            $conf = $yamlFileLoader->load($sourceFile);
+                            $conf = IconpackUtility::loadYamlFile($sourceFile);
                         } elseif ($fileExt === 'json') {
                             $jsonData = file_get_contents($sourceFile);
                             $conf = json_decode($jsonData, true);
