@@ -22,7 +22,6 @@ use TYPO3\CMS\Frontend\ContentObject\DataProcessorInterface;
 
 class IconpackProcessor implements DataProcessorInterface
 {
-
     /**
      * Preprocess fields from database-record for use in fluid-templates.
      *

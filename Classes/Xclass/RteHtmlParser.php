@@ -21,7 +21,6 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  */
 class RteHtmlParser extends CoreRteHtmlParser
 {
-
     /**
      * Main entry point for transforming RTE content in the database so the Rich Text Editor can deal with
      * e.g. links.
