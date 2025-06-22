@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.0
+
+- a9d0cfe Fixed PSR-2 coding style
+- 7df6e8b Code cleanup/refactoring
+- 01c6e69 Unify YAML file loader
+- 70e4c0e Added default options for iconpacks
+- e133121 Optimized CSS for CKEditor4
+- 5a0ca24 Fixed icon height in backend field
+
 ## 1.1.11
 - 9cc6073 That thing with localization has been rolled back and implemented correctly
 - 8679068 Fixed false positive in extension scanner (v14)
