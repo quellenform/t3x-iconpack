@@ -56,9 +56,13 @@ call_user_func(static function () {
     }
 
     if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12.3.0', '>=')) {
-        // https://docs.typo3.org/c/typo3/cms-core/12.4/en-us/Changelog/12.3/Deprecation-100033-TBE_STYLESStylesheetAndStylesheet2.html
-        $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['iconpack']
-            = 'EXT:iconpack/Resources/Public/Css/Backend/FormEngine/IconpackWizard.min.css';
+        if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '13.2.0', '>=')) {
+            $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['iconpack']
+                = 'EXT:iconpack/Resources/Public/Css/Backend/FormEngine/IconpackWizard.min.css';
+        } else {
+            $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['iconpack']
+                = 'EXT:iconpack/Resources/Public/Css/Backend/FormEngine/v12/IconpackWizard.min.css';
+        }
     }
 
     // Hook to add iconpack assets to the AssetsCollector in the FE/BE:
