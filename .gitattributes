@@ -8,11 +8,11 @@
 /.phplint.yml export-ignore
 /.vscode export-ignore
 /Build/ export-ignore
-/Tests/ export-ignore
 /crowdin.yml export-ignore
 /phpcs.xml export-ignore
 /phpstan.neon export-ignore
 /phpunit.xml export-ignore
+/Tests/ export-ignore
 
 # Enforce checkout with linux lf consistent over all platforms
 *.css text eol=lf
