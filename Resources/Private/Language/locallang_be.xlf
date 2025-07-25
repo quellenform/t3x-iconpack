@@ -20,7 +20,7 @@
 				<source>Configuration File: Path to the YAML-configuration file (Leave empty for default value).</source>
 			</trans-unit>
 			<trans-unit id="extConf.stylesEnabled" resname="extConf.stylesEnabled">
-				<source>Enable styles: Enter the identifiers of the styles that should be activated for this iconpack. Leave the field empty if you want to use the values predefined in the iconpack's YAML configuration file. Don't forget to clear the cache after making any changes.</source>
+				<source>Enable styles: Enter the identifiers (separated by commas) of the styles that should be activated for this iconpack. Leave the field empty if you want to use the values predefined in the iconpack's YAML configuration file. Don't forget to clear the cache after making any changes.</source>
 			</trans-unit>
 
 			<trans-unit id="js.label.iconNative" resname="js.label.iconNative">
