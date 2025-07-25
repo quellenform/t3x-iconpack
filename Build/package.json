@@ -1,23 +1,42 @@
 {
 	"name": "t3x-iconpack",
-	"description": "",
-	"repository": "",
+	"terName": "iconpack",
+	"version": "1.3.0",
+	"repository": "https://github.com/quellenform/t3x-iconpack",
+	"description": "Provides an iconpack-registry for various iconpacks in TYPO3.",
 	"readme": "../README.md",
-	"homepage": "",
-	"author": "",
-	"version": "1.1.10",
-	"license": "GPL-2.0+",
+	"homepage": "https://www.quellenform.at/",
+	"author": "Stephan Kellermayr",
+	"license": "GPL-3.0+",
 	"engines": {
 		"npm": ">=9.0.0 <10.2"
 	},
 	"devDependencies": {
-		"@ckeditor/ckeditor5-core": "^40.0.0",
-		"@ckeditor/ckeditor5-html-support": "^40.0.0",
+		"@ckeditor/ckeditor5-core": "40.0.0",
+		"@ckeditor/ckeditor5-html-support": "40.0.0",
 		"@ckeditor/ckeditor5-link": "40.0.0",
-		"@ckeditor/ckeditor5-ui": "^40.0.0",
-		"@types/ckeditor": "^4.9.10",
+		"@ckeditor/ckeditor5-ui": "40.0.0",
+		"@types/ckeditor": "4.9.10",
 		"@types/jquery": "2.0.47",
-		"@types/node": "^22.15.3",
-		"typescript": "~5.0.0"
+		"@types/node": "22.15.3",
+		"typescript": "5.8.2",
+		"grunt": "1.6.1",
+		"grunt-contrib-cssmin": "5.0.0",
+		"grunt-contrib-pug": "3.0.0",
+		"grunt-contrib-uglify": "gruntjs/grunt-contrib-uglify#harmony",
+		"grunt-endline": "0.7.0",
+		"grunt-exec": "3.0.0",
+		"grunt-jsbeautifier": "0.2.13",
+		"grunt-sass": "3.1.0",
+		"run-script-os": "1.1.6",
+		"sass-embedded": "1.89.2"
+	},
+	"scripts": {
+		"build": "run-script-os",
+		"build:win32": ".\\node_modules\\.bin\\grunt.cmd build",
+		"build:default": "./node_modules/.bin/grunt build",
+		"build-dev": "run-script-os",
+		"build-dev:win32": ".\\node_modules\\.bin\\grunt.cmd build-dev",
+		"build-dev:default": "./node_modules/.bin/grunt build-dev"
 	}
 }

@@ -1,0 +1,36 @@
+{
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"alwaysStrict": true,
+		"baseUrl": "./",
+		"downlevelIteration": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"incremental": true,
+		"module": "es2020",
+		"moduleResolution": "node",
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noUnusedLocals": true,
+		"outDir": "../../../../Resources/Public/JavaScript/v12/",
+		"paths": {
+			"@quellenform/iconpack.js": ["./Iconpack.ts"],
+			"@quellenform/iconpack-modal.js": ["./IconpackModal.ts"],
+			"@quellenform/iconpack-wizard.js": ["./IconpackWizard.ts"],
+			"@quellenform/iconpack-ckeditor.js": ["./CKEditor/plugin.ts"]
+		},
+		"pretty": true,
+		"removeComments": false,
+		"sourceMap": false,
+		"strictBindCallApply": true,
+		"strictBuiltinIteratorReturn": true,
+		"target": "es2020",
+		"tsBuildInfoFile": "./.cache/tsconfig.tsbuildinfo",
+		"typeRoots": ["../../../node_modules/@types", "../types"],
+		"useDefineForClassFields": false,
+		"useUnknownInCatchVariables": true,
+		"verbatimModuleSyntax": false
+	},
+	"include": ["./**/*.ts"]
+}

@@ -1,0 +1,20 @@
+@use 'variables';
+
+.#{variables.$iconpack-css-prefix} {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: var(--#{variables.$iconpack-css-prefix}-display, #{variables.$iconpack-display});
+  font-style: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-rendering: auto;
+	width: var(--#{variables.$iconpack-css-prefix}-width, #{variables.$iconpack-width});
+	height: var(--#{variables.$iconpack-css-prefix}-height, #{variables.$iconpack-height});
+	vertical-align: var(--#{variables.$iconpack-css-prefix}-vertical-align, #{variables.$iconpack-vertical-align});
+	margin-right: var(--#{variables.$iconpack-css-prefix}-margin-right, #{variables.$iconpack-margin-right});
+
+}
+
+span.#{variables.$iconpack-css-prefix} {
+	vertical-align: 0;
+}

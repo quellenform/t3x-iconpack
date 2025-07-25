@@ -1,0 +1,9 @@
+// fixed-width icons
+// -------------------------
+
+@use 'variables';
+
+.#{variables.$iconpack-css-prefix}-fw {
+  text-align: center;
+  width: variables.$iconpack-fw-width;
+}

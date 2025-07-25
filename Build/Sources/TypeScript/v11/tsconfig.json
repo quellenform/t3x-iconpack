@@ -1,0 +1,33 @@
+{
+	"compilerOptions": {
+		"allowSyntheticDefaultImports": true,
+		"alwaysStrict": true,
+		"baseUrl": "./",
+		"downlevelIteration": true,
+		"esModuleInterop": true,
+		"experimentalDecorators": true,
+		"incremental": true,
+		"module": "amd",
+		"moduleResolution": "node",
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noUnusedLocals": true,
+		"outDir": "../../../../Resources/Public/JavaScript/v11/",
+		"paths": {
+			"TYPO3/CMS/Iconpack/v11/*": ["./*"]
+		},
+		"pretty": true,
+		"removeComments": false,
+		"sourceMap": false,
+		"strictBindCallApply": true,
+		"strictBuiltinIteratorReturn": true,
+		"target": "es2017",
+		"tsBuildInfoFile": "./.cache/tsconfig.tsbuildinfo",
+		"typeRoots": ["../../../node_modules/@types", "../types"],
+		"useDefineForClassFields": false,
+		"useUnknownInCatchVariables": true,
+		"verbatimModuleSyntax": false
+	},
+	"include": ["./**/*.ts"]
+}

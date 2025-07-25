@@ -1,9 +1,0 @@
-// mixins
-// --------------------------
-
-// sets relative font-sizing and alignment (in _sizing)
-@mixin iconpack-size ($font-size) {
-  font-size: iconpack-divide($font-size, $iconpack-size-scale-base) * 1em; // converts step in sizing scale into an em-based value that's relative to the scale's base
-  line-height: iconpack-divide(1, $font-size) * 1em; // sets the line-height of the icon back to that of it's parent
-  vertical-align: (iconpack-divide(6, $font-size) - iconpack-divide(3, 8)) * 1em; // vertically centers the icon taking into account the surrounding text's descender
-}

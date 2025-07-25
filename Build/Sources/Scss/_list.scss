@@ -1,0 +1,20 @@
+// icons in a list
+// -------------------------
+
+@use 'variables';
+
+.#{variables.$iconpack-css-prefix}-ul {
+  list-style-type: none;
+  margin-left: var(--#{variables.$iconpack-css-prefix}-li-margin, #{variables.$iconpack-li-margin});
+  padding-left: 0;
+
+  > li { position: relative; }
+}
+
+.#{variables.$iconpack-css-prefix}-li {
+  left: calc(-1 * var(--#{variables.$iconpack-css-prefix}-li-width, #{variables.$iconpack-li-width}));
+  position: absolute;
+  text-align: center;
+  width: var(--#{variables.$iconpack-css-prefix}-li-width, #{variables.$iconpack-li-width});
+  line-height: inherit;
+}

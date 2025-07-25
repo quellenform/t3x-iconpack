@@ -1,0 +1,48 @@
+// variables
+// --------------------------
+
+@use 'functions';
+
+$iconpack-css-prefix            : iconpack !default;
+
+$iconpack-width                 : auto;
+$iconpack-height                : 1em;
+$iconpack-vertical-align        : -0.125em;
+$iconpack-margin-right          : 0.125em;
+
+$iconpack-display               : inline-block !default;
+
+$iconpack-fw-width              : functions.iconpack-divide(20em, 16) !default;
+$iconpack-inverse               : #fff !default;
+
+$iconpack-border-color          : #eee !default;
+$iconpack-border-padding        : .2em .25em .15em !default;
+$iconpack-border-radius         : .1em !default;
+$iconpack-border-style          : solid !default;
+$iconpack-border-width          : .08em !default;
+
+$iconpack-size-scale-2xs        : 10 !default;
+$iconpack-size-scale-xs         : 12 !default;
+$iconpack-size-scale-sm         : 14 !default;
+$iconpack-size-scale-base       : 16 !default;
+$iconpack-size-scale-lg         : 20 !default;
+$iconpack-size-scale-xl         : 24 !default;
+$iconpack-size-scale-2xl        : 32 !default;
+
+$iconpack-sizes: (
+  "2xs"                         : $iconpack-size-scale-2xs,
+  "xs"                          : $iconpack-size-scale-xs,
+  "sm"                          : $iconpack-size-scale-sm,
+  "lg"                          : $iconpack-size-scale-lg,
+  "xl"                          : $iconpack-size-scale-xl,
+  "2xl"                         : $iconpack-size-scale-2xl
+) !default;
+
+$iconpack-li-width              : 2em !default;
+$iconpack-li-margin             : $iconpack-li-width * functions.iconpack-divide(5, 4) !default;
+
+$iconpack-pull-margin           : .3em !default;
+
+$iconpack-stack-vertical-align  : middle !default;
+$iconpack-stack-width           : ($iconpack-fw-width * 2) !default;
+$iconpack-stack-z-index         : auto !default;

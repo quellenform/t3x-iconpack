@@ -1,0 +1,33 @@
+// rotating + flipping icons
+// -------------------------
+
+@use 'variables';
+
+.#{variables.$iconpack-css-prefix}-rotate-90 {
+  transform: rotate(90deg);
+}
+
+.#{variables.$iconpack-css-prefix}-rotate-180 {
+  transform: rotate(180deg);
+}
+
+.#{variables.$iconpack-css-prefix}-rotate-270 {
+  transform: rotate(270deg);
+}
+
+.#{variables.$iconpack-css-prefix}-flip-horizontal {
+  transform: scale(-1, 1);
+}
+
+.#{variables.$iconpack-css-prefix}-flip-vertical {
+  transform: scale(1, -1);
+}
+
+.#{variables.$iconpack-css-prefix}-flip-both,
+.#{variables.$iconpack-css-prefix}-flip-horizontal.#{variables.$iconpack-css-prefix}-flip-vertical {
+  transform: scale(-1, -1);
+}
+
+.#{variables.$iconpack-css-prefix}-rotate-by {
+  transform: rotate(var(--#{variables.$iconpack-css-prefix}-rotate-angle, 0));
+}

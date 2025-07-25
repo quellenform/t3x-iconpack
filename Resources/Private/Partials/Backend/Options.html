@@ -9,7 +9,7 @@
 						<select class="form-control form-control-adapt iconpack-option" data-key="{optionKey}">
 							<option value="" />
 							<f:for each="{optionConf.values}" key="key" as="item">
-								<option data-attributes="{f:format.htmlspecialchars(value:item.attributesString)}" value="{key}" {f:if(condition: item.selected, then: ' selected' )}>{item.label}</option>
+								<option data-attributes="{f:format.htmlspecialchars(value:item.attributesString)}" value="{key}" {f:if(condition: item.selected, then: ' selected')}>{item.label}</option>
 							</f:for>
 						</select>
 					</f:case>

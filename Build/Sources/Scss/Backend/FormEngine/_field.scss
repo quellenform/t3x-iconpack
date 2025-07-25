@@ -1,0 +1,42 @@
+
+// field
+// -------------------------
+
+.iconpack-icon {
+	height: 32px;
+	min-width: 32px;
+	width: 58px;
+	padding: 5px;
+
+	>span {
+		height: 100%;
+		width: min-content;
+		font-size: 20px;
+		line-height: 20px;
+		vertical-align: middle;
+		overflow: visible;
+
+		i,
+		img,
+		span,
+		svg {
+			top: 0;
+			min-width: 20px;
+			max-width: 32px !important;
+		}
+
+		span {
+			filter: var(--iconpack-filter, none);
+		}
+
+		svg {
+			font-size: var(--bs-btn-font-size);
+		}
+	}
+}
+
+.has-change .iconpack-icon {
+	border-color: var(--typo3-state-info-border-color, #6daae0);
+	background-color: var(--typo3-surface-container-info, #eeeeee);
+	box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+}
