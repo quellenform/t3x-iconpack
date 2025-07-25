@@ -107,7 +107,7 @@ headers, but it can also be used to extend fields of your own extensions.
     - [Linea Icons](https://github.com/quellenform/t3x-iconpack-linea)
     - [Linearicons](https://github.com/quellenform/t3x-iconpack-linearicons)
     - [Lineicons](https://github.com/quellenform/t3x-iconpack-lineicons)
-    - Material Icons (WIP)
+    - [Material Icons](https://github.com/quellenform/t3x-iconpack-material)
     - [Octicons](https://github.com/quellenform/t3x-iconpack-octicons)
     - [Tabler Icons](https://github.com/quellenform/t3x-iconpack-tabler-icons)
     - [Themify Icons](https://github.com/quellenform/t3x-iconpack-themify)
