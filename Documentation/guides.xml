@@ -12,7 +12,6 @@
         edit-on-github="quellenform/t3x-iconpack"
         typo3-core-preferred="stable" />
     <project title="Iconpack"
-        release="main (development)"
-        version="main (development)"
+        version="local"
         copyright="since 2020 by Quellenform &amp; contributors" />
 </guides>
