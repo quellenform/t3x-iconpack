@@ -8,6 +8,13 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.2.1
+=====
+
+- c128c78 Added build automation with Grunt & moved source files
+- e105339 Fixed light/dark mode in modal (v12+)
+- ec04179 Added translation for iconpack styles label
+
 1.2.0
 =====
 
