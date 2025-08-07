@@ -133,3 +133,13 @@ Documentation](https://docs.typo3.org/p/quellenform/t3x-iconpack/main/en-us/)
   part** to it
 - If you love the extension or if you want to support further development,
   [donate an amount of your choice](https://www.paypal.me/quellenform)
+
+## Credits
+
+I would like to thank everyone who contributed in any way to the creation of this extension, but especially:
+
+- [easyTherm Infrarotheizung](https://www.easy-therm.com/ "easyTherm Infrarotheizung – Effiziente Heizungssysteme")
+- Benjamin Mack
+- Werner Groß
+- Kurt Dirnbauer
+- All [contributors](https://github.com/quellenform/t3x-iconpack/graphs/contributors)

@@ -47,4 +47,5 @@ The most flexible icon system for TYPO3
    :hidden:
 
    Contribution
+   Credits
    Changelog
