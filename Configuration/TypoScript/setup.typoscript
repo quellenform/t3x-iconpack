@@ -71,3 +71,4 @@ lib.parseFunc_RTE.nonTypoTagStdWrap.HTMLparser.tags.svg.allowedAttribs = id, nam
 
 # Render icons in RTE fields
 lib.parseFunc_RTE.nonTypoTagUserFunc = Quellenform\Iconpack\UserFunc\ParseFuncRte->replaceIcons
+lib.parseFunc.nonTypoTagUserFunc < lib.parseFunc_RTE.nonTypoTagUserFunc
