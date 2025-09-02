@@ -10,13 +10,13 @@ services:
   Quellenform\Iconpack\EventListener\IconpackGetExternalPlugins:
     tags:
       - name: event.listener
-        identifier: 'IconpackGetExternalPlugins'
+        identifier: 'Quellenform/Iconpack/GetExternalPlugins'
         event: TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforeGetExternalPluginsEvent
 
   Quellenform\Iconpack\EventListener\IconpackPrepareConfigurationForEditor:
     tags:
       - name: event.listener
-        identifier: 'IconpackPrepareConfigurationForEditor'
+        identifier: 'Quellenform/Iconpack/PrepareConfigurationForEditor'
         event: TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforePrepareConfigurationForEditorEvent
 
   Quellenform\Iconpack\IconpackFactory:
