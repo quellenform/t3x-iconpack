@@ -12,7 +12,7 @@ call_user_func(static function () {
 
     if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '14', '<')) {
         // Register extension icon for the backend
-        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Imaging\IconRegistry::class
         )->registerIcon(
             'ext-iconpack',
