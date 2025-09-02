@@ -18,3 +18,16 @@ services:
       - name: event.listener
         identifier: 'IconpackPrepareConfigurationForEditor'
         event: TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforePrepareConfigurationForEditorEvent
+
+  Quellenform\Iconpack\IconpackFactory:
+    arguments:
+      $iconpackCache: '@Quellenform\Iconpack\IconpackCache'
+      $IconpackRegistry: '@Quellenform\Iconpack\IconpackRegistry'
+    public: true
+    shared: true
+
+  Quellenform\Iconpack\Html\IconpackHtmlParser:
+    arguments:
+      $iconpackFactory: '@Quellenform\Iconpack\IconpackFactory'
+    public: true
+    shared: true

@@ -29,6 +29,17 @@ class IconpackHtmlParser
     protected $transformSafecounter = 100;
 
     /**
+     * @var IconpackFactory
+     */
+    protected $iconpackFactory;
+
+    public function __construct(
+        IconpackFactory $iconpackFactory
+    ) {
+        $this->iconpackFactory = $iconpackFactory;
+    }
+
+    /**
      * Transform data on the way from RTE to DB.
      *
      * @param string $content
@@ -67,9 +78,7 @@ class IconpackHtmlParser
                     continue;
                 }
 
-                /** @var IconpackFactory $iconpackFactory */
-                $iconpackFactory = GeneralUtility::makeInstance(IconpackFactory::class);
-                $iconElement = $iconpackFactory->getIconElement(
+                $iconElement = $this->iconpackFactory->getIconElement(
                     IconpackUtility::convertIconfigToArray('rte', $iconfig)
                 );
                 if ($iconElement) {
@@ -110,8 +119,6 @@ class IconpackHtmlParser
         if (strpos($content, 'data-iconfig') === false) {
             return $content;
         } else {
-            /** @var IconpackFactory $iconpackFactory */
-            $iconpackFactory = GeneralUtility::makeInstance(IconpackFactory::class);
             $blockSplit = $htmlParser->splitIntoBlock('SPAN,ICON', $content);
             foreach ($blockSplit as $position => $value) {
                 if ($position % 2 === 0) {
@@ -123,7 +130,7 @@ class IconpackHtmlParser
                     continue;
                 }
                 try {
-                    $blockSplit[$position] = $iconpackFactory->getIconMarkup(
+                    $blockSplit[$position] = $this->iconpackFactory->getIconMarkup(
                         $iconfig,
                         'rte',
                         $attributes

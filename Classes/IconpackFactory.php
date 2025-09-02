@@ -24,7 +24,6 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Localization\Locale;
 use TYPO3\CMS\Core\Localization\Locales;
-use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -36,15 +35,15 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
  * is responsible for providing iconpacks. Checks for the correct Iconpack Provider through the IconpackRegistry.
  *
  * Normal usage:
- *   $iconpack = GeneralUtility::makeInstance(\Quellenform\Iconpack\IconpackFactory::class);
+ *   $iconpack = GeneralUtility::makeInstance(IconpackFactory::class);
  *   $iconpack->getIconMarkup($iconfigString);
  *
  * Usage with discrete context and no caching:
- *   $iconpack = GeneralUtility::makeInstance(\Quellenform\Iconpack\IconpackFactory::class, false);
+ *   $iconpack = GeneralUtility::makeInstance(IconpackFactory::class);
  *   $iconpack->setContext('backend');
  *   $iconpack->getIconMarkup($iconfigString);
  */
-class IconpackFactory implements SingletonInterface
+final class IconpackFactory
 {
     /**
      * @var IconpackRegistry
@@ -92,25 +91,17 @@ class IconpackFactory implements SingletonInterface
     protected static $defaultCssClass = '';
 
     /**
-     * @param bool $cacheEnabled
+     * Constructor
      */
-    public function __construct(bool $cacheEnabled = true)
-    {
-        //$cacheEnabled = false; // DEV
-        $this->iconpackRegistry = GeneralUtility::makeInstance(IconpackRegistry::class);
-        $this->setAvailableIconpacks();
-        $this->iconpackCache = GeneralUtility::makeInstance(IconpackCache::class, $cacheEnabled);
-        $this->setContext();
-    }
+    public function __construct(
+        IconpackCache $iconpackCache,
+        IconpackRegistry $IconpackRegistry
+    ) {
+        $this->iconpackRegistry = $IconpackRegistry;
+        $this->iconpackCache = $iconpackCache;
 
-    /**
-     * @internal
-     */
-    private function setAvailableIconpacks()
-    {
-        if (!static::$availableIconpacks) {
-            static::$availableIconpacks = $this->iconpackRegistry->getIconpackProviderIdentifiers();
-        }
+        static::$availableIconpacks = $this->iconpackRegistry->getIconpackProviderIdentifiers();
+        $this->setContext();
     }
 
     /**
