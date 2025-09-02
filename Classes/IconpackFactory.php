@@ -450,7 +450,9 @@ final class IconpackFactory
             return null;
         }
         if ($this->isIconpackInstalled($iconfig['iconpack'])) {
-            $cacheIdentifier = $this->getCacheIdentifier('iconpackIcons_' . $iconfig['iconpackStyle']);
+            $cacheIdentifier = $this->getCacheIdentifier(
+                'icons_' . $iconfig['iconpackStyle'] . '_' . $iconfig['fieldType']
+            );
             $iconpackIcons = $this->iconpackCache->getCacheByIdentifier($cacheIdentifier);
             if ($iconpackIcons) {
                 return $iconpackIcons;
