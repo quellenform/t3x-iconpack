@@ -8,6 +8,15 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.2.2
+=====
+
+- 03d7655 Redesigned caching mechanism and IconpackRegistry (thanks to @simonschaufi)
+- 013c353 Changed cache identifier and added fieldType
+- 102f5e9 Changed event listener identifiers
+- a23ad77 Added DI to IconpackFactory and IconpackHtmlParser
+- ce229a4 Added nonTypoTagUserFunc for rendering icons nested in lists (RTE content) (#42)
+
 1.2.1
 =====
 
