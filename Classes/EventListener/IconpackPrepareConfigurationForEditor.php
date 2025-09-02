@@ -15,18 +15,24 @@ namespace Quellenform\Iconpack\EventListener;
 
 use Quellenform\Iconpack\IconpackFactory;
 use Quellenform\Iconpack\Utility\IconpackUtility;
+use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforePrepareConfigurationForEditorEvent;
 
 /**
- * Apply configuration data for registered iconpack-providers.
+ * Apply configuration data for registered iconpack providers.
  */
-class IconpackPrepareConfigurationForEditor
+#[AsEventListener('IconpackPrepareConfigurationForEditor')]
+final class IconpackPrepareConfigurationForEditor
 {
     /**
      * This event is fired before starting the prepare of the editor configuration.
+     *
+     * @param BeforePrepareConfigurationForEditorEvent $event
+     *
+     * @return void
      */
     public function __invoke(BeforePrepareConfigurationForEditorEvent $event): void
     {

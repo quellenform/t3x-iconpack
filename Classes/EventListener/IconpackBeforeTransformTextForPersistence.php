@@ -19,9 +19,19 @@ use TYPO3\CMS\Core\Html\Event\BeforeTransformTextForPersistenceEvent;
 use TYPO3\CMS\Core\Html\HtmlParser;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+/**
+ * Modify RTE data on the way to the database.
+ */
 #[AsEventListener('IconpackBeforeTransformTextForPersistence')]
 final class IconpackBeforeTransformTextForPersistence
 {
+    /**
+     * This event is fired before RteHtmlParser modified the HTML input from RTE editor to the database.
+     *
+     * @param BeforeTransformTextForPersistenceEvent $event
+     *
+     * @return void
+     */
     public function __invoke(BeforeTransformTextForPersistenceEvent $event): void
     {
         // Convert HTML markup to icon elements
