@@ -694,18 +694,15 @@ final class IconpackFactory
     }
 
     /**
-     * Get the language specific cache identifier.
+     * Get a language specific cache identifier.
      *
      * @param string $cacheIdentifier
      *
      * @return string
      */
-    private function getCacheIdentifier(string $cacheIdentifier): string
+    public function getCacheIdentifier(string $cacheIdentifier): string
     {
-        $langCode = $this->getLanguageCode();
-        //$cacheIdentifier = 'Iconpack_' . $langCode . '_' . str_replace(':', '-', $cacheIdentifier); // DEV
-        $cacheIdentifier = 'Iconpack_' . md5($langCode . '_' . $cacheIdentifier);
-        return $cacheIdentifier;
+        return $this->getLanguageCode() . '_' . $cacheIdentifier;
     }
 
     /**

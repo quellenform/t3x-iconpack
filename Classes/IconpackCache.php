@@ -13,10 +13,7 @@ namespace Quellenform\Iconpack;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use TYPO3\CMS\Core\Cache\CacheManager;
 use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
-use TYPO3\CMS\Core\Cache\Frontend\VariableFrontend;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Iconpack cache helper.
@@ -24,38 +21,19 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class IconpackCache
 {
     /**
-     * @var bool
-     */
-    protected static $cacheEnabled = true;
-
-    /**
+     * Cache manager
+     *
      * @var FrontendInterface
      */
-    protected static $cache = null;
-
-    public function __construct(bool $enableCache = true)
-    {
-        static::$cacheEnabled = $enableCache;
-    }
+    private $cache;
 
     /**
-     * Get cache by identifier.
-     *
-     * @param string $identifier
-     *
-     * @return array|null
+     * Constructor
      */
-    public function getCacheByIdentifier(string $cacheIdentifier): ?array
-    {
-        if (static::$cacheEnabled) {
-            /** @var VariableFrontend $iconpackCache */
-            $iconpackCache = static::$cache ?? $this->getCache();
-            $data = $iconpackCache->get($cacheIdentifier);
-            if ($data !== false) {
-                return $data;
-            }
-        }
-        return null;
+    public function __construct(
+        FrontendInterface $cache
+    ) {
+        $this->cache = $cache;
     }
 
     /**
@@ -66,24 +44,48 @@ class IconpackCache
      *
      * @return void
      */
-    public function setCacheByIdentifier(string $cacheIdentifier, ?array $data = null)
+    public function setCacheByIdentifier(string $cacheIdentifier, ?array $data = null): void
     {
-        if (static::$cacheEnabled && $data) {
-            /** @var VariableFrontend $iconpackCache */
-            $iconpackCache = static::$cache ?? $this->getCache();
-            $iconpackCache->set($cacheIdentifier, $data);
-        }
+        $this->cache->set($this->getCacheIdentifier($cacheIdentifier), $data);
     }
 
     /**
-     * @param FrontendInterface $cache
-     * @internal
+     * Get data from the cache by identifier.
      *
-     * @return FrontendInterface
+     * @param string $identifier
+     *
+     * @return array|null
      */
-    private function getCache(): FrontendInterface
+    public function getCacheByIdentifier(string $cacheIdentifier): ?array
     {
-        static::$cache = GeneralUtility::makeInstance(CacheManager::class)->getCache('iconpack');
-        return static::$cache;
+        $data = $this->cache->get($this->getCacheIdentifier($cacheIdentifier));
+        if ($data !== false) {
+            return $data;
+        }
+        return null;
+    }
+
+    /**
+     * Check if cache has data with the given identifier.
+     *
+     * @param string $identifier
+     *
+     * @return bool
+     */
+    public function hasCacheIdentifier(string $cacheIdentifier): bool
+    {
+        return $this->cache->has($this->getCacheIdentifier($cacheIdentifier));
+    }
+
+    /**
+     * Get the final cache identifier.
+     *
+     * @param string $cacheIdentifier
+     *
+     * @return string
+     */
+    public function getCacheIdentifier(string $cacheIdentifier): string
+    {
+        return 'Iconpack_' . str_replace(':', '-', $cacheIdentifier);
     }
 }
