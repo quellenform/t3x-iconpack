@@ -210,7 +210,6 @@ final class IconpackRegistry
     }
 
     /**
-     * Validate if the given iconpack configuration contains a valid key and return a clear identifier.
      * Verify that the specified iconpack configuration contains a valid key and return a unique identifier.
      *
      * @param array $configuration
