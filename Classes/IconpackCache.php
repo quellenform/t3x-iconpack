@@ -18,7 +18,7 @@ use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 /**
  * Iconpack cache helper.
  */
-class IconpackCache
+final class IconpackCache
 {
     /**
      * Cache manager
@@ -84,7 +84,7 @@ class IconpackCache
      *
      * @return string
      */
-    public function getCacheIdentifier(string $cacheIdentifier): string
+    private function getCacheIdentifier(string $cacheIdentifier): string
     {
         return 'Iconpack_' . str_replace(':', '-', $cacheIdentifier);
     }
