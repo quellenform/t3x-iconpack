@@ -287,7 +287,7 @@ final class IconpackFactory
             if ($this->isIconpackInstalled($iconpackKey)) {
                 // Get the requested iconpack directly from cache
                 $this->config = $this->iconpackCache->getCacheByIdentifier(
-                    $this->getCacheIdentifier('config')
+                    $this->prefixCacheIdentifier('config')
                 );
                 // Check if the requested iconpack exists in the cache
                 if (!isset($this->config[$iconpackKey])) {
@@ -336,7 +336,7 @@ final class IconpackFactory
         }
         if ($this->config) {
             $this->iconpackCache->setCacheByIdentifier(
-                $this->getCacheIdentifier('config'),
+                $this->prefixCacheIdentifier('config'),
                 $this->config
             );
         }
@@ -450,7 +450,7 @@ final class IconpackFactory
             return null;
         }
         if ($this->isIconpackInstalled($iconfig['iconpack'])) {
-            $cacheIdentifier = $this->getCacheIdentifier(
+            $cacheIdentifier = $this->prefixCacheIdentifier(
                 'icons_' . $iconfig['iconpackStyle'] . '_' . $iconfig['fieldType']
             );
             $iconpackIcons = $this->iconpackCache->getCacheByIdentifier($cacheIdentifier);
@@ -700,7 +700,7 @@ final class IconpackFactory
      *
      * @return string
      */
-    public function getCacheIdentifier(string $cacheIdentifier): string
+    private function prefixCacheIdentifier(string $cacheIdentifier): string
     {
         return $this->getLanguageCode() . '_' . $cacheIdentifier;
     }
