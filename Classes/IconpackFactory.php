@@ -589,10 +589,10 @@ final class IconpackFactory
     ): ?array {
         // Check if the required fields are set and if the requested iconpack is installed
         if (
-            isset($iconfig['iconpack']) &&
-            isset($iconfig['icon']) &&
-            isset($iconfig['fieldType']) &&
-            $this->isIconpackInstalled($iconfig['iconpack'])
+            isset($iconfig['iconpack'])
+            && isset($iconfig['icon'])
+            && isset($iconfig['fieldType'])
+            && $this->isIconpackInstalled($iconfig['iconpack'])
         ) {
             // Check if a configuration exists for the requested iconpack
             $configuration = $this->queryConfig($iconfig['iconpack']);
