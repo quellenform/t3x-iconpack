@@ -34,11 +34,11 @@ final class IconpackPrepareConfigurationForEditor
      */
     public function __invoke(BeforePrepareConfigurationForEditorEvent $event): void
     {
-        $configuration = $event->getConfiguration();
         /** @var ExtensionConfiguration $extConf */
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class);
         // Auto configure RTE
         if ((bool) $extConf->get('iconpack', 'autoConfigRte')) {
+            $configuration = $event->getConfiguration();
             // Add configuration from YAML
             if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
                 $yaml = IconpackUtility::loadYamlFile(
