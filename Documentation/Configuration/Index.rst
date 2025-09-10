@@ -133,6 +133,21 @@ The following settings are currently available:
    If enabled, all CSS files required by the installed iconpacks are
    automatically included in the frontend.
 
+.. confval:: rteSvg
+
+   :type: bool
+   :default: 1
+
+   If this option is enabled, icons are loaded in the RTE as SVG (inline, sprites) if they
+   are available in the respective icon pack. Otherwise, only webfonts and IMG tags will
+   be used instead, which results in a simpler format but may differ from the frontend appearance.
+   Note: Clear the TYPO3 cache after changing this option!
+
+   This setting only affects the presentation of the icons used in the RTE, not the content
+   stored in the database! When loading the content, an icon is generated as SVG via the
+   iconfig string and displayed in the RTE. When saving, it is converted back and no real
+   SVG code ever ends up in the database!
+
 .. confval:: defaultConfig
 
    :type: string
@@ -181,13 +196,42 @@ Example of manual CKEditor 4 configuration (TYPO3 v10/11)
          #   https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html
          #
          extraAllowedContent:
-            # webfont: Allow <span> tags
+            # Allow <span> tags (webfont)
             - span(*)[!data-iconfig,id,name,class,style,alt,title]{color,background*,margin,padding,align,vertical-align}
-            # image: Allow svg images
+            # Allow SVG images (svg)
             - img[!data-iconfig,id,name,class,style,alt,title]{margin,padding,align,vertical-align}
 
          extraPlugins:
             - iconpack
+
+If you have also enabled the *rteSvg* option via the extension configuration, you will
+need to allow various SVG elements in CKEditor4 as well (in CKEditor5, this is done via
+the model schema of the CKEditor plugin):
+
+.. code-block:: yaml
+
+   editor:
+      config:
+         extraAllowedContent:
+            # Allow SVG (svgInline, svgSprite)
+            #   svgGlobalAttributes = class,id,title
+            #   svgPresentationAttributes = clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility
+            - svg(*)[!data-iconfig,name,style,alt,width,height,fill,viewBox,xmlns,xmlns:xlink,class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]{color,background*,margin,padding,align,vertical-align}
+            - use[href,xlink:href,x,y,width,height,class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - title[id]
+            - desc[id]
+            - defs[class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - linearGradient[gradientUnits,gradientTransform,spreadMethod,x1,x2,y1,y2,class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - radialGradient[gradientUnits,gradientTransform,spreadMethod,cx,cy,fr,fx,fy,r,class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - g(*)[class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - stop[stop-color,stop-opacity,offset,class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - line[x1,y1,x2,y2,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - path[!d,style,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - polyline[!points,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - polygon[!points,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - rect[width,height,x,y,rx,ry,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - circle[cx,cy,r,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+            - ellipse[cx,cy,rx,ry,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
 
 
 
@@ -218,6 +262,11 @@ Example of manual CKEditor 5 configuration (TYPO3 v12+)
 
 Example of a YAML file for custom options
 -----------------------------------------
+
+The *defaultConfig* option defines a YAML file that controls the default options for all
+installed icon packs. You can edit this file as you wish so that you can use your own
+transformations and animations. Please note, however, that the values used here will also
+be stored in the database, so you should use these settings with caution.
 
 .. code-block:: yaml
 
