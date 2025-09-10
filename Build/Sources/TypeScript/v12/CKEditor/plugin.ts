@@ -23,15 +23,15 @@ interface UrlParams {
 
 /**
  * Add observer for double click and extend a generic DomEventObserver class by a native DOM dblclick event.
- * https://ckeditor.com/docs/ckeditor5/latest/examples/how-tos.html#how-to-listen-on-a-double-click-eg-link-elements
+ * https://ckeditor.com/docs/ckeditor5/latest/framework/how-tos.html#how-to-listen-on-a-double-click-for-example-link-elements
+ * https://ckeditor.com/docs/ckeditor5/latest/api/module_utils_emittermixin-Emitter.html#function-listenTo:BASE_EMITTER
  */
-class DoubleClickObserver extends DomEventObserver<'dblclick'> {
+class IconpackDoubleClickObserver extends DomEventObserver<'dblclick'> {
   get domEventType(): 'dblclick' {
     return 'dblclick';
   }
-
   onDomEvent(domEvent: MouseEvent): void {
-    this.fire('dblclick', domEvent);
+    this.fire('dblclick:iconpack', domEvent);
   }
 }
 
@@ -805,9 +805,10 @@ export class IconpackUI extends Plugin {
     const view = editor.editing.view;
     const viewDocument = view.document;
 
-    view.addObserver(DoubleClickObserver);
+    view.addObserver(IconpackDoubleClickObserver);
 
-    editor.listenTo(viewDocument, 'dblclick', (evt, data) => {
+    // https://ckeditor.com/docs/ckeditor5/latest/framework/deep-dive/event-system.html
+    editor.listenTo(viewDocument, 'dblclick:iconpack', (evt, data) => {
       if (data.target.parent) {
         const modelElement = editor.editing.mapper.toModelElement(data.target.parent);
         if (modelElement && typeof modelElement.name !== 'undefined' && (
