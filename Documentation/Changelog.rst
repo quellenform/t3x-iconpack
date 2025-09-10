@@ -8,6 +8,11 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.2.5
+=====
+
+- 7e46c82 Refinement of DomEventObserver in CKEditor plugin for double-click event (#45)
+
 1.2.4
 =====
 
