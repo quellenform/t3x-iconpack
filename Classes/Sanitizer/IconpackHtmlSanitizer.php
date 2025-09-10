@@ -100,6 +100,7 @@ class IconpackHtmlSanitizer extends DefaultSanitizerBuilder implements BuilderIn
                     (new Attr('spreadMethod')),
                     (new Attr('cx')),
                     (new Attr('cy')),
+                    (new Attr('fr')),
                     (new Attr('fx')),
                     (new Attr('fy')),
                     (new Attr('r')),
@@ -131,7 +132,6 @@ class IconpackHtmlSanitizer extends DefaultSanitizerBuilder implements BuilderIn
                 ),
                 (new Tag('polyline'))->addAttrs(
                     (new Attr('points')),
-                    ...$this->globalAttrs,
                     ...$svgPresentationAttributes
                 ),
                 (new Tag('polygon'))->addAttrs(
