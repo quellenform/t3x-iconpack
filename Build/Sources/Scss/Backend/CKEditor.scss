@@ -4,7 +4,7 @@
 .cke_widget_wrapper {
 	&.cke_widget_iconpack {
 		>span.cke_widget_element {
-			padding: 0 3px;
+			padding: 0 0.125em;
 			cursor: default;
 		}
 	}
@@ -14,12 +14,30 @@
 // -------------------------
 
 .ck-widget-iconpack {
-	padding: 0 3px;
+	padding: 0 0.125em;
 	display: inline-block;
 	cursor: default;
 
 	img {
 		height: 1em;
 		vertical-align: -.125em;
+	}
+}
+
+// Iconpack (shared)
+// -------------------------
+
+.cke_widget_iconpack,
+.ck-widget-iconpack {
+	svg {
+		-webkit-font-smoothing: antialiased;
+		display: var(--iconpack-display, inline-block);
+		font-style: normal;
+		font-variant: normal;
+		line-height: 1;
+		text-rendering: auto;
+		width: var(--iconpack-width, auto);
+		height: var(--iconpack-height, 1em);
+		vertical-align: var(--iconpack-vertical-align, -.125em);
 	}
 }

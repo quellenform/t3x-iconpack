@@ -45,7 +45,9 @@ final class IconpackPrepareConfigurationForEditor
             // Add configuration from YAML
             if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
                 $yaml = IconpackUtility::loadYamlFile(
-                    'EXT:iconpack/Configuration/RTE/IconpackConfig-v11.yaml'
+                    (bool) $extConf->get('iconpack', 'rteSvg')
+                        ? 'EXT:iconpack/Configuration/RTE/IconpackConfig-v11-svg.yaml'
+                        : 'EXT:iconpack/Configuration/RTE/IconpackConfig-v11.yaml'
                 );
                 // Get CSS for CKEditor from installed iconpacks
                 $editorCss = GeneralUtility::makeInstance(IconpackFactory::class)->queryAssets(

@@ -24,14 +24,10 @@ editor:
     #   https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html
     #
     extraAllowedContent:
-      # webfont: Allow <span> tags
+      # Allow <span> tags (webfont)
       - span(*)[!data-iconfig,id,name,class,style,alt,title]{color,background*,margin,padding,align,vertical-align}
-      # image: Allow svg images
+      # Allow SVG images (svg)
       - img[!data-iconfig,id,name,class,style,alt,title]{margin,padding,align,vertical-align}
-      # svgSprite: Allow SVG (inline, sprites)
-      - svg(*)[!data-iconfig,id,name,class,style,alt,title]{color,background*,margin,padding,align,vertical-align}
-      # svgSprite: Allow <use> element inside <svg>
-      - use[!href]
 
     extraPlugins:
       - iconpack

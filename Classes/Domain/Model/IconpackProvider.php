@@ -14,6 +14,7 @@ namespace Quellenform\Iconpack\Domain\Model;
  */
 
 use Quellenform\Iconpack\Utility\IconpackUtility;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
@@ -66,9 +67,7 @@ class IconpackProvider
     protected $preferredRenderTypes = [
         'backend' => [
             'native' => ['svgInline', 'svgSprite', 'webfont', 'svg'],
-            // Note: svgSprite is currently implemented and available in principle, but not functional in TYPO3 v12+,
-            // ...and svgInline causes more problems in RTE than it solves and therefore makes no sense.
-            'rte' => ['webfont', 'svg']
+            'rte' => ['webfont', 'svg'],
         ],
         'frontend' => [
             'native' => ['svgInline', 'svgSprite', 'webfont', 'svg'],
@@ -230,6 +229,11 @@ class IconpackProvider
      */
     public function setPreferredRenderTypes(?array $preferredRenderTypes)
     {
+        if (
+            (bool) GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('iconpack', 'rteSvg')
+        ) {
+            array_unshift($this->preferredRenderTypes['backend']['rte'], 'svgInline', 'svgSprite');
+        }
         if ($preferredRenderTypes && is_array($preferredRenderTypes)) {
             foreach (['backend', 'frontend'] as $context) {
                 foreach (['native', 'rte'] as $fieldType) {

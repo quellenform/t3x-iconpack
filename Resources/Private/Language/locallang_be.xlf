@@ -10,6 +10,9 @@
 			<trans-unit id="extConf.autoConfigRte" resname="extConf.autoConfigRte">
 				<source>Automatically configure CKEditor: If enabled, the required CSS and JavaScript will be added to the RTE automatically.</source>
 			</trans-unit>
+			<trans-unit id="extConf.rteSvg" resname="extConf.rteSvg">
+				<source>Use SVG in the RTE: If this option is enabled, icons are loaded in the RTE as SVG (inline, sprites) if they are available in the respective icon pack. Otherwise, only webfonts and IMG tags will be used instead, which results in a simpler format but may differ from the frontend appearance. Note: Clear the TYPO3 cache after changing this option!</source>
+			</trans-unit>
 			<trans-unit id="extConf.autoAddAssets" resname="extConf.autoAddAssets">
 				<source>Add Assets to the Frontend: If activated, the assets required by the installed iconpacks (Stylesheets &amp; JavaScripts) will be automatically added to the Frontend.</source>
 			</trans-unit>
