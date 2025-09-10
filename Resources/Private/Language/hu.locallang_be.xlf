@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" date="2021-09-19T13:57:00Z" product-name="iconpack" target-language="hu">
+    <header/>
+    <body>
+      <trans-unit id="tt_content.header_icon" resname="tt_content.header_icon">
+        <source>Icon</source>
+        <target state="needs-translation">Icon</target>
+      </trans-unit>
+      <trans-unit id="extConf.autoConfigRte" resname="extConf.autoConfigRte">
+        <source>Automatically configure CKEditor: If enabled, the required CSS and JavaScript will be added to the RTE automatically.</source>
+        <target state="needs-translation">Automatically configure CKEditor: If enabled, the required CSS and JavaScript will be added to the RTE automatically.</target>
+      </trans-unit>
+      <trans-unit id="extConf.rteSvg" resname="extConf.rteSvg">
+        <source>Use SVG in the RTE: If this option is enabled, icons are loaded in the RTE as SVG (inline, sprites) if they are available in the respective icon pack. Otherwise, only webfonts and IMG tags will be used instead, which results in a simpler format but may differ from the frontend appearance. Note: Clear the TYPO3 cache after changing this option!</source>
+        <target state="needs-translation">Use SVG in the RTE: If this option is enabled, icons are loaded in the RTE as SVG (inline, sprites) if they are available in the respective icon pack. Otherwise, only webfonts and IMG tags will be used instead, which results in a simpler format but may differ from the frontend appearance. Note: Clear the TYPO3 cache after changing this option!</target>
+      </trans-unit>
+      <trans-unit id="extConf.autoAddAssets" resname="extConf.autoAddAssets">
+        <source>Add Assets to the Frontend: If activated, the assets required by the installed iconpacks (Stylesheets &amp; JavaScripts) will be automatically added to the Frontend.</source>
+        <target state="needs-translation">Add Assets to the Frontend: If activated, the assets required by the installed iconpacks (Stylesheets &amp; JavaScripts) will be automatically added to the Frontend.</target>
+      </trans-unit>
+      <trans-unit id="extConf.defaultConfig" resname="extConf.defaultConfig">
+        <source>Default configuration: Path to the YAML configuration file containing the default options for all installed icon packs. Leave this field blank to disable it, or use your own configuration file. (Don't forget to clear the cache!) Default value: EXT:iconpack/Configuration/Iconpack/Default.yaml</source>
+        <target state="needs-translation">Default configuration: Path to the YAML configuration file containing the default options for all installed icon packs. Leave this field blank to disable it, or use your own configuration file. (Don't forget to clear the cache!) Default value: EXT:iconpack/Configuration/Iconpack/Default.yaml</target>
+      </trans-unit>
+      <trans-unit id="extConf.configFile" resname="extConf.configFile">
+        <source>Configuration File: Path to the YAML-configuration file (Leave empty for default value).</source>
+        <target state="needs-translation">Configuration File: Path to the YAML-configuration file (Leave empty for default value).</target>
+      </trans-unit>
+      <trans-unit id="extConf.stylesEnabled" resname="extConf.stylesEnabled">
+        <source>Enable styles: Enter the identifiers (separated by commas) of the styles that should be activated for this iconpack. Leave the field empty if you want to use the values predefined in the iconpack's YAML configuration file. Don't forget to clear the cache after making any changes.</source>
+        <target state="needs-translation">Enable styles: Enter the identifiers (separated by commas) of the styles that should be activated for this iconpack. Leave the field empty if you want to use the values predefined in the iconpack's YAML configuration file. Don't forget to clear the cache after making any changes.</target>
+      </trans-unit>
+      <trans-unit id="js.label.iconNative" resname="js.label.iconNative">
+        <source>Choose Icon</source>
+        <target state="needs-translation">Choose Icon</target>
+      </trans-unit>
+      <trans-unit id="js.label.iconRte" resname="js.label.iconRte">
+        <source>Insert Icon</source>
+        <target state="needs-translation">Insert Icon</target>
+      </trans-unit>
+      <trans-unit id="js.button.ok" resname="js.button.ok">
+        <source>Apply</source>
+        <target state="needs-translation">Apply</target>
+      </trans-unit>
+      <trans-unit id="js.button.cancel" resname="js.button.cancel">
+        <source>Cancel</source>
+        <target state="needs-translation">Cancel</target>
+      </trans-unit>
+      <trans-unit id="js.button.clear" resname="js.button.clear">
+        <source>Clear</source>
+        <target state="needs-translation">Clear</target>
+      </trans-unit>
+      <trans-unit id="label.iconpack" resname="label.iconpack">
+        <source>Iconpack</source>
+        <target state="needs-translation">Iconpack</target>
+      </trans-unit>
+      <trans-unit id="label.iconpack_notfound" resname="label.iconpack_notfound">
+        <source>No iconpacks found! Please install an iconpack extension: https://github.com/quellenform/t3x-iconpack</source>
+        <target state="needs-translation">No iconpacks found! Please install an iconpack extension: https://github.com/quellenform/t3x-iconpack</target>
+      </trans-unit>
+      <trans-unit id="label.options" resname="label.options">
+        <source>Options</source>
+        <target state="needs-translation">Options</target>
+      </trans-unit>
+      <trans-unit id="label.transform" resname="label.transform">
+        <source>Transformation</source>
+        <target state="needs-translation">Transformation</target>
+      </trans-unit>
+      <trans-unit id="label.size" resname="label.size">
+        <source>Size</source>
+        <target state="needs-translation">Size</target>
+      </trans-unit>
+      <trans-unit id="label.orientation" resname="label.orientation">
+        <source>Orientation</source>
+        <target state="needs-translation">Orientation</target>
+      </trans-unit>
+      <trans-unit id="label.rotation" resname="label.rotation">
+        <source>Rotation</source>
+        <target state="needs-translation">Rotation</target>
+      </trans-unit>
+      <trans-unit id="label.decoration" resname="label.decoration">
+        <source>Decoration</source>
+        <target state="needs-translation">Decoration</target>
+      </trans-unit>
+      <trans-unit id="label.animation" resname="label.animation">
+        <source>Animation</source>
+        <target state="needs-translation">Animation</target>
+      </trans-unit>
+      <trans-unit id="label.fixed" resname="label.fixed">
+        <source>Fixed Width</source>
+        <target state="needs-translation">Fixed Width</target>
+      </trans-unit>
+      <trans-unit id="label.search" resname="label.search">
+        <source>Search Keyword</source>
+        <target state="needs-translation">Search Keyword</target>
+      </trans-unit>
+      <trans-unit id="size.default" resname="size.default">
+        <source>Default</source>
+        <target state="needs-translation">Default</target>
+      </trans-unit>
+      <trans-unit id="size.xs" resname="size.xs">
+        <source>X-Small</source>
+        <target state="needs-translation">X-Small</target>
+      </trans-unit>
+      <trans-unit id="size.sm" resname="size.sm">
+        <source>Small</source>
+        <target state="needs-translation">Small</target>
+      </trans-unit>
+      <trans-unit id="size.md" resname="size.md">
+        <source>Medium</source>
+        <target state="needs-translation">Medium</target>
+      </trans-unit>
+      <trans-unit id="size.lg" resname="size.lg">
+        <source>Large</source>
+        <target state="needs-translation">Large</target>
+      </trans-unit>
+      <trans-unit id="size.xl" resname="size.xl">
+        <source>X-Large</source>
+        <target state="needs-translation">X-Large</target>
+      </trans-unit>
+      <trans-unit id="size.1x" resname="size.1x">
+        <source>1x</source>
+        <target state="needs-translation">1x</target>
+      </trans-unit>
+      <trans-unit id="size.2x" resname="size.2x">
+        <source>2x</source>
+        <target state="needs-translation">2x</target>
+      </trans-unit>
+      <trans-unit id="size.3x" resname="size.3x">
+        <source>3x</source>
+        <target state="needs-translation">3x</target>
+      </trans-unit>
+      <trans-unit id="size.4x" resname="size.4x">
+        <source>4x</source>
+        <target state="needs-translation">4x</target>
+      </trans-unit>
+      <trans-unit id="size.5x" resname="size.5x">
+        <source>5x</source>
+        <target state="needs-translation">5x</target>
+      </trans-unit>
+      <trans-unit id="size.6x" resname="size.6x">
+        <source>6x</source>
+        <target state="needs-translation">6x</target>
+      </trans-unit>
+      <trans-unit id="size.7x" resname="size.7x">
+        <source>7x</source>
+        <target state="needs-translation">7x</target>
+      </trans-unit>
+      <trans-unit id="size.8x" resname="size.8x">
+        <source>8x</source>
+        <target state="needs-translation">8x</target>
+      </trans-unit>
+      <trans-unit id="size.9x" resname="size.9x">
+        <source>9x</source>
+        <target state="needs-translation">9x</target>
+      </trans-unit>
+      <trans-unit id="size.10x" resname="size.10x">
+        <source>10x</source>
+        <target state="needs-translation">10x</target>
+      </trans-unit>
+      <trans-unit id="decoration.border" resname="decoration.border">
+        <source>Border</source>
+        <target state="needs-translation">Border</target>
+      </trans-unit>
+      <trans-unit id="decoration.border-circle" resname="decoration.border-circle">
+        <source>Border Circle</source>
+        <target state="needs-translation">Border Circle</target>
+      </trans-unit>
+      <trans-unit id="decoration.border-rounded" resname="decoration.border-rounded">
+        <source>Border Rounded</source>
+        <target state="needs-translation">Border Rounded</target>
+      </trans-unit>
+      <trans-unit id="transform.default" resname="transform.default">
+        <source>Default</source>
+        <target state="needs-translation">Default</target>
+      </trans-unit>
+      <trans-unit id="transform.90" resname="transform.90">
+        <source>90°</source>
+        <target state="needs-translation">90°</target>
+      </trans-unit>
+      <trans-unit id="transform.180" resname="transform.180">
+        <source>180°</source>
+        <target state="needs-translation">180°</target>
+      </trans-unit>
+      <trans-unit id="transform.270" resname="transform.270">
+        <source>270°</source>
+        <target state="needs-translation">270°</target>
+      </trans-unit>
+      <trans-unit id="transform.flipHorizontal" resname="transform.flipHorizontal">
+        <source>Flip Horizontal</source>
+        <target state="needs-translation">Flip Horizontal</target>
+      </trans-unit>
+      <trans-unit id="transform.flipVertical" resname="transform.flipVertical">
+        <source>Flip Vertical</source>
+        <target state="needs-translation">Flip Vertical</target>
+      </trans-unit>
+      <trans-unit id="transform.flipBoth" resname="transform.flipBoth">
+        <source>Flip Both</source>
+        <target state="needs-translation">Flip Both</target>
+      </trans-unit>
+      <trans-unit id="transform.beat" resname="transform.beat">
+        <source>Beat</source>
+        <target state="needs-translation">Beat</target>
+      </trans-unit>
+      <trans-unit id="transform.bounce" resname="transform.bounce">
+        <source>Bounce</source>
+        <target state="needs-translation">Bounce</target>
+      </trans-unit>
+      <trans-unit id="transform.fade" resname="transform.fade">
+        <source>Fade</source>
+        <target state="needs-translation">Fade</target>
+      </trans-unit>
+      <trans-unit id="transform.fade-left" resname="transform.fade-left">
+        <source>Fade Left</source>
+        <target state="needs-translation">Fade Left</target>
+      </trans-unit>
+      <trans-unit id="transform.fade-right" resname="transform.fade-right">
+        <source>Fade Right</source>
+        <target state="needs-translation">Fade Right</target>
+      </trans-unit>
+      <trans-unit id="transform.fade-up" resname="transform.fade-up">
+        <source>Fade Up</source>
+        <target state="needs-translation">Fade Up</target>
+      </trans-unit>
+      <trans-unit id="transform.fade-down" resname="transform.fade-down">
+        <source>Fade Down</source>
+        <target state="needs-translation">Fade Down</target>
+      </trans-unit>
+      <trans-unit id="transform.beat-fade" resname="transform.beat-fade">
+        <source>Beat-Fade</source>
+        <target state="needs-translation">Beat-Fade</target>
+      </trans-unit>
+      <trans-unit id="transform.flip" resname="transform.flip">
+        <source>Flip</source>
+        <target state="needs-translation">Flip</target>
+      </trans-unit>
+      <trans-unit id="transform.shake" resname="transform.shake">
+        <source>Shake</source>
+        <target state="needs-translation">Shake</target>
+      </trans-unit>
+      <trans-unit id="transform.spin" resname="transform.spin">
+        <source>Spin</source>
+        <target state="needs-translation">Spin</target>
+      </trans-unit>
+      <trans-unit id="transform.spin-reverse" resname="transform.spin-reverse">
+        <source>Spin Reverse</source>
+        <target state="needs-translation">Spin Reverse</target>
+      </trans-unit>
+      <trans-unit id="transform.spin-pulse" resname="transform.spin-pulse">
+        <source>Spin Pulse</source>
+        <target state="needs-translation">Spin Pulse</target>
+      </trans-unit>
+      <trans-unit id="transform.pulse" resname="transform.pulse">
+        <source>Pulse</source>
+        <target state="needs-translation">Pulse</target>
+      </trans-unit>
+      <trans-unit id="transform.tada" resname="transform.tada">
+        <source>Tada</source>
+        <target state="needs-translation">Tada</target>
+      </trans-unit>
+      <trans-unit id="transform.burst" resname="transform.burst">
+        <source>Burst</source>
+        <target state="needs-translation">Burst</target>
+      </trans-unit>
+      <trans-unit id="transform.flashing" resname="transform.flashing">
+        <source>Flashing</source>
+        <target state="needs-translation">Flashing</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
