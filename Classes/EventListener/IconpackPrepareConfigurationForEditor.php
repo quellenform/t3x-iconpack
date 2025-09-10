@@ -56,12 +56,17 @@ final class IconpackPrepareConfigurationForEditor
                 foreach ($editorCss as $cssFile) {
                     $yaml['editor']['config']['contentsCss'][] = $cssFile;
                 }
+                if (!in_array('iconpack', $configuration['extraPlugins'])) {
+                    $iconpackConfiguration = $yaml['editor']['config'];
+                }
             } else {
                 $yaml = IconpackUtility::loadYamlFile(
                     'EXT:iconpack/Configuration/RTE/IconpackConfig-v12.yaml'
                 );
+                if (!in_array('Iconpack', $configuration['toolbar']['items'])) {
+                    $iconpackConfiguration = $yaml['editor']['config'];
+                }
             }
-            $iconpackConfiguration = $yaml['editor']['config'];
         }
         $event->setConfiguration(array_merge_recursive($configuration, $iconpackConfiguration));
     }
