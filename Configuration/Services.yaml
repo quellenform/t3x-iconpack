@@ -22,17 +22,17 @@ services:
   Quellenform\Iconpack\EventListener\IconpackBootCompletedEventListener:
     tags:
       - name: event.listener
-        identifier: "Quellenform/Iconpack/BootCompletedEventListener"
+        identifier: 'Quellenform/Iconpack/BootCompletedEventListener'
         event: TYPO3\CMS\Core\Core\Event\BootCompletedEvent
 
   cache.iconpack:
     class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
-    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', "getCache"]
-    arguments: ["iconpack"]
+    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
+    arguments: ['iconpack']
 
   Quellenform\Iconpack\IconpackCache:
     arguments:
-      $cache: "@cache.iconpack"
+      $cache: '@cache.iconpack'
     public: true
     shared: true
 
