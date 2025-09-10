@@ -8,6 +8,11 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.2.4
+=====
+
+- 84d9755 Fixed duplicate EventListeners (v12/13)
+
 1.2.3
 =====
 
