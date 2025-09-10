@@ -14,7 +14,6 @@ namespace Quellenform\Iconpack\EventListener;
  */
 
 use Quellenform\Iconpack\Utility\IconpackUtility;
-use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -23,7 +22,6 @@ use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforeGetExternalPluginsEvent;
 /**
  * Add the CKEditor-Plugin (TYPO3 v10/11)
  */
-#[AsEventListener('IconpackGetExternalPlugins')]
 final class IconpackGetExternalPlugins
 {
     /**

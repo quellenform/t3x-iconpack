@@ -14,14 +14,12 @@ namespace Quellenform\Iconpack\EventListener;
  */
 
 use Quellenform\Iconpack\IconpackRegistry;
-use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Core\Event\BootCompletedEvent;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Pre-Cache the iconpack configuration on boot to avoid having to read these files with every request.
  */
-#[AsEventListener('IconpackBootCompletedEventListener')]
 final class IconpackBootCompletedEventListener
 {
     /**

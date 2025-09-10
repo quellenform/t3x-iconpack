@@ -15,7 +15,6 @@ namespace Quellenform\Iconpack\EventListener;
 
 use Quellenform\Iconpack\IconpackFactory;
 use Quellenform\Iconpack\Utility\IconpackUtility;
-use TYPO3\CMS\Core\Attribute\AsEventListener;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
@@ -24,7 +23,6 @@ use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforePrepareConfigurationForEditor
 /**
  * Apply configuration data for registered iconpack providers.
  */
-#[AsEventListener('IconpackPrepareConfigurationForEditor')]
 final class IconpackPrepareConfigurationForEditor
 {
     /**
@@ -37,7 +35,6 @@ final class IconpackPrepareConfigurationForEditor
     public function __invoke(BeforePrepareConfigurationForEditorEvent $event): void
     {
         $configuration = $event->getConfiguration();
-        $iconpackConfiguration = [];
         /** @var ExtensionConfiguration $extConf */
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class);
         // Auto configure RTE
@@ -58,18 +55,15 @@ final class IconpackPrepareConfigurationForEditor
                 foreach ($editorCss as $cssFile) {
                     $yaml['editor']['config']['contentsCss'][] = $cssFile;
                 }
-                if (!in_array('iconpack', $configuration['extraPlugins'])) {
-                    $iconpackConfiguration = $yaml['editor']['config'];
-                }
             } else {
                 $yaml = IconpackUtility::loadYamlFile(
                     'EXT:iconpack/Configuration/RTE/IconpackConfig-v12.yaml'
                 );
-                if (!in_array('Iconpack', $configuration['toolbar']['items'])) {
-                    $iconpackConfiguration = $yaml['editor']['config'];
-                }
             }
+            $event->setConfiguration(array_merge_recursive(
+                $configuration,
+                $yaml['editor']['config']
+            ));
         }
-        $event->setConfiguration(array_merge_recursive($configuration, $iconpackConfiguration));
     }
 }
