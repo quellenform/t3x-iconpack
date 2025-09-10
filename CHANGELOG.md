@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.3
+
+- 8b2fe00 Added SVG icons (inline, sprite) to CKEditor4/5
+- f350531 Prevent the CKEditor plugin from being added twice
+
 ## 1.2.2
 
 - 03d7655 Redesigned caching mechanism and IconpackRegistry (thanks to @simonschaufi)
