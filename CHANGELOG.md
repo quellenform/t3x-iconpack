@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.2.6
+
+- bb2552d Added failsafe in case the global variable is not available (#47)
+- 0d108e8 Added site sets and made Typoscript constants available for editing (#46)
+
 ## 1.2.5
 
 - 7e46c82 Refinement of DomEventObserver in CKEditor plugin for double-click event (#45)
