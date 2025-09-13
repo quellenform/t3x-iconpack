@@ -13,6 +13,7 @@ namespace Quellenform\Iconpack;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Psr\Http\Message\ServerRequestInterface;
 use Quellenform\Iconpack\Domain\Model\IconpackProvider;
 use Quellenform\Iconpack\Exception\IconpackException;
 use Quellenform\Iconpack\IconpackCache;
@@ -157,7 +158,7 @@ final class IconpackFactory
         if (!$context) {
             if (!static::$context) {
                 static::$context = 'frontend';
-                if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
+                if ($this->isBackendScope()) {
                     static::$context = 'backend';
                 }
             }
@@ -170,6 +171,17 @@ final class IconpackFactory
             }
             static::$context = $context;
         }
+    }
+
+    /**
+     * Check whether we are currently in the backend context.
+     *
+     * @return bool
+     */
+    private function isBackendScope(): bool
+    {
+        return ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface
+            && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend();
     }
 
     /**
