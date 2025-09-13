@@ -1,4 +1,13 @@
+# CATEGORIES
+# customsubcategory=100_main=Iconpack Settings
+
 plugin.tx_iconpack {
-  # cat=Iconpack/1/1; type=string; label=Default CSS class: This classname will be the added in the frontend to all icons
+  # cat=iconpack/100_main/1; type=string; label=LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:settings.cssClass
   cssClass = iconpack
+  # cat=iconpack/100_main/2; type=string; label=LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:settings.cssFile
+  cssFile = EXT:iconpack/Resources/Public/Css/Iconpack.min.css
+  # cat=iconpack/100_main/3; type=string; label=LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:settings.renderTypesNative
+  renderTypesNative = svgInline,svgSprite,webfont,svg
+  # cat=iconpack/100_main/4; type=string; label=LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:settings.renderTypesRte
+  renderTypesRte = svgInline,svgSprite,webfont,svg
 }

@@ -26,6 +26,19 @@
 				<source>Enable styles: Enter the identifiers (separated by commas) of the styles that should be activated for this iconpack. Leave the field empty if you want to use the values predefined in the iconpack's YAML configuration file. Don't forget to clear the cache after making any changes.</source>
 			</trans-unit>
 
+			<trans-unit id="settings.cssClass" resname="settings.cssClass">
+				<source>Default CSS class: This classname will be the added in the frontend to all icons.</source>
+			</trans-unit>
+			<trans-unit id="settings.cssFile" resname="settings.cssFile">
+				<source>Default CSS file: Use this CSS file as default in the frontend.</source>
+			</trans-unit>
+			<trans-unit id="settings.renderTypesNative" resname="settings.renderTypesNative">
+				<source>Render types order (Native fields): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).</source>
+			</trans-unit>
+			<trans-unit id="settings.renderTypesRte" resname="settings.renderTypesRte">
+				<source>Render types order (RTE): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).</source>
+			</trans-unit>
+
 			<trans-unit id="js.label.iconNative" resname="js.label.iconNative">
 				<source>Choose Icon</source>
 			</trans-unit>
