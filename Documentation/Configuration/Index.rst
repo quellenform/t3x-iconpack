@@ -10,34 +10,117 @@ The Extension works out of the box and configures all relevant parameters
 automatically.
 
 Only the TypoScript needs to be inserted in order to obtain a display in the
-frontend:
+frontend. Here you can choose between site sets, add classic TypoScript records,
+or write your own TypoScript.
 
-TypoScript Configuration
-========================
 
-To enable the icons to be output in the frontend, a few things need to be
-defined in the TypoScript:
 
-- RTE content is parsed by `lib.parseFunc_RTE.nonTypoTagUserFunc`
-- Allowed content is defined for the RTE to enable the output of SVG elements
-- Templates are added so that the icon field contained in the extension can be
+.. _configuration-site-set:
+
+Site Sets
+=========
+
+..  versionadded:: TYPO3 v13.1 / iconpack v1.2.6
+    If you are working with TYPO3 v12.4, use :ref:`configuration-typoscript-record`.
+
+The extension ships some TypoScript code which can be included in the site
+configuration via :ref:`Site sets <t3coreapi/13:site-sets>`:
+
+#.  Got to backend module :guilabel:`Site Management` > :guilabel:`Sites`.
+
+#.  Edit the configuration of your site.
+
+#.  On the first tab go to :guilabel:`Sets for this Site`.
+
+#.  Add the template :guilabel:`Iconpack` from the available items.
+
+
+
+.. _configuration-typoscript-record:
+
+TypoScript Records
+==================
+
+The extension ships some TypoScript code which needs to be included.
+
+You can edit the corresponding template directly, or you can choose the following
+method (TYPO3 v12+):
+
+#. Switch to :guilabel:`Site Management` > :guilabel:`TypoScript`.
+
+#. Choose :guilabel:`Edit TypoScript record` from the dropdown menu.
+
+#. Select the corresponding template in :guilabel:`Selected record`.
+
+#. Press the link :guilabel:`Edit the whole TypoScript record` and switch to the
+   tab :guilabel:`Advanced Options`.
+
+#. Select :guilabel:`Iconpack (iconpack)` at the field :guilabel:`Include TypoScript sets`:
+
+   .. image:: /Images/TypoScript.png
+
+
+
+.. _configuration-edit-typoscript-constants:
+
+Edit TypoScript Constants
+=========================
+
+If you choose one of the two methods above, the following TypoScript constants are
+available for editing:
+
+.. confval:: cssClass
+
+   :type: string
+   :default: iconpack
+
+   Default CSS class: This classname will be the added in the frontend to all icons.
+
+.. confval:: cssFile
+
+   :type: string
+   :default: EXT:iconpack/Resources/Public/Css/Iconpack.min.css
+
+   Default CSS file: Use this CSS file as default in the frontend.
+
+.. confval:: renderTypesNative
+
+   :type: string
+   :default: svgInline,svgSprite,webfont,svg
+
+   Render types order (Native fields): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).
+
+.. confval:: renderTypesRte
+
+   :type: string
+   :default: svgInline,svgSprite,webfont,svg
+
+   Render types order (RTE): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).
+
+
+
+.. _configuration-custom-typoscript-configuration:
+
+Custom TypoScript Configuration
+===============================
+
+If you do not choose either of the methods above or want to make individual
+configurations, you will need to define a few things in TypoScript so that the icons
+can be displayed in the frontend:
+
+- RTE content needs to be parsed by `lib.parseFunc_RTE.nonTypoTagUserFunc`
+- For the RTE, allowed content must be defined to enable the output of SVG elements
+- Templates must be added so that the icon field contained in the extension can be
   rendered for the title of a record. Keep this in mind if you use your own
   templates for the header.
-- A small CSS is added to the frontend output to achieve a consistent display of
+- A small CSS is required for the frontend output to achieve a consistent display of
   different icons.
-
-All these values can of course be overwritten individually.
 
 .. tip::
 
    Take a closer look at the content of
    `iconpack/Configuration/TypoScript/setup.typoscript` to make individual
    adjustments.
-
-If you want to keep the default settings, simply add the TypoScript provided at
-the end of your setup:
-
-.. image:: /Images/TypoScript.png
 
 .. note::
    If you use `EXT:bootstrap_package_iconpack
@@ -48,6 +131,8 @@ the end of your setup:
    be displayed by the RTE.
 
 
+
+.. _configuration-override-settings:
 
 Overriding Settings
 -------------------
@@ -66,6 +151,8 @@ respective page. The settings can apply to all iconpacks with the key
 The following examples show such a configuration for the frontend.
 
 
+
+.. _configuration-override-settings-in-the-frontend:
 
 Override Settings in the Frontend
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -102,6 +189,8 @@ fields.
    }
 
 
+
+.. _configuration-extension-configuration:
 
 Extension Configuration
 =======================
