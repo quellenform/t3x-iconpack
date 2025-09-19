@@ -8,6 +8,11 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.3.0
+=====
+
+- 6dced4a Added option to hide iconpacks in BE dropdown menus (and only use them in FE/ViewHelpers)
+
 1.2.6
 =====
 
