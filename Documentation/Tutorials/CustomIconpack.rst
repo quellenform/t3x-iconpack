@@ -83,6 +83,10 @@ information about the iconpack is recorded and the definitions for the available
       # The key of the iconpack (!)
       key: "mci"
       version: 1.0.0
+      # Set this value to "true" if you want to hide your iconpack in dropdown menus in the BE.
+      # This is useful if you only want to use it in FE/ViewHelpers
+      #   Default value: false
+      hidden: true
 
       renderTypes:
          webfont:
@@ -146,7 +150,7 @@ Rendering in the Frontend
 
 Depending on which `renderTypes` your iconpack provides (in this simple example
 we have webfonts and SVG icons), these are selected by default in the following
-order (fallback):
+order (with a fallback from top to bottom):
 
 .. rst-class:: compact-list
 
@@ -155,8 +159,8 @@ order (fallback):
    - webfont
    - svg
 
-If you want to overwrite or customize these settings, you can do this via
-TypoScript:
+If you want to overwrite or customize these settings later, you can do this
+via TypoScript:
 
 .. code-block:: typoscript
 
@@ -168,23 +172,15 @@ Rendering in the Backend
 ------------------------
 
 In the backend, the order of the `renderTypes` for native fields and the RTE is
-predefined differently, as the respective version of the CKEditor plays a role
-here.
+predefined in the source code.
 
-For native fields:
+Unless you explicitly change this order in your YAML file or disable the `rteSvg`
+option in the extension settings, it will also be:
 
 .. rst-class:: compact-list
 
-   - svgSprite
    - svgInline
-   - webfont
-   - svg
-
-And for all RTE fields (as the implementation does not yet allow SVG elements in
-all TYPO3 versions):
-
-.. rst-class:: compact-list
-
+   - svgSprite
    - webfont
    - svg
 
@@ -193,9 +189,9 @@ all TYPO3 versions):
 Customizing the Rendering Sequence
 ----------------------------------
 
-If you want to change the order of the rendering fallback (which would only make
-sense in exceptional cases), you can add the following setup to the YAML
-configuration:
+If you want to change the order of rendering fallbacks or specify only a specific
+renderType (which in both cases would only make sense in exceptional cases), you
+can add the following setting to the YAML configuration:
 
 .. code-block:: yaml
 
