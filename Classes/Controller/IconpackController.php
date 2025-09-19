@@ -54,7 +54,7 @@ class IconpackController
     {
         $this->initialize($request);
 
-        if (!$this->iconpackFactory->areThereAnyIconpacksInstalled()) {
+        if (!$this->iconpackFactory->areThereAnyIconpacksInstalled(true)) {
             $html = $this->renderStandaloneView($request, 'NoIconpack', []);
         } else {
             $styles = $this->iconpackFactory->queryIconpackStyles($this->iconfig['fieldType']);

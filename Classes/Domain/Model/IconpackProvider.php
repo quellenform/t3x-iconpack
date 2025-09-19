@@ -60,6 +60,14 @@ class IconpackProvider
     protected $logo = null;
 
     /**
+     * Defines whether the iconpack should only be used in FE/ViewHelpers
+     * or whether it should also be used in dropdowns in the backend.
+     *
+     * @var bool
+     */
+    protected $hidden = false;
+
+    /**
      * Preferred type for the backend and frontend
      *
      * @var array
@@ -131,12 +139,10 @@ class IconpackProvider
         $this->setVersion($config['version'] ?? null);
         $this->setUrl($config['url'] ?? null);
         $this->setLogo($config['logo'] ?? null);
-
+        $this->setHidden($config['hidden'] ?? false);
         $this->setStylesEnabled($config['stylesEnabled'] ?? null);
-
         $this->setPreferredRenderTypes($config['preferredRenderTypes'] ?? null);
         $this->setRenderTypes($config['renderTypes'] ?? null);
-
         $this->setAdditionalOptions($config['options'] ?? null);
         $this->setCategories($config['categories'] ?? null);
         $this->setIcons($config['icons'] ?? null);
@@ -220,6 +226,22 @@ class IconpackProvider
     public function getLogo(): ?string
     {
         return $this->logo;
+    }
+
+    /**
+     * @param bool $hidden
+     */
+    public function setHidden(bool $hidden)
+    {
+        $this->hidden = $hidden;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHidden(): bool
+    {
+        return $this->hidden;
     }
 
     /**

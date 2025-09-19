@@ -306,16 +306,21 @@ final class IconpackRegistry
     /**
      * Get a (cached) array containing the identifiers of all registered iconpack providers.
      *
+     * @param bool $visibleOnly Only return iconpacks that are not marked as hidden
+     *
      * @return array
      * @throws InvalidArgumentException
      */
-    public function getIconpackProviderIdentifiers(): array
+    public function getIconpackProviderIdentifiers(bool $visibleOnly = false): array
     {
         if (!$this->iconpackProviders) {
             $this->iconpackProviders = $this->getIconpackCache()->getCacheByIdentifier('register') ?? [];
         }
         $iconpackProviderIdentifiers = [];
-        foreach ($this->iconpackProviders as $key => $_) {
+        foreach ($this->iconpackProviders as $key => $iconpackProvider) {
+            if ($visibleOnly && $iconpackProvider->getHidden()) {
+                continue;
+            }
             $iconpackProviderIdentifiers[] = $key;
         }
         return $iconpackProviderIdentifiers;

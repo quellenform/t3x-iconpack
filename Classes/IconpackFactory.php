@@ -84,6 +84,11 @@ final class IconpackFactory
     /**
      * @var array|null
      */
+    protected static $visibleIconpacks = null;
+
+    /**
+     * @var array|null
+     */
     protected static $preferredRenderTypes = null;
 
     /**
@@ -102,6 +107,7 @@ final class IconpackFactory
         $this->iconpackCache = $iconpackCache;
 
         static::$availableIconpacks = $this->iconpackRegistry->getIconpackProviderIdentifiers();
+        static::$visibleIconpacks = $this->iconpackRegistry->getIconpackProviderIdentifiers(true);
         $this->setContext();
     }
 
@@ -134,15 +140,14 @@ final class IconpackFactory
     /**
      * Check if there are any iconpacks installed.
      *
+     * @param bool $visibleOnly
+     *
      * @return bool
      */
-    public function areThereAnyIconpacksInstalled(): bool
+    public function areThereAnyIconpacksInstalled(bool $visibleOnly = false): bool
     {
-        if ((bool) count(static::$availableIconpacks)) {
-            return true;
-        } else {
-            return false;
-        }
+        $iconpacks = $visibleOnly ? static::$visibleIconpacks : static::$availableIconpacks;
+        return (bool) count($iconpacks) ? true : false;
     }
 
     /**
@@ -404,7 +409,7 @@ final class IconpackFactory
     }
 
     /**
-     * Get all styles from all iconpacks for dropdowns in CKEditor and Backend.
+     * Get all styles from all visible iconpacks for dropdowns in CKEditor and Backend.
      *
      * @param string $fieldType
      *
@@ -413,7 +418,7 @@ final class IconpackFactory
     public function queryIconpackStyles(string $fieldType): ?array
     {
         $iconpackStyles = null;
-        foreach (static::$availableIconpacks as $iconpack) {
+        foreach (static::$visibleIconpacks as $iconpack) {
             $renderType = $this->resolvePreferredRenderType(
                 $this->queryConfig($iconpack, 'renderTypes'),
                 $iconpack,
