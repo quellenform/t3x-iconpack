@@ -115,7 +115,7 @@ class IconpackUtility
      * @param array $icon
      * @param string|null $style
      *
-     * @return boolean
+     * @return bool
      */
     public static function isIconStyleAllowed(array $icon, ?string $style): bool
     {
