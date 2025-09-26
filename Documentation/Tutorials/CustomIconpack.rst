@@ -31,6 +31,18 @@ StyleSheets, etc.) and a configuration file, which is described below.
 
 
 
+Iconpack Kickstarter
+--------------------
+
+If you want to take the easy route and create a ready-to-use icon pack from SVG files,
+you can use the `Iconpack Kickstarter <https://github.com/quellenform/t3x-iconpack-kickstarter/>`_,
+which allows you to create a complete iconpack and includes all the necessary
+`renderTypes` (svgInline, svgSprites, svg, webfont).
+
+Simply clone the repository and follow the instructions in the README.md file.
+
+
+
 The Structure of an Iconpack Extension
 --------------------------------------
 
