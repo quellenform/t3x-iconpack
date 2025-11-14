@@ -67,7 +67,10 @@ class IconpackWizardElement extends AbstractFormElement
         $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
 
         $iconMarkup = '';
-        if (!empty($itemValue)) {
+        if (
+            !empty($itemValue)
+            && substr($itemValue, 0, 4) !== 'EXT:'
+        ) {
             $iconMarkup = $this->iconpackFactory->getIconMarkup($itemValue);
             if (empty($iconMarkup)) {
                 $iconFactory = GeneralUtility::makeInstance(IconFactory::class);
