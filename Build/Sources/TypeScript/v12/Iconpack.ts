@@ -343,7 +343,7 @@ class Iconpack {
       } else {
         searchFieldClearButton.style.visibility = 'hidden';
       }
-      this.searchIcon(searchTerm);
+      this.searchIcon(searchTerm.toLowerCase());
     });
 
     console.groupEnd(); //? DEBUG GROUP
@@ -491,7 +491,7 @@ class Iconpack {
     this.elementIcons.querySelectorAll('section').forEach((sectionItem) => {
       let enableSection = false;
       sectionItem.querySelectorAll('li').forEach((iconItem) => {
-        const name = iconItem.getAttribute('name');
+        const name = iconItem.getAttribute('name').toLowerCase();
         if (name && name.indexOf(searchString) >= 0) {
           iconItem.style.display = 'inline-flex';
           enableSection = true;
