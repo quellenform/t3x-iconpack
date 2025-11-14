@@ -2,10 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.3.1
+
+- d371de4 Make icon search case-insensitive (#49) (thanks to @mbrodala)
+- c58b94e Do not attempt to preview icons that begin with "EXT:"
+- adf8c0f Move the header in backend forms to the correct position (v13+)
+
 ## 1.3.0
 
 - 6dced4a Added option to hide iconpacks in BE dropdown menus (and only use them in FE/ViewHelpers)
-
 
 ## 1.2.6
 
