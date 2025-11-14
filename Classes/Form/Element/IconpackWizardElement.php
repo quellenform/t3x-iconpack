@@ -93,7 +93,6 @@ class IconpackWizardElement extends AbstractFormElement
             'data-item-name' => htmlspecialchars($itemName)
         ];
         $expansionHtml = [];
-        $expansionHtml = $this->maybeAddLabelforTYPO3v13($expansionHtml, $fieldId);
         $expansionHtml[] = '<div class="form-control-wrap">';
         $expansionHtml[] = '<button type="button" ' . GeneralUtility::implodeAttributes($buttonAttributes, true) . '">';
         $expansionHtml[] = $icon;
@@ -125,8 +124,9 @@ class IconpackWizardElement extends AbstractFormElement
             ];
         }
 
-        $resultArray['html'] = '
-            <typo3-formengine-element-iconpack class="formengine-field-item t3js-formengine-field-item" recordFieldId="
+        $resultArray['html']
+            = $this->maybeAddLabelforTYPO3v13($fieldId)
+            . '<typo3-formengine-element-iconpack class="formengine-field-item t3js-formengine-field-item" recordFieldId="
                 ' . htmlspecialchars($fieldId) . '">
                     ' . $fieldInformationHtml . '
                     ' . $fullElement . '
@@ -149,22 +149,19 @@ class IconpackWizardElement extends AbstractFormElement
      * rendered with $this->renderLabel($fieldId) or $this->wrapWithFieldsetAndLegend().
      * see https://docs.typo3.org/m/typo3/reference-tca/main/en-us/ColumnsConfig/Type/User/Index.html
      *
-     * @param array $expansionHtml
      * @param string $fieldId
+     *
      * @return array
      */
-    protected function maybeAddLabelforTYPO3v13(array $expansionHtml, string $fieldId): array
+    protected function maybeAddLabelforTYPO3v13(string $fieldId): string
     {
-        /** @var Typo3Version $versionService */
-        $versionService = GeneralUtility::makeInstance(Typo3Version::class);
-        if ($versionService->getVersion() >= '13.3') {
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '13.3', '>=')) {
             /**
              * method may not exist prior to TYPO3 v13.3
              * @noinspection PhpUndefinedMethodInspection
              */
-            $expansionHtml[] = $this->renderLabel($fieldId);
+            return $this->renderLabel($fieldId);
         }
-
-        return $expansionHtml;
+        return '';
     }
 }
