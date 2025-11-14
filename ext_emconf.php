@@ -9,12 +9,12 @@ $EM_CONF[$_EXTKEY] = [
     'author' => 'Stephan Kellermayr',
     'author_email' => 'typo3@quellenform.at',
     'author_company' => 'Kellermayr KG',
-    'version' => '1.3.0',
+    'version' => '1.3.1',
     'constraints' => [
         'depends' => [
             'typo3' => '10.4.11-13.9.99'
         ],
         'conflicts' => [],
         'suggests' => []
-    ],
+    ]
 ];
