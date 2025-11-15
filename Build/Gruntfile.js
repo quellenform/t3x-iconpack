@@ -126,11 +126,17 @@ module.exports = function(grunt) {
 
     // Add newline at end of CSS files if missing
     endline: {
-      main: {
+      css: {
         expand: true,
         cwd: '<%= paths.resourcesPublic %>Css/',
         src: ['**/*.css'],
         dest: '<%= paths.resourcesPublic %>Css/'
+      },
+      js: {
+        expand: true,
+        cwd: '<%= paths.resourcesPublic %>JavaScript/',
+        src: ['**/*.js'],
+        dest: '<%= paths.resourcesPublic %>JavaScript/'
       }
     }
   });
@@ -157,9 +163,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-sass');
 
   grunt.registerTask('clear', ['clear-ts-cache']);
-  grunt.registerTask('css', ['sass', 'cssmin', 'endline']);
+  grunt.registerTask('css', ['sass', 'cssmin', 'endline:css']);
   grunt.registerTask('html', ['pug', 'jsbeautifier']);
-  grunt.registerTask('js', ['exec:tsv11', 'exec:tsv12', 'uglify']);
+  grunt.registerTask('js', ['exec:tsv11', 'exec:tsv12', 'uglify', 'endline:js']);
   grunt.registerTask('build', ['clear', 'js', 'css', 'html']);
   grunt.registerTask('build-dev', ['clear', 'exec:tsv11', 'exec:tsv12', 'sass', 'pug']);
 
