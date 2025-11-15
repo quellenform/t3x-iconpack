@@ -30,12 +30,12 @@ $iconpack-size-scale-xl         : 24 !default;
 $iconpack-size-scale-2xl        : 32 !default;
 
 $iconpack-sizes: (
-  "2xs"                         : $iconpack-size-scale-2xs,
-  "xs"                          : $iconpack-size-scale-xs,
-  "sm"                          : $iconpack-size-scale-sm,
-  "lg"                          : $iconpack-size-scale-lg,
-  "xl"                          : $iconpack-size-scale-xl,
-  "2xl"                         : $iconpack-size-scale-2xl
+	"2xs"                         : $iconpack-size-scale-2xs,
+	"xs"                          : $iconpack-size-scale-xs,
+	"sm"                          : $iconpack-size-scale-sm,
+	"lg"                          : $iconpack-size-scale-lg,
+	"xl"                          : $iconpack-size-scale-xl,
+	"2xl"                         : $iconpack-size-scale-2xl
 ) !default;
 
 $iconpack-li-width              : 2em !default;

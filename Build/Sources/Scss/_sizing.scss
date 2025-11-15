@@ -6,14 +6,14 @@
 
 // literal magnification scale
 @for $i from 1 through 10 {
-  .#{variables.$iconpack-css-prefix}-#{$i}x {
-    font-size: $i * 1em;
-  }
+	.#{variables.$iconpack-css-prefix}-#{$i}x {
+		font-size: $i * 1em;
+	}
 }
 
 // step-based scale (with alignment)
 @each $size, $value in variables.$iconpack-sizes {
-  .#{variables.$iconpack-css-prefix}-#{$size} {
-     @include mixins.iconpack-size($value);
-  }
+	.#{variables.$iconpack-css-prefix}-#{$size} {
+		@include mixins.iconpack-size($value);
+	}
 }

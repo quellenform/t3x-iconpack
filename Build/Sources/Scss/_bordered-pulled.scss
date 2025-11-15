@@ -4,19 +4,19 @@
 @use 'variables';
 
 .#{variables.$iconpack-css-prefix}-border {
-  border-color: var(--#{variables.$iconpack-css-prefix}-border-color, #{variables.$iconpack-border-color});
-  border-radius: var(--#{variables.$iconpack-css-prefix}-border-radius, #{variables.$iconpack-border-radius});
-  border-style: var(--#{variables.$iconpack-css-prefix}-border-style, #{variables.$iconpack-border-style});
-  border-width: var(--#{variables.$iconpack-css-prefix}-border-width, #{variables.$iconpack-border-width});
-  padding: var(--#{variables.$iconpack-css-prefix}-border-padding, #{variables.$iconpack-border-padding});
+	border-color: var(--#{variables.$iconpack-css-prefix}-border-color, #{variables.$iconpack-border-color});
+	border-radius: var(--#{variables.$iconpack-css-prefix}-border-radius, #{variables.$iconpack-border-radius});
+	border-style: var(--#{variables.$iconpack-css-prefix}-border-style, #{variables.$iconpack-border-style});
+	border-width: var(--#{variables.$iconpack-css-prefix}-border-width, #{variables.$iconpack-border-width});
+	padding: var(--#{variables.$iconpack-css-prefix}-border-padding, #{variables.$iconpack-border-padding});
 }
 
 .#{variables.$iconpack-css-prefix}-pull-left {
-  float: left;
-  margin-right: var(--#{variables.$iconpack-css-prefix}-pull-margin, #{variables.$iconpack-pull-margin});
+	float: left;
+	margin-right: var(--#{variables.$iconpack-css-prefix}-pull-margin, #{variables.$iconpack-pull-margin});
 }
 
 .#{variables.$iconpack-css-prefix}-pull-right {
-  float: right;
-  margin-left: var(--#{variables.$iconpack-css-prefix}-pull-margin, #{variables.$iconpack-pull-margin});
+	float: right;
+	margin-left: var(--#{variables.$iconpack-css-prefix}-pull-margin, #{variables.$iconpack-pull-margin});
 }
