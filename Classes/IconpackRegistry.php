@@ -81,8 +81,7 @@ final class IconpackRegistry
 
         // No pre-caching, ...retain old behavior for backward compatibility with version 10
         if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.4.0', '<')) {
-            $iconpackProvider = $this->parseIconpackConfiguration($register);
-            $this->iconpackProviders[$iconpackProvider->getKey()] = $iconpackProvider;
+            $this->addIconpackProvider($register);
         }
     }
 
@@ -111,8 +110,7 @@ final class IconpackRegistry
             $hashes = [];
             foreach ($this->iconpackRegister as $hash => $register) {
                 $hashes[] = $hash;
-                $iconpackProvider = $this->parseIconpackConfiguration($register);
-                $this->iconpackProviders[$iconpackProvider->getKey()] = $iconpackProvider;
+                $this->addIconpackProvider($register);
             }
             $this->getIconpackCache()->setCacheByIdentifier('hashes', $hashes);
             $this->getIconpackCache()->setCacheByIdentifier('register', $this->iconpackProviders);
@@ -124,10 +122,9 @@ final class IconpackRegistry
      *
      * @param array $register
      *
-     * @return IconpackProvider
-     * @throws InvalidArgumentException
+     * @return array
      */
-    private function parseIconpackConfiguration(array $register): IconpackProvider
+    private function parseIconpackConfiguration(array $register): array
     {
         // Read and merge iconpack configuration files
         $configuration = IconpackUtility::loadYamlFile($register[0], 'iconpack');
@@ -152,17 +149,8 @@ final class IconpackRegistry
                 $register[2]
             )->configureIconpack($iconpackIdentifier, $iconpackProviderConfig);
         }
-
-        /** @var IconpackProvider $iconpackProvider */
-        $iconpackProvider = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \Quellenform\Iconpack\Domain\Model\IconpackProvider::class,
-            $iconpackProviderConfig
-        );
-
-        return $iconpackProvider;
+        return $iconpackProviderConfig;
     }
-
-
 
     /**
      * Validate the iconpack preProcessor and return its class name.
@@ -288,6 +276,59 @@ final class IconpackRegistry
     }
 
     /**
+     * Add iconpack provider to the iconpack registry.
+     *
+     * @param array $register
+     *
+     * @return void
+     */
+    private function addIconpackProvider(array $register): void
+    {
+        $iconpackProviderConfig = $this->parseIconpackConfiguration($register);
+        $iconpackProvider = $this->getIconpackProviderInstance($iconpackProviderConfig);
+        $iconpackKey = $iconpackProvider->getKey();
+        $this->iconpackProviders[$iconpackKey] = $iconpackProvider;
+        $this->addIconpackProviderReplacements($iconpackProvider);
+    }
+
+    /**
+     * Add iconpack provider replacements to the registry.
+     *
+     * @param IconpackProvider $iconpackProvider
+     *
+     * @return void
+     */
+    private function addIconpackProviderReplacements(IconpackProvider $iconpackProvider): void
+    {
+        $replacedKeys = $iconpackProvider->getReplaces() ?? [];
+        foreach ($replacedKeys as $key) {
+            $this->iconpackProviders[$key] = $this->getIconpackProviderInstance(
+                [
+                    'key' => $key,
+                    'title' => $key,
+                    'replacedBy' => $iconpackProvider->getKey(),
+                    'hidden' => true
+                ]
+            );
+        }
+    }
+
+    /**
+     * Get an iconpack provider instance from configuration array.
+     *
+     * @param array $iconpackProviderConfig
+     *
+     * @return IconpackProvider
+     */
+    private function getIconpackProviderInstance(array $iconpackProviderConfig): IconpackProvider
+    {
+        return GeneralUtility::makeInstance(
+            IconpackProvider::class,
+            $iconpackProviderConfig
+        );
+    }
+
+    /**
      * Get a specific iconpack provider using a specified identifier.
      *
      * @param string $iconpackIdentifier
@@ -297,9 +338,7 @@ final class IconpackRegistry
      */
     public function getIconpackProviderByIdentifier(string $iconpackIdentifier): ?IconpackProvider
     {
-        if (!$this->iconpackProviders) {
-            $this->iconpackProviders = $this->getIconpackCache()->getCacheByIdentifier('register') ?? [];
-        }
+        $this->loadCachedIconpackProviders();
         return $this->iconpackProviders[$iconpackIdentifier];
     }
 
@@ -313,17 +352,45 @@ final class IconpackRegistry
      */
     public function getIconpackProviderIdentifiers(bool $visibleOnly = false): array
     {
-        if (!$this->iconpackProviders) {
-            $this->iconpackProviders = $this->getIconpackCache()->getCacheByIdentifier('register') ?? [];
-        }
+        $this->loadCachedIconpackProviders();
         $iconpackProviderIdentifiers = [];
         foreach ($this->iconpackProviders as $key => $iconpackProvider) {
+            /** @var IconpackProvider $iconpackProvider */
             if ($visibleOnly && $iconpackProvider->getHidden()) {
                 continue;
             }
             $iconpackProviderIdentifiers[] = $key;
         }
         return $iconpackProviderIdentifiers;
+    }
+
+    /**
+     * Replace the identifier of one icon pack with the identifier of another icon pack.
+     *
+     * @param string $iconpackIdentifier
+     *
+     * @return void
+     */
+    public function substituteIconpackIdentifier(string &$iconpackIdentifier): void
+    {
+        $this->loadCachedIconpackProviders();
+        if (isset($this->iconpackProviders[$iconpackIdentifier])) {
+            /** @var IconpackProvider $iconpackProvider */
+            $iconpackProvider = $this->iconpackProviders[$iconpackIdentifier];
+            $iconpackIdentifier = $iconpackProvider->getReplacedBy() ?? $iconpackIdentifier;
+        }
+    }
+
+    /**
+     * Load iconpack providers from cache.
+     *
+     * @return void
+     */
+    private function loadCachedIconpackProviders(): void
+    {
+        if (!$this->iconpackProviders) {
+            $this->iconpackProviders = $this->getIconpackCache()->getCacheByIdentifier('register') ?? [];
+        }
     }
 
     /**

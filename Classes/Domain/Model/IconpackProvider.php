@@ -39,6 +39,20 @@ class IconpackProvider
     protected $key = '';
 
     /**
+     * Array of iconpack keys which are replaced by this iconpack
+     *
+     * @var array
+     */
+    protected $replaces = [];
+
+    /**
+     * Iconpack key which replaces this iconpack
+     *
+     * @var string|null
+     */
+    protected $replacedBy = null;
+
+    /**
      * The version number of the iconpack
      *
      * @var string|null
@@ -136,6 +150,8 @@ class IconpackProvider
     {
         $this->setTitle($config['title']);
         $this->setKey($config['key']);
+        $this->setReplaces($config['replaces'] ?? null);
+        $this->setReplacedBy($config['replacedBy'] ?? null);
         $this->setVersion($config['version'] ?? null);
         $this->setUrl($config['url'] ?? null);
         $this->setLogo($config['logo'] ?? null);
@@ -178,6 +194,43 @@ class IconpackProvider
     public function getKey(): string
     {
         return trim(strtolower($this->key));
+    }
+
+    /**
+     * @param string|null $replaces
+     */
+    public function setReplaces(?string $replaces)
+    {
+        if (!empty($replaces)) {
+            $replacements = GeneralUtility::trimExplode(',', $replaces);
+            foreach ($replacements as $key) {
+                $this->replaces[] = strtolower($key);
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getReplaces(): array
+    {
+        return $this->replaces;
+    }
+
+    /**
+     * @param string|null $replacedBy
+     */
+    public function setReplacedBy(?string $replacedBy)
+    {
+        $this->replacedBy = $replacedBy ? trim(strtolower($replacedBy)) : null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getReplacedBy(): ?string
+    {
+        return $this->replacedBy;
     }
 
     /**

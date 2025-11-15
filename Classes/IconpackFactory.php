@@ -296,8 +296,9 @@ final class IconpackFactory
      *
      * @return array|null
      */
-    public function queryConfig(string $iconpackKey, ?string $selection = null): ?array
+    private function queryConfig(string $iconpackKey, ?string $selection = null): ?array
     {
+        $this->iconpackRegistry->substituteIconpackIdentifier($iconpackKey);
         // Check if the requested iconpack already exists
         if (!isset($this->config[$iconpackKey])) {
             // Check if the requested iconpack is installed at all
@@ -333,23 +334,25 @@ final class IconpackFactory
         foreach (static::$availableIconpacks as $iconpack) {
             /** @var IconpackProvider $iconpackProvider */
             $iconpackProvider = $this->iconpackRegistry->getIconpackProviderByIdentifier($iconpack);
-            $iconpackProvider->setAdditionalOptionsCss(
-                $defaultConfiguration
-            );
-            $this->config[$iconpack] = [
-                'title' => $iconpackProvider->getTitle(),
-                'key' => $iconpackProvider->getKey(),
-                'version' => $iconpackProvider->getVersion(),
-                'url' => $iconpackProvider->getUrl(),
-                'logo' => $iconpackProvider->getLogo(),
-                'renderTypes' => $iconpackProvider->getRenderTypes(),
-                'stylesEnabled' => $iconpackProvider->getStylesEnabled(),
-                'categories' => $iconpackProvider->getCategories(),
-                'icons' => $iconpackProvider->getIcons(),
-                'options' => $iconpackProvider->getAdditionalOptions(
-                    $defaultConfiguration['options'] ?? []
-                )
-            ];
+            if (!$iconpackProvider->getReplacedBy()) {
+                $iconpackProvider->setAdditionalOptionsCss(
+                    $defaultConfiguration
+                );
+                $this->config[$iconpack] = [
+                    'title' => $iconpackProvider->getTitle(),
+                    'key' => $iconpackProvider->getKey(),
+                    'version' => $iconpackProvider->getVersion(),
+                    'url' => $iconpackProvider->getUrl(),
+                    'logo' => $iconpackProvider->getLogo(),
+                    'renderTypes' => $iconpackProvider->getRenderTypes(),
+                    'stylesEnabled' => $iconpackProvider->getStylesEnabled(),
+                    'categories' => $iconpackProvider->getCategories(),
+                    'icons' => $iconpackProvider->getIcons(),
+                    'options' => $iconpackProvider->getAdditionalOptions(
+                        $defaultConfiguration['options'] ?? []
+                    )
+                ];
+            }
         }
         if ($this->config) {
             $this->iconpackCache->setCacheByIdentifier(
@@ -604,6 +607,7 @@ final class IconpackFactory
         ?array $additionalAttributes = null,
         ?array $preferredRenderTypes = null
     ): ?array {
+        $iconfig = $this->substituteIconpackInIconfigArray($iconfig);
         // Check if the required fields are set and if the requested iconpack is installed
         if (
             isset($iconfig['iconpack'])
@@ -670,6 +674,31 @@ final class IconpackFactory
             }
         }
         return null;
+    }
+
+    /**
+     * Substitute iconpack identifier and style in an iconfig array if there is a replacement available.
+     *
+     * @param array|null $iconfig
+     *
+     * @return array|null
+     */
+    public function substituteIconpackInIconfigArray(?array $iconfig): ?array
+    {
+        if (
+            isset($iconfig['iconpack'])
+            && $this->isIconpackInstalled($iconfig['iconpack'])
+        ) {
+            $replacementConf = $this->queryConfig($iconfig['iconpack']);
+            $replacementKey = $replacementConf['key'];
+            if ($replacementKey !== $iconfig['iconpack']) {
+                $iconfig['iconpack'] = $replacementKey;
+                if (isset($iconfig['style'])) {
+                    $iconfig['iconpackStyle'] = $replacementKey . ':' . $iconfig['style'];
+                }
+            }
+        }
+        return $iconfig;
     }
 
     /**

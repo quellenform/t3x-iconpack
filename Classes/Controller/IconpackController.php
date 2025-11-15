@@ -163,9 +163,12 @@ class IconpackController
             $this->iconpackFactory = GeneralUtility::makeInstance(IconpackFactory::class);
             $this->iconpackFactory->setContext($context);
         }
-        $this->iconfig = IconpackUtility::convertIconfigToArray(
-            $request->getQueryParams()['fieldType'] ?? 'native',
-            $request->getQueryParams()['iconfig'] ?? null
+
+        $this->iconfig = $this->iconpackFactory->substituteIconpackInIconfigArray(
+            IconpackUtility::convertIconfigToArray(
+                $request->getQueryParams()['fieldType'] ?? 'native',
+                $request->getQueryParams()['iconfig'] ?? null
+            )
         );
     }
 
