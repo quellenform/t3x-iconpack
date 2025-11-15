@@ -39,5 +39,6 @@
 		width: var(--iconpack-width, auto);
 		height: var(--iconpack-height, 1em);
 		vertical-align: var(--iconpack-vertical-align, -.125em);
+		overflow: visible;
 	}
 }

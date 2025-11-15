@@ -87,6 +87,7 @@
 				line-height: 1;
 				height: 1em !important;
 				min-width: 1em;
+				overflow: visible;
 			}
 			span {
 				filter: var(--iconpack-filter, none);
@@ -159,6 +160,7 @@
 
 			svg {
 				width: auto;
+				overflow: visible;
 			}
 
 			span {

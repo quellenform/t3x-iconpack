@@ -12,7 +12,7 @@
 	height: var(--#{variables.$iconpack-css-prefix}-height, #{variables.$iconpack-height});
 	vertical-align: var(--#{variables.$iconpack-css-prefix}-vertical-align, #{variables.$iconpack-vertical-align});
 	margin-right: var(--#{variables.$iconpack-css-prefix}-margin-right, #{variables.$iconpack-margin-right});
-
+	overflow: visible;
 }
 
 span.#{variables.$iconpack-css-prefix} {
