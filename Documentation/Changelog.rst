@@ -8,6 +8,12 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.3.2
+=====
+
+- b880c37 Add option to replace iconpack versions with newer versions
+- 349d634 Fixed overflow issue with SVG icons
+
 1.3.1
 =====
 

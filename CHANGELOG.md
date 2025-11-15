@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.3.2
+
+- b880c37 Add option to replace iconpack versions with newer versions
+- 349d634 Fixed overflow issue with SVG icons
+
 ## 1.3.1
 
 - d371de4 Make icon search case-insensitive (#49) (thanks to @mbrodala)
