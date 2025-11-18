@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.3.3
+
+- a66a724 Add option to hide specific icons in the modal window
+- 1df9db9 Add option to define aliases for specific icons
+
 ## 1.3.2
 
 - b880c37 Add option to replace iconpack versions with newer versions
