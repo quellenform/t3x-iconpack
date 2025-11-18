@@ -79,10 +79,11 @@ class IconpackUtility
                 foreach ($categories as $categoryKey => $category) {
                     $iconSet = null;
                     foreach ($category['icons'] as $iconKey) {
-                        if (array_key_exists($iconKey, $icons)) {
-                            if (self::isIconStyleAllowed($icons[$iconKey], $style)) {
-                                $iconSet[$iconKey] = $icons[$iconKey]['label'];
-                            }
+                        if (!isset($icons[$iconKey])) {
+                            continue;
+                        }
+                        if (self::isIconStyleAllowed($icons[$iconKey], $style)) {
+                            $iconSet[$iconKey] = $icons[$iconKey]['label'];
                         }
                     }
                     if ($iconSet) {
