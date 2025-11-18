@@ -39,10 +39,11 @@ The biggest differences are among others:
   (:ref:`YAML <yamlExamples>`)
 - Individual iconsets can be easily added (see instructions for :ref:`creating
   your own iconpack provider <customIconpack>`
+- Aliasing/mapping of deprecated icons or entire iconpacks
 - Can also be integrated into :ref:`own extensions <usage>` via the provided form wizard
 - Multilingual labels for icons
 - Uses the backend caching integrated in TYPO3 for the configuration of the
-  installed iconpacks in order not to slow down the backend
+  installed iconpacks in order not to slow down the system
 - The frontend rendering of icons can be changed afterwards (easily switch from
   Webfont to SVG with TypoScript)
 - Works with `EXT:bootstrap_package
@@ -54,7 +55,6 @@ The biggest differences are among others:
 Planned Features
 ================
 
-- Enable the use of SVG sprites in CKEditor 5
 - Add contextmenu in CKEditor to edit a previously added icon (and options)
 - Optimize the UI/Modal
 - Add more detailed information on using and creating your own iconpacks

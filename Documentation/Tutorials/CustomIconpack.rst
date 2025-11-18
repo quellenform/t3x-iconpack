@@ -9,7 +9,7 @@ Any custom iconsets can be registered and provided via custom extensions.
 
 Iconsets that meet at least one of the following criteria can be used:
    - Available as webfont
-   - Available as SVG sprite (preferred)
+   - Available as SVG sprite
    - Available as single SVG icons
 
 An individual Iconpack extension consists of the necessary assets (SVG files,
@@ -17,12 +17,6 @@ StyleSheets, etc.) and a configuration file, which is described below.
 
 .. tip::
    Have a look at the existing extensions!
-
-.. important::
-   Currently only webfonts and SVG images are possible in the RTE, although SVG
-   sprites are already implemented in CKEditor 4. The implementation in CKEditor
-   5 for TYPO3 v12 will follow. However, the output in the frontend is independent
-   of this and always takes place in the selected format.
 
 .. note::
    If you are so kind and want to make your iconpack extension available to the
@@ -34,7 +28,7 @@ StyleSheets, etc.) and a configuration file, which is described below.
 Iconpack Kickstarter
 --------------------
 
-If you want to take the easy route and create a ready-to-use icon pack from SVG files,
+If you want to take the easy route and create a ready-to-use iconpack from SVG files,
 you can use the `Iconpack Kickstarter <https://github.com/quellenform/t3x-iconpack-kickstarter/>`_,
 which allows you to create a complete iconpack and includes all the necessary
 `renderTypes` (svgInline, svgSprites, svg, webfont).
@@ -98,7 +92,7 @@ information about the iconpack is recorded and the definitions for the available
       # Set this value to "true" if you want to hide your iconpack in dropdown menus in the BE.
       # This is useful if you only want to use it in FE/ViewHelpers
       #   Default value: false
-      hidden: true
+      hidden: false
 
       renderTypes:
          webfont:
@@ -124,6 +118,25 @@ information about the iconpack is recorded and the definitions for the available
                class: "mci"
                fill: "currentColor"
 
+      # Optional categories for the backend modal.
+      # All icons not listed here can be displayed using ViewHelper,
+      # but cannot be selected in the backend modal wizard!!!
+      categories:
+         cat1:
+            icons:
+               - icon1
+               - icon2
+               - icon3
+               - ...
+            label: "Category 1"
+         cat2:
+            icons:
+               - icon4
+               - icon5
+               - icon6
+               - ...
+            label: "Category 2"
+
       # Define here which icons are provided by this iconpack
       # In this case, the values here correspond to the file names (without file name extension)
       icons:
@@ -133,6 +146,69 @@ information about the iconpack is recorded and the definitions for the available
          - ...
          - ...
          - iconZ
+
+      # Aliases for obsolete icons.
+      # Here you can list those icons that have been replaced by this particular version of the icon pack.
+      aliases:
+         icon1:
+            - old-icon1
+            - old-icon2
+
+The keys "categories", "icons" and "aliases" can be used directly in the main
+configuration with arrays, but it is also possible to refer to a YAML or JSON
+file instead. External configuration of these values is particularly recommended
+if the number of icons is very high or if better maintainability is required.
+
+.. code-block:: yaml
+
+      # Icon categories for listing in the modal window (BE only)
+      categories: "EXT:iconpack_customicons/Resources/Public/Metadata/categories.yml"
+
+      # The icons in this iconpack
+      icons: "EXT:iconpack_customicons/Resources/Public/Metadata/icons.yml"
+      # Alternative: Use a JSON-file
+      #icons: "EXT:iconpack_customicons/Resources/Public/Metadata/icons.json"
+
+      # Aliases for specific icons
+      aliases: "EXT:iconpack_customicons/Resources/Public/Metadata/aliases.yaml"
+
+
+
+Aliases
+~~~~~~~
+
+It may happen that some icons are removed from newer versions of certain iconpacks.
+Aliases are used to register these icons and provide replacements for them.
+Essentially, this simply involves replacing icon identifiers, with an alias
+specifying which icon should be replaced by which other icon.
+
+Aliases can be used in external configuration files in two ways:
+- Either directly in the "icons" key/array
+- Or in a separate file in the "aliases" key/array
+
+If you use the "aliases" key or your own file for storing aliases, any aliases
+stored directly in the "icons" key will be ignored!
+
+If the configuration is done in icons.yml, use the following structure:
+
+.. code-block:: yaml
+
+   icon1:
+      aliases:
+         - old-icon1
+         - very-old-icon1
+   icon2:
+      aliases: old-icon2
+
+If you want to configure aliases.yml (which replaces the previous method),
+use the following:
+
+.. code-block:: yaml
+
+   icon1:
+      - old-icon1
+      - very-old-icon1
+   icon2: old-icon2
 
 
 

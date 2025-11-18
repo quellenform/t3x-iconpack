@@ -172,6 +172,8 @@ fields.
          # Define the order of the renderTypes here.
          #   If an Iconpack provides one of the types defined here (separated by commas), it will be used (the order is crucial!).
          #   This can be specified differently for icons from a field or the RTE with the keys "native" and "rte".
+         #   You can also assign one (or more) of the valid values directly to the identifier of a specific iconpack, which will
+         #   then affect both "native" and "rte" equally.
          #   Available values: svgInline, svgSprite, webfont, svg
          renderTypes {
             # Override default values for all iconpacks
@@ -180,10 +182,10 @@ fields.
                rte = webfont
             }
             # Override values only for specific iconpacks by using their key
-            fa6 {
+            fa7 {
                native = svgInline
             }
-            glyphicons = webfont
+            mi = webfont
          }
       }
    }
@@ -228,7 +230,7 @@ The following settings are currently available:
    :default: 1
 
    If this option is enabled, icons are loaded in the RTE as SVG (inline, sprites) if they
-   are available in the respective icon pack. Otherwise, only webfonts and IMG tags will
+   are available in the respective iconpack. Otherwise, only webfonts and IMG tags will
    be used instead, which results in a simpler format but may differ from the frontend appearance.
    Note: Clear the TYPO3 cache after changing this option!
 
@@ -243,9 +245,9 @@ The following settings are currently available:
    :default: EXT:iconpack/Configuration/Iconpack/Default.yaml
 
    Path to the YAML configuration file containing the default options for all
-   installed icon packs. Leave this field blank to disable it, or use your own
+   installed iconpacks. Leave this field blank to disable it, or use your own
    configuration file. If you specify your own file here, it will overwrite
-   the default options for all icon packs, unless they contain their own options.
+   the default options for all iconpacks, unless they contain their own options.
    Please also note that you must specify a corresponding CSS file for rendering
    the respective options in the YAML file with the key *optionsCss* (see example below).
 
@@ -294,8 +296,8 @@ Example of manual CKEditor 4 configuration (TYPO3 v10/11)
             - iconpack
 
 If you have also enabled the *rteSvg* option via the extension configuration, you will
-need to allow various SVG elements in CKEditor4 as well (in CKEditor5, this is done via
-the model schema of the CKEditor plugin):
+need to allow various SVG elements in CKEditor4 as well (in CKEditor5, this is done automatically
+via the model schema of the CKEditor plugin):
 
 .. code-block:: yaml
 
@@ -353,7 +355,7 @@ Example of a YAML file for custom options
 -----------------------------------------
 
 The *defaultConfig* option defines a YAML file that controls the default options for all
-installed icon packs. You can edit this file as you wish so that you can use your own
+installed iconpacks. You can edit this file as you wish so that you can use your own
 transformations and animations. Please note, however, that the values used here will also
 be stored in the database, so you should use these settings with caution.
 

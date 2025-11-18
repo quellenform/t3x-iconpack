@@ -77,8 +77,8 @@ Example 2 (Extended)
 
 
 
-Example 3 (Complex)
-===================
+Example 3 (Complex, with styles)
+================================
 
 .. code-block:: yaml
 
@@ -86,8 +86,10 @@ Example 3 (Complex)
       # The title which is used in the backend [mandatory]
       title: "Fontawesome Icons 5 (mod)"
       # The main key for this iconpack [mandatory]
-      key: "fa5"
-      version: "5.15.4"
+      key: "fa7"
+      # This iconpack replaces all icons from previous versions with the identifiers "fa5" and "fa6"
+      replaces: "fa5,fa6"
+      version: "7.1.0"
       url: "https://fontawesome.com/"
 
       # Override predefined preferred renderTypes (The first available type is selected) [optional]
@@ -196,19 +198,22 @@ Example 3 (Complex)
                   attributes:
                      style: "color: green"
 
-      categories: "EXT:iconpack_fontawesome/Resources/Public/Vendor/fontawesome-free-5.15.4-web/metadata/categories.yml"
+      categories: "EXT:iconpack_fontawesome/Resources/Public/metadata/categories.yml"
 
       # The icons in this iconpack (mandatory)
-      icons: "EXT:iconpack_fontawesome/Resources/Public/Vendor/fontawesome-free-5.15.4-web/metadata/icons.yml"
+      icons: "EXT:iconpack_fontawesome/Resources/Public/metadata/icons.yml"
 
       # Alternative 1: Use a JSON-file
-      #icons: "EXT:iconpack_fontawesome/Resources/Public/Vendor/fontawesome-free-5.15.4-web/metadata/icons.json"
+      #icons: "EXT:iconpack_fontawesome/Resources/Public/metadata/icons.json"
 
       # Alternative 2: Define the icons as array
       #icons:
       #  - icon1
       #  - icon2
       #  - icon3
+
+      # Aliases for specific icons
+      aliases: "EXT:iconpack_fontawesome/Resources/Public/metadata/aliases.yaml"
 
 
 Example 4 (Path substitution)
@@ -219,16 +224,16 @@ with parts of an icon identifier.
 
 For example, the identifier is `actions-archive`, which in the case of an SVG
 sprite leads to the path
-`EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons-4.1.0/sprites/actions.svg#actions-archive`,
+`EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons/sprites/actions.svg#actions-archive`,
 or in the case of an SVG to
-`EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons-4.1.0/svgs/actions-archive.svg`.
+`EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons/svgs/actions-archive.svg`.
 
 .. code-block:: yaml
 
    iconpack:
       title: "TYPO3 Icons"
       key: "t3"
-      version: 4.1.0
+      version: 4.4.1
       url: "https://typo3.github.io/TYPO3.Icons/"
 
       renderTypes:
@@ -238,10 +243,10 @@ or in the case of an SVG to
             prefix: "t3-"
 
          svg:
-            source: "EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons-4.1.0/svgs/%1$s/"
+            source: "EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons/svgs/%1$s/"
 
          svgSprite:
-            source: "EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons-4.1.0/sprites/%1$s.svg"
+            source: "EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons/sprites/%1$s.svg"
 
          svgInline:
-            source: "EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons-4.1.0/svgs/%1$s/"
+            source: "EXT:iconpack_typo3/Resources/Public/Vendor/TYPO3.Icons/svgs/%1$s/"
