@@ -74,7 +74,7 @@ class IconpackUtility
     {
         $preparedIcons = [];
         if ($icons) {
-            self::filterAliases($icons);
+            self::filterAliasesAndHiddenIcons($icons);
             if ($categories) {
                 foreach ($categories as $categoryKey => $category) {
                     $iconSet = null;
@@ -116,11 +116,13 @@ class IconpackUtility
      *
      * @return void
      */
-    private static function filterAliases(array &$icons): void
+    private static function filterAliasesAndHiddenIcons(array &$icons): void
     {
         $icons = array_filter(
             $icons,
-            fn(array $item) => !array_key_exists('aliasOf', $item)
+            fn(array $item) => !(
+                array_key_exists('aliasOf', $item) || array_key_exists('hidden', $item)
+            )
         );
     }
 

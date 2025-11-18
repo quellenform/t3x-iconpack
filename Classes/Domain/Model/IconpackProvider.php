@@ -753,6 +753,9 @@ class IconpackProvider
                     if (isset($icon['styles'])) {
                         $icons[$iconKey]['styles'] = (array) $icon['styles'];
                     }
+                    if (isset($icon['hidden']) && (bool) $icon['hidden'] == true) {
+                        $icons[$iconKey]['hidden'] = true;
+                    }
                     $iconArray = $icon;
                 } else {
                     if (!is_int($icon)) {
