@@ -43,10 +43,11 @@ The biggest differences are among others:
 - Individual iconsets can be easily added (see
   [instructions](https://docs.typo3.org/p/quellenform/t3x-iconpack/main/en-us/Tutorials/CustomIconpack.html)
   for creating your own iconpack provider)
+- Aliasing/mapping of deprecated icons or entire iconpacks
 - Can also be integrated into own extensions via the provided form wizard
 - Multilingual labels for icons
 - Uses the backend caching integrated in TYPO3 for the configuration of the
-  installed iconpacks in order not to slow down the backend
+  installed iconpacks in order not to slow down the system
 - The frontend rendering of icons can be changed afterwards (easily switch from
   Webfont to SVG with TypoScript)
 - Works with [Bootstrap
