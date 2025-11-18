@@ -74,6 +74,7 @@ class IconpackUtility
     {
         $preparedIcons = [];
         if ($icons) {
+            self::filterAliases($icons);
             if ($categories) {
                 foreach ($categories as $categoryKey => $category) {
                     $iconSet = null;
@@ -106,6 +107,21 @@ class IconpackUtility
             }
         }
         return $preparedIcons;
+    }
+
+    /**
+     * Filters out all icons that are only registered as aliases or are hidden in BE.
+     *
+     * @param array $icons
+     *
+     * @return void
+     */
+    private static function filterAliases(array &$icons): void
+    {
+        $icons = array_filter(
+            $icons,
+            fn(array $item) => !array_key_exists('aliasOf', $item)
+        );
     }
 
     /**

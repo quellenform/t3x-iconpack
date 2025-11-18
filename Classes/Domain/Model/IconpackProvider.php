@@ -140,6 +140,13 @@ class IconpackProvider
     protected $icons = null;
 
     /**
+     * The aliases array
+     *
+     * @var array|null
+     */
+    protected $aliases = null;
+
+    /**
      * The iconpack localization helper.
      *
      * @var IconpackLocalization
@@ -162,6 +169,7 @@ class IconpackProvider
         $this->setAdditionalOptions($config['options'] ?? null);
         $this->setCategories($config['categories'] ?? null);
         $this->setIcons($config['icons'] ?? null);
+        $this->setAliases($config['aliases'] ?? null);
     }
 
     /**
@@ -735,25 +743,88 @@ class IconpackProvider
         if ($this->icons) {
             $icons = [];
             foreach ($this->icons as $key => $icon) {
+                $iconKey = (string) $key;
+                $iconArray = null;
                 if (is_array($icon)) {
-                    if (isset($icon['label']) && is_array($icon['label'])) {
-                        $icons[$key]['label'] = (string) $icon['label'];
-                    } else {
-                        $icons[$key]['label'] = IconpackUtility::keyToWord((string) $key);
+                    $icons[$iconKey]['label']
+                        = isset($icon['label'])
+                        ? (string) $icon['label']
+                        : IconpackUtility::keyToWord($iconKey);
+                    if (isset($icon['styles'])) {
+                        $icons[$iconKey]['styles'] = (array) $icon['styles'];
                     }
-                    if (isset($icon['styles']) && is_array($icon['styles'])) {
-                        $icons[$key]['styles'] = $icon['styles'];
-                    }
+                    $iconArray = $icon;
                 } else {
-                    if (is_int($icon)) {
-                        $icons[$key]['label'] = IconpackUtility::keyToWord((string) $key);
-                    } else {
-                        $icons[$icon]['label'] = IconpackUtility::keyToWord($icon);
+                    if (!is_int($icon)) {
+                        $iconKey = $icon;
                     }
+                    $icons[$iconKey]['label'] = IconpackUtility::keyToWord($iconKey);
                 }
+                $this->parseAliases($icons, $iconKey, $iconArray);
             }
         }
         return $icons;
+    }
+
+    /**
+     * Check whether any aliases are defined for a specific icon.
+     *
+     * @param array $icons
+     * @param string $key
+     * @param array|null $data
+     *
+     * @return void
+     */
+    private function parseAliases(array &$icons, string $key, ?array $data): void
+    {
+        $aliases = null;
+        if ($data) {
+            if ($this->aliases) {
+                if (isset($this->aliases[$key])) {
+                    $aliases = (array) $this->aliases[$key];
+                }
+            } elseif (isset($data['aliases'])) {
+                $aliases
+                    = isset($data['aliases']['names'])
+                    ? (array) $data['aliases']['names']
+                    : (array) $data['aliases'];
+            }
+        } else {
+            if ($this->aliases && isset($this->aliases[$key])) {
+                $aliases = (array) $this->aliases[$key];
+            }
+        }
+        $this->createAliases($icons, $aliases ?? null, $key);
+    }
+
+    /**
+     * Create aliases for a specific icon.
+     *
+     * @param array $icons
+     * @param array|null $aliases
+     * @param string $key
+     *
+     * @return void
+     */
+    private function createAliases(array &$icons, ?array $aliases, string $key): void
+    {
+        if ($aliases) {
+            foreach ($aliases as $alias) {
+                $icons[$alias] = [
+                    'aliasOf' => $key
+                ];
+            }
+        }
+    }
+
+    /**
+     * Set aliases array.
+     *
+     * @param array|null $aliases
+     */
+    public function setAliases(?array $aliases)
+    {
+        $this->aliases = $aliases;
     }
 
     /**

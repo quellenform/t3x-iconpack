@@ -251,7 +251,7 @@ final class IconpackRegistry
     {
         $iconpackProviderConfig = [];
         foreach ($configuration['iconpack'] as $confKey => $conf) {
-            if (in_array($confKey, ['icons', 'categories', 'options']) && !is_array($conf) && !empty($conf)) {
+            if (in_array($confKey, ['icons', 'categories', 'options', 'aliases']) && !is_array($conf) && !empty($conf)) {
                 if (preg_match('/.*\\.([^\\.]*$)/', $conf, $reg)) {
                     $fileExt = strtolower($reg[1]);
                     $sourceFile = GeneralUtility::getFileAbsFileName($conf);

@@ -655,12 +655,17 @@ final class IconpackFactory
                         );
                         // Set the renderType which is required for rendering
                         $conf['type'] = $preferredRenderType;
-                        $conf['label'] = $icon['label'];
+                        $conf['label'] = $icon['label'] ?? '';
                         $conf['defaultCssClass'] = static::$defaultCssClass;
+                        // Check for aliases
+                        $iconIdentifier
+                            = isset($icon['aliasOf'])
+                            ? $icon['aliasOf']
+                            : $iconfig['icon'];
                         // Everything looks fine so far, try to set the icon element
                         try {
                             $iconElement = IconpackRenderer::createIconElement(
-                                $iconfig['icon'],
+                                $iconIdentifier,
                                 $conf,
                                 static::$context
                             );
