@@ -8,6 +8,11 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.3.4
+=====
+
+- b3a930d Fixed missing check whether aliases contain a string value (#51)
+
 1.3.3
 =====
 
