@@ -813,9 +813,11 @@ class IconpackProvider
     {
         if ($aliases) {
             foreach ($aliases as $alias) {
-                $icons[$alias] = [
-                    'aliasOf' => $key
-                ];
+                if (is_string($alias)) {
+                    $icons[$alias] = [
+                        'aliasOf' => $key
+                    ];
+                }
             }
         }
     }
