@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Iconpack',
-    'description' => 'Provides an iconpack-registry for various iconpacks.',
+    'description' => 'The ultimate iconpack extension for TYPO3, which makes it easier for editors/developers to use icons in the BE/FE/RTE and ViewHelper. Flexible, future-proof, easy to use.',
     'category' => 'fe',
     'state' => 'stable',
     'clearcacheonload' => true,
