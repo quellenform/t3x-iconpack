@@ -43,6 +43,7 @@ final class IconpackGetExternalPlugins
                 'EXT:iconpack/Configuration/RTE/IconpackConfig-v11.yaml'
             );
             $iconpackConfiguration = (array) $yaml['editor']['externalPlugins'];
+            // @extensionScannerIgnoreLine (ignore false positive #108277)
             $event->setConfiguration(array_merge_recursive($configuration, $iconpackConfiguration));
         }
     }

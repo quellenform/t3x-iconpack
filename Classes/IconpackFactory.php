@@ -300,14 +300,17 @@ final class IconpackFactory
     {
         $this->iconpackRegistry->substituteIconpackIdentifier($iconpackKey);
         // Check if the requested iconpack already exists
+        // @extensionScannerIgnoreLine
         if (!isset($this->config[$iconpackKey])) {
             // Check if the requested iconpack is installed at all
             if ($this->isIconpackInstalled($iconpackKey)) {
                 // Get the requested iconpack directly from cache
+                // @extensionScannerIgnoreLine
                 $this->config = $this->iconpackCache->getCacheByIdentifier(
                     $this->prefixCacheIdentifier('config')
                 );
                 // Check if the requested iconpack exists in the cache
+                // @extensionScannerIgnoreLine
                 if (!isset($this->config[$iconpackKey])) {
                     // Check if any iconpacks are installed at all
                     if ($this->areThereAnyIconpacksInstalled()) {
@@ -317,8 +320,10 @@ final class IconpackFactory
             }
         }
         if ($selection) {
+            // @extensionScannerIgnoreLine
             return $this->config[$iconpackKey][$selection] ?? null;
         }
+        // @extensionScannerIgnoreLine
         return $this->config[$iconpackKey] ?? null;
     }
 
@@ -338,6 +343,7 @@ final class IconpackFactory
                 $iconpackProvider->setAdditionalOptionsCss(
                     $defaultConfiguration
                 );
+                // @extensionScannerIgnoreLine
                 $this->config[$iconpack] = [
                     'title' => $iconpackProvider->getTitle(),
                     'key' => $iconpackProvider->getKey(),
@@ -354,9 +360,11 @@ final class IconpackFactory
                 ];
             }
         }
+        // @extensionScannerIgnoreLine
         if ($this->config) {
             $this->iconpackCache->setCacheByIdentifier(
                 $this->prefixCacheIdentifier('config'),
+                // @extensionScannerIgnoreLine
                 $this->config
             );
         }

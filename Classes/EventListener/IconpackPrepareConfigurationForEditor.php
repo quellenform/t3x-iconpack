@@ -60,6 +60,7 @@ final class IconpackPrepareConfigurationForEditor
                     'EXT:iconpack/Configuration/RTE/IconpackConfig-v12.yaml'
                 );
             }
+            // @extensionScannerIgnoreLine (ignore false positive #108277)
             $event->setConfiguration(array_merge_recursive(
                 $configuration,
                 (array) $yaml['editor']['config']
