@@ -14,6 +14,7 @@ namespace Quellenform\Iconpack\UserFunc;
  */
 
 use Quellenform\Iconpack\Html\IconpackHtmlParser;
+use TYPO3\CMS\Core\Attribute\AsAllowedCallable;
 use TYPO3\CMS\Core\Html\HtmlParser;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -26,6 +27,7 @@ final class ParseFuncRte
      * @param  array  TypoScript properties.
      * @return string The content with replaced icon-tags.
      */
+    #[AsAllowedCallable]
     public function replaceIcons(string $content, array $conf): string
     {
         /** @var HtmlParser $htmlParser */
