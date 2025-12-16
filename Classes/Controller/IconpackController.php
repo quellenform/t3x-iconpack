@@ -18,9 +18,13 @@ use Psr\Http\Message\ServerRequestInterface;
 use Quellenform\Iconpack\IconpackFactory;
 use Quellenform\Iconpack\Utility\IconpackRenderer;
 use Quellenform\Iconpack\Utility\IconpackUtility;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\HtmlResponse;
 use TYPO3\CMS\Core\Http\JsonResponse;
+use TYPO3\CMS\Core\SystemResource\Publishing\SystemResourcePublisherInterface;
+use TYPO3\CMS\Core\SystemResource\SystemResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Core\View\ViewFactoryData;
 use TYPO3\CMS\Core\View\ViewFactoryInterface;
@@ -74,17 +78,65 @@ class IconpackController
                     array_key_first($styles)
                 );
             }
+            $assets = $this->iconpackFactory->queryAssets('css', 'backend');
+            foreach ($assets as &$file) {
+                $file = $this->getStreamlinedFileName((string) $file, $request);
+            }
             $settings = [
                 'iconfig' => $this->iconfig,
                 'iconpackStyles' => $styles,
                 'iconpackOptions' => $this->iconpackFactory->queryIconpackOptions($this->iconfig['iconpack']),
                 'iconpackIcons' => $this->iconpackFactory->queryIconpackIcons($this->iconfig),
                 'icon' => IconpackRenderer::renderIcon($this->iconpackFactory->getIconElement($this->iconfig)),
-                'modalStylesheets' => \json_encode($this->iconpackFactory->queryAssets('css', 'backend', true))
+                'modalStylesheets' => \json_encode($assets)
             ];
             $html = $this->renderStandaloneView($request, 'Iconpack', $settings);
         }
         return new HtmlResponse($html);
+    }
+
+    /**
+     * This function acts as a wrapper to allow relative and paths starting with EXT: to be dealt with
+     * in this very case to always return the absolute web path to be included directly before output.
+     *
+     * This function was partially taken from the TYPO3 source code to ensure compatibility for version 10/11.
+     *
+     * @param string $file The filename to process
+     *
+     * @return string
+     */
+    private function getStreamlinedFileName(string $file, ServerRequestInterface $request): string
+    {
+        $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
+        if (version_compare($typo3Version, '14.0.0', '>=')) {
+            // Should be loaded via constructor ...workaround to keep compatibility to versions below 14
+            /** @var SystemResourcePublisherInterface $resourcePublisher */
+            $resourcePublisher = GeneralUtility::makeInstance(SystemResourcePublisherInterface::class);
+            /** @var SystemResourceFactory $systemResourceFactory */
+            $systemResourceFactory = GeneralUtility::makeInstance(SystemResourceFactory::class);
+            $resource = $systemResourceFactory->createPublicResource($file);
+            $file = (string) $resourcePublisher->generateUri($resource, $request);
+        } else {
+            if (strpos($file, 'EXT:') === 0) {
+                if (version_compare($typo3Version, '11.4.0', '>=')) {
+                    // @extensionScannerIgnoreLine
+                    $file = Environment::getPublicPath() . '/' . PathUtility::getPublicResourceWebPath($file, false);
+                } else {
+                    $file = GeneralUtility::getFileAbsFileName($file);
+                }
+                // As the path is now absolute, make it "relative" to the current script to stay compatible
+                // @extensionScannerIgnoreLine
+                $file = PathUtility::getRelativePathTo($file) ?? '';
+                $file = rtrim($file, '/');
+            } else {
+                // @extensionScannerIgnoreLine
+                $file = GeneralUtility::resolveBackPath($file);
+            }
+            // @extensionScannerIgnoreLine
+            $file = GeneralUtility::createVersionNumberedFilename($file);
+            $file = PathUtility::getAbsoluteWebPath($file);
+        }
+        return $file;
     }
 
     /**

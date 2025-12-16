@@ -17,10 +17,7 @@ use InvalidArgumentException;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Various Helpers and Utilities for the IconpackFactory.
@@ -435,45 +432,7 @@ class IconpackUtility
                 false
             )
         );
-        if ($streamlined) {
-            foreach ($assets as &$file) {
-                $file = self::getStreamlinedFileName($file);
-            }
-        }
         return $assets;
-    }
-
-    /**
-     * This function acts as a wrapper to allow relative and paths starting with EXT: to be dealt with
-     * in this very case to always return the absolute web path to be included directly before output.
-     *
-     * This function was partially taken from the TYPO3 source code to ensure compatibility for version 10/11.
-     *
-     * @param string $file The filename to process
-     *
-     * @return string
-     */
-    protected static function getStreamlinedFileName(string $file): string
-    {
-        $typo3Version = VersionNumberUtility::getCurrentTypo3Version();
-        if (strpos($file, 'EXT:') === 0) {
-            if (version_compare($typo3Version, '11.4.0', '>=')) {
-                $file = Environment::getPublicPath() . '/' . PathUtility::getPublicResourceWebPath($file, false);
-            } else {
-                $file = GeneralUtility::getFileAbsFileName($file);
-            }
-            // As the path is now absolute, make it "relative" to the current script to stay compatible
-            $file = PathUtility::getRelativePathTo($file) ?? '';
-            $file = rtrim($file, '/');
-        } else {
-            if (version_compare($typo3Version, '14.0.0', '<')) {
-                // @extensionScannerIgnoreLine
-                $file = GeneralUtility::resolveBackPath($file);
-            }
-        }
-        $file = GeneralUtility::createVersionNumberedFilename($file);
-        $file = PathUtility::getAbsoluteWebPath($file);
-        return $file;
     }
 
     /**
