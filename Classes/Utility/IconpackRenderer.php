@@ -257,7 +257,7 @@ class IconpackRenderer
                     // Get attributes from SVG-node
                     $nodeAttributes = $svgNode[0]->attributes() ?? [];
                     foreach ($nodeAttributes as $key => $value) {
-                        $svgAttributes[strtolower($key)] = $value->__toString();
+                        $svgAttributes[strtolower((string) $key)] = $value->__toString();
                     }
                     // Unset additional CSS-classes from SVG file
                     unset($svgAttributes['class']);

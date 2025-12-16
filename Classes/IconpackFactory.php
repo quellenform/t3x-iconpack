@@ -375,7 +375,7 @@ final class IconpackFactory
         $yamlFile = (string) trim($extConf->get('iconpack', 'defaultConfig'));
         if (!empty($yamlFile)) {
             $configuration = IconpackUtility::loadYamlFile($yamlFile, 'iconpack');
-            return $configuration['iconpack'];
+            return (array) $configuration['iconpack'];
         } else {
             return [];
         }

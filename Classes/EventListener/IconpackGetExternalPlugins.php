@@ -42,7 +42,7 @@ final class IconpackGetExternalPlugins
             $yaml = IconpackUtility::loadYamlFile(
                 'EXT:iconpack/Configuration/RTE/IconpackConfig-v11.yaml'
             );
-            $iconpackConfiguration = $yaml['editor']['externalPlugins'];
+            $iconpackConfiguration = (array) $yaml['editor']['externalPlugins'];
             $event->setConfiguration(array_merge_recursive($configuration, $iconpackConfiguration));
         }
     }

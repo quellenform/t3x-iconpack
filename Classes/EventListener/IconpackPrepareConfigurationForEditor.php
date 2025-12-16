@@ -62,7 +62,7 @@ final class IconpackPrepareConfigurationForEditor
             }
             $event->setConfiguration(array_merge_recursive(
                 $configuration,
-                $yaml['editor']['config']
+                (array) $yaml['editor']['config']
             ));
         }
     }
