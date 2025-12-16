@@ -8,6 +8,12 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.4.0
+=====
+
+- 4423224 Moved streamlined filename generation and added v14 compatibility
+- Minor code optimizations
+
 1.3.4
 =====
 
