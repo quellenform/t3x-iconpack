@@ -84,4 +84,4 @@ You can also call up a specific icon directly from Fluid:
 
 .. code-block:: html
 
-   <i:icon iconfig="fa6:brands,youtube" additionalAttributes="{class:'social'}" />
+   <i:icon iconfig="fa7:brands,youtube" additionalAttributes="{class:'social'}" />

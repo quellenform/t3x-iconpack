@@ -71,7 +71,7 @@ How does it work?
 Instead of storing the entire HTML markup or a static file path for an icon in
 the database fields, a short configuration string is stored instead (also in the
 RTE). This string is called "iconfig" and looks something like
-`fa6:solid,star,transform:spin`. This example will render the icon *Star* from
+`fa7:solid,star,transform:spin`. This example will render the icon *Star* from
 the iconpack *Font Awesome 6* (solid style) with the additional property of a
 spinnig rotation.
 
@@ -87,11 +87,12 @@ Only the following code is always (!) stored in the database (RTE):
 
 .. code-block:: html
 
-   <span data-iconfig="fa6:solid,star"></span>
+   <span data-iconfig="fa7:solid,star"></span>
 
 How this code is then displayed in the backend and frontend depends on the
 configured `renderTypes` and the icons provided by the respective iconpack.
-In the case of *Font Awesome 6*, for example, all possible types are provided:
+In the case of *Font Awesome 7*, for example, all possible types are provided:
+
 - Webfont
 - SVG sprites
 - SVG images
