@@ -9,7 +9,7 @@ html(xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http:
 
 					f:switch(expression="{optionConf.type}")
 						f:case(value="select")
-							select(data-key="{optionKey}" class="form-control form-control-adapt iconpack-option")
+							select(data-key="{optionKey}" class="form-control form-select form-control-adapt iconpack-option")
 								option(value="")/
 								f:for(each="{optionConf.values}" key="key" as="item")
 									| <option data-attributes="{f:format.htmlspecialchars(value:item.attributesString)}" value="{key}" {f:if(condition: item.selected, then: ' selected')}>{item.label}</option>

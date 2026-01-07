@@ -10,7 +10,7 @@ html(xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" xmlns:core="http:
 				core:icon(identifier="ext-iconpack" size="small" alternativeMarkupIdentifier="inline")/
 				f:translate(key="LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:label.iconpack")
 
-			select(class="form-control form-control-adapt" name="header_icon[style]" id="iconpack-style")
+			select(class="form-control form-select form-control-adapt" name="header_icon[style]" id="iconpack-style")
 				f:for(each="{iconpackStyles}" key="key" as="item")
 					| <option value="{key}" {f:if(condition: item.selected, then: ' selected="selected"')}>{item.label}</option>
 
