@@ -33,6 +33,12 @@ use TYPO3\CMS\Core\Utility\VersionNumberUtility;
  */
 class IconpackWizardElement extends AbstractFormElement
 {
+    protected $defaultFieldInformation = [
+        'tcaDescription' => [
+            'renderType' => 'tcaDescription',
+        ],
+    ];
+
     /**
      * @var IconpackFactory
      */
