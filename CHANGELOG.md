@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.4.1
+
+- 7d3ce01 [TASK] Render field description if set (#54) (thanks to @mbrodala)
+- 755fab5 [BUGFIX] Iconpacks not shown as select field (#53) (thanks to @mbrodala)
+
 ## 1.4.0
 
 - 4423224 Moved streamlined filename generation and added v14 compatibility
