@@ -35,8 +35,8 @@ class IconpackWizardElement extends AbstractFormElement
 {
     protected $defaultFieldInformation = [
         'tcaDescription' => [
-            'renderType' => 'tcaDescription',
-        ],
+            'renderType' => 'tcaDescription'
+        ]
     ];
 
     /**
