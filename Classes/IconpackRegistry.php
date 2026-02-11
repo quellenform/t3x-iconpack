@@ -96,7 +96,7 @@ final class IconpackRegistry
 
         // Self-healing cache when an iconpack has been installed/changed.
         if ($hasCachedRegister) {
-            $hashes = $this->getIconpackCache()->getCacheByIdentifier('hashes');
+            $hashes = $this->getIconpackCache()->getCacheByIdentifier('hashes') ?: [];
             if (
                 count(array_diff(array_keys($this->iconpackRegister), $hashes))
             ) {
