@@ -41,7 +41,6 @@ export class Iconpack extends Plugin {
 
   static get requires() {
     return [
-      IconpackCommand,
       IconpackEditing,
       IconpackUI
     ];
