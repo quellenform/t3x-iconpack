@@ -8,6 +8,11 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.4.2
+=====
+
+- 25cc6e3 [BUGFIX] Uncaught (in promise) CKEditorError: plugincollection-plugin-invalid-constructor (#58) (thanks to @mediaessenz)
+
 1.4.1
 =====
 
