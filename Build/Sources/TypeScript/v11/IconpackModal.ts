@@ -13,7 +13,7 @@ import Iconpack = require('TYPO3/CMS/Iconpack/v11/Iconpack');
 
 interface UrlParams {
   fieldType: string,
-  iconfigString: string,
+  iconfigString: string | null,
 }
 
 /**
@@ -52,7 +52,7 @@ class IconpackModal {
       btnClass: 'btn-success',
       name: 'ok',
       action: new DeferredAction((() => {
-        const iconfigStringNew = Iconpack.convertIconfigToString(Iconpack.iconfig);
+        const iconfigStringNew = Iconpack.convertIconfigToString(Iconpack.iconfig!);
         if (iconfigStringNew === null) {
           console.log('Ⓘ No icon chosen, closing modal...'); //# DEBUG MESSAGE
         } else {

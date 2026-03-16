@@ -26,15 +26,15 @@ enum Selectors {
 class IconpackWizard {
 
   // The Iconpack wizard-button
-  private controlElement: HTMLElement = null;
+  private controlElement?: HTMLElement | null;
   // The form palette which contains the form elements
-  private palette: HTMLElement = null;
+  private palette?: HTMLElement | null;
   // The input field for the icon
-  private formengineInput: HTMLInputElement = null;
+  private formengineInput?: HTMLInputElement | null;
   // The icon field which displays the final icon
-  private iconField: HTMLElement = null;
+  private iconField?: HTMLElement | null;
   // The name of the input field
-  private itemName: string = null;
+  private itemName?: string | null;
 
 
   constructor(controlElementId: string) {
@@ -54,7 +54,7 @@ class IconpackWizard {
       this.palette = this.controlElement.closest(Selectors.palette);
       console.debug('palette:', this.palette); //! DEBUG VALUE
 
-      this.formengineInput = this.palette.querySelector('input[name="' + this.itemName + '"]');
+      this.formengineInput = this.palette!.querySelector('input[name="' + this.itemName + '"]');
       console.debug('formengineInput:', this.formengineInput); //! DEBUG VALUE
 
       this.iconField = this.controlElement.querySelector(Selectors.iconField);
@@ -91,8 +91,8 @@ class IconpackWizard {
   addIconToField(iconfigString: string, iconMarkup: string): void {
     console.log('⮜ IconpackWizard: Add icon to field'); //# DEBUG MESSAGE
 
-    this.formengineInput.value = iconfigString;
-    this.iconField.innerHTML = iconMarkup;
+    this.formengineInput!.value = iconfigString;
+    this.iconField!.innerHTML = iconMarkup;
     FormEngineValidation.markFieldAsChanged(this.palette);
   }
 
@@ -102,8 +102,8 @@ class IconpackWizard {
   clearIconField(): void {
     console.log('⮜ IconpackWizard: Icon has been removed'); //# DEBUG MESSAGE
 
-    this.formengineInput.value = '';
-    this.iconField.innerHTML = '';
+    this.formengineInput!.value = '';
+    this.iconField!.innerHTML = '';
     FormEngineValidation.markFieldAsChanged(this.palette);
   }
 }

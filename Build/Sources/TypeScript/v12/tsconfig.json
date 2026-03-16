@@ -2,13 +2,11 @@
 	"compilerOptions": {
 		"allowSyntheticDefaultImports": true,
 		"alwaysStrict": true,
-		"baseUrl": "./",
-		"downlevelIteration": true,
 		"esModuleInterop": true,
 		"experimentalDecorators": true,
 		"incremental": true,
 		"module": "es2020",
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
 		"noImplicitThis": true,
@@ -18,7 +16,8 @@
 			"@quellenform/iconpack.js": ["./Iconpack.ts"],
 			"@quellenform/iconpack-modal.js": ["./IconpackModal.ts"],
 			"@quellenform/iconpack-wizard.js": ["./IconpackWizard.ts"],
-			"@quellenform/iconpack-ckeditor.js": ["./CKEditor/plugin.ts"]
+			"@quellenform/iconpack-ckeditor.js": ["./CKEditor/plugin.ts"],
+			"@typo3/*": ["../types/TYPO3/index.d.ts"]
 		},
 		"pretty": true,
 		"removeComments": false,

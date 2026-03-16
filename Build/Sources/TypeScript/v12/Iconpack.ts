@@ -63,24 +63,24 @@ type AjaxResponse = typeof AjaxResponse;
 class Iconpack {
 
   // The Iconpack Modal
-  private iconpackModal: HTMLElement = null;
+  private iconpackModal?: HTMLElement;
   // The current fieldType [native|rte]
-  private fieldType: string = null;
+  private fieldType?: string;
   // The Iconpack configuration
-  public iconfig: IconfigObject = null;
+  public iconfig?: IconfigObject;
   // Backup of the Iconpack configuration (important for style changes)
-  private iconfigBackup: IconfigObject = null;
+  private iconfigBackup?: IconfigObject;
 
   // The Iconpack elements
-  private elementSearch: HTMLElement = null;
-  private elementOptions: HTMLElement = null;
-  private elementIcons: HTMLElement = null;
-  private elementTooltip: HTMLElement = null;
-  private elementStyles: HTMLSelectElement = null;
-  private elementModalFooter: HTMLElement = null;
-  private elementIconSelection: HTMLElement = null;
+  private elementSearch?: HTMLElement;
+  private elementOptions?: HTMLElement;
+  private elementIcons?: HTMLElement;
+  private elementTooltip?: HTMLElement;
+  private elementStyles?: HTMLSelectElement;
+  private elementModalFooter?: HTMLElement;
+  private elementIconSelection?: HTMLElement;
 
-  public initialize(currentModal: HTMLElement, iconfigString: string, fieldType: string) {
+  public initialize(currentModal: HTMLElement, iconfigString: string | null, fieldType: string) {
     console.group('Iconpack::initialize()'); //? DEBUG GROUP
 
     this.iconpackModal = currentModal;
@@ -109,9 +109,9 @@ class Iconpack {
       this.initializeSearchField();
     } else {
       // Unset buttons if there are no iconpacks installed
-      const clearButton: HTMLElement = this.elementModalFooter.querySelector('button[name="clear"]');
+      const clearButton: HTMLElement = this.elementModalFooter!.querySelector('button[name="clear"]')!;
       clearButton.style.display = 'none';
-      const okButton: HTMLElement = this.elementModalFooter.querySelector('button[name="ok"]');
+      const okButton: HTMLElement = this.elementModalFooter!.querySelector('button[name="ok"]')!;
       okButton.style.display = 'none';
     }
 
@@ -121,13 +121,13 @@ class Iconpack {
   private initializeElements(): void {
     console.groupCollapsed('Iconpack::initializeElements()'); //? DEBUG GROUP
 
-    this.elementModalFooter = this.iconpackModal.querySelector(iconpackSelectors.modalFooter);
-    this.elementStyles = this.iconpackModal.querySelector(iconpackSelectors.styles);
-    this.elementOptions = this.iconpackModal.querySelector(iconpackSelectors.options);
-    this.elementIcons = this.iconpackModal.querySelector(iconpackSelectors.icons);
-    this.elementTooltip = this.iconpackModal.querySelector(iconpackSelectors.tooltip);
-    this.elementIconSelection = this.iconpackModal.querySelector(iconpackSelectors.iconSelection);
-    this.elementSearch = this.iconpackModal.querySelector(iconpackSelectors.search);
+    this.elementModalFooter = <HTMLElement>this.iconpackModal!.querySelector(iconpackSelectors.modalFooter);
+    this.elementStyles = <HTMLSelectElement>this.iconpackModal!.querySelector(iconpackSelectors.styles);
+    this.elementOptions = <HTMLElement>this.iconpackModal!.querySelector(iconpackSelectors.options);
+    this.elementIcons = <HTMLElement>this.iconpackModal!.querySelector(iconpackSelectors.icons);
+    this.elementTooltip = <HTMLElement>this.iconpackModal!.querySelector(iconpackSelectors.tooltip);
+    this.elementIconSelection = <HTMLElement>this.iconpackModal!.querySelector(iconpackSelectors.iconSelection);
+    this.elementSearch = <HTMLElement>this.iconpackModal!.querySelector(iconpackSelectors.search);
 
     console.groupEnd(); //? DEBUG GROUP
   }
@@ -179,13 +179,13 @@ class Iconpack {
     console.groupCollapsed('Iconpack::updateContent()'); //? DEBUG GROUP
 
     // Clear search field after update
-    this.elementSearch.querySelector('input').value = '';
+    this.elementSearch!.querySelector('input')!.value = '';
 
     if (data.iconpackOptions !== null) {
-      this.elementOptions.innerHTML = data.iconpackOptions;
+      this.elementOptions!.innerHTML = data.iconpackOptions;
     }
     if (data.iconpackIcons !== null) {
-      this.elementIcons.innerHTML = data.iconpackIcons;
+      this.elementIcons!.innerHTML = data.iconpackIcons;
     }
     this.initializeOptionFields();
     this.initializeIconWall();
@@ -200,7 +200,7 @@ class Iconpack {
     console.groupCollapsed('Iconpack::initializeStyleField()'); //? DEBUG GROUP
 
     // Add OnChange handler that becomes active when another style is selected
-    this.elementStyles.addEventListener('change', () => {
+    this.elementStyles!.addEventListener('change', () => {
       console.log('⭘ TRIGGER: Style has been changed'); //# DEBUG MESSAGE
       // Add loading icon to the icons section
       BackendIcons.getIcon(
@@ -210,21 +210,21 @@ class Iconpack {
         null,
         BackendIcons.markupIdentifiers.inline
       ).then(async (response: AjaxResponse) => {
-        this.elementIcons.innerHTML = '<div class="icons-loading">' + response + '</div>'
+        this.elementIcons!.innerHTML = '<div class="icons-loading">' + response + '</div>'
       });
       // Reset iconfig
       if (this.iconfigBackup && this.iconfigBackup.iconpack) {
-        if (this.iconfigBackup.iconpackStyle === this.iconfig.iconpackStyle) {
+        if (this.iconfigBackup.iconpackStyle === this.iconfig!.iconpackStyle) {
           this.iconfig = this.iconfigBackup;
-        } else if (this.iconfigBackup.iconpack === this.iconfig.iconpack) {
-          this.iconfig.options = this.iconfigBackup.options;
+        } else if (this.iconfigBackup.iconpack === this.iconfig!.iconpack) {
+          this.iconfig!.options = this.iconfigBackup.options;
         }
       }
       // Query the chosen iconpack
       this.getIconpackIcon(
         TYPO3.settings.ajaxUrls.iconpack_modal_update,
         this.updateContent.bind(this),
-        this.elementStyles.value
+        this.elementStyles!.value
       );
     });
 
@@ -237,19 +237,19 @@ class Iconpack {
   private initializeOptionFields(): void {
     console.groupCollapsed('Iconpack::initializeOptionFields()'); //? DEBUG GROUP
 
-    this.elementOptions.querySelectorAll('.iconpack-option').forEach((optionElement: HTMLInputElement) => {
-      const optionKey = optionElement.getAttribute('data-key');
+    this.elementOptions!.querySelectorAll('.iconpack-option').forEach((optionElement: Element) => {
+      const optionKey = <string>optionElement.getAttribute('data-key');
       console.debug('Ⓘ Configure Iconpack option:', optionKey); //! DEBUG VALUE
       if (this.iconfig && this.iconfig.options[optionKey]) {
-        this.setFieldValue(optionElement, this.iconfig.options[optionKey]);
+        this.setFieldValue(<HTMLInputElement>optionElement, this.iconfig.options[optionKey]);
       }
       // Add onchange to options field
       optionElement.addEventListener('change', () => {
         console.log('⭘ TRIGGER: Option "' + optionKey + '" has been changed'); //# DEBUG MESSAGE
         if (this.iconfig && this.iconfig.icon) {
-          const iconpackIcons = this.elementIcons.querySelector('[name="' + this.iconfig.icon + '"]');
+          const iconpackIcons = this.elementIcons!.querySelector('[name="' + this.iconfig.icon + '"]');
           if (iconpackIcons) {
-            this.elementIconSelection.innerHTML = iconpackIcons.innerHTML;
+            this.elementIconSelection!.innerHTML = iconpackIcons.innerHTML;
           }
         }
         this.applyOptions();
@@ -266,7 +266,7 @@ class Iconpack {
   private getFieldAttributes(
     element: HTMLElement | HTMLInputElement | HTMLSelectElement
   ): string[] | null {
-    let value: string = null;
+    let value: string | null = null;
 
     if (element) {
       if (element.matches('[type="checkbox"]')) {
@@ -281,7 +281,7 @@ class Iconpack {
     return element.checked ? element.getAttribute('data-attributes') : null;
   }
   private getDataAttributeFromSelectOption(element: HTMLSelectElement, dataAttribute: string): string | null {
-    return element.options[element.selectedIndex].dataset[dataAttribute];
+    return <string | null>element.options[element.selectedIndex].dataset[dataAttribute];
   }
 
   /**
@@ -289,8 +289,8 @@ class Iconpack {
    */
   private getFieldValue(
     element: HTMLInputElement
-  ): string | boolean {
-    let value: string | boolean = null;
+  ): string | boolean | null {
+    let value: string | boolean | null = null;
     if (element) {
       if (element.matches('[type="checkbox"]')) {
         value = element.checked;
@@ -321,12 +321,12 @@ class Iconpack {
   private initializeSearchField(): void {
     console.groupCollapsed('Iconpack::initializeSearchField()'); //? DEBUG GROUP
 
-    const searchFieldInput: HTMLInputElement = this.elementSearch.querySelector('input');
-    const searchFieldClearButton: HTMLButtonElement = this.elementSearch.querySelector('button');
+    const searchFieldInput: HTMLInputElement = <HTMLInputElement>this.elementSearch!.querySelector('input');
+    const searchFieldClearButton: HTMLButtonElement = <HTMLButtonElement>this.elementSearch!.querySelector('button');
 
     // Move search field to footer
-    const searchField = this.elementSearch.parentElement.removeChild(this.elementSearch);
-    this.elementModalFooter.prepend(searchField);
+    const searchField = this.elementSearch!.parentElement!.removeChild(this.elementSearch!);
+    this.elementModalFooter!.prepend(searchField);
 
     // Add triggers to empty the field
     searchFieldClearButton.addEventListener('click', () => {
@@ -355,8 +355,8 @@ class Iconpack {
   private initializeIconWall(): void {
     console.groupCollapsed('Iconpack::initializeIconWall()'); //? DEBUG GROUP
 
-    this.elementIcons.querySelectorAll('li').forEach((iconElement) => {
-      const iconIdentifier = iconElement.getAttribute('name');
+    this.elementIcons!.querySelectorAll('li').forEach((iconElement) => {
+      const iconIdentifier = iconElement.getAttribute('name') || '';
       if (this.iconfig && this.iconfig.icon) {
         if (this.iconfig.icon === iconIdentifier) {
           iconElement.classList.add('active');
@@ -366,7 +366,7 @@ class Iconpack {
       iconElement.addEventListener('click', (event) => {
         console.log('⭘ TRIGGER: Icon has been selected'); //# DEBUG MESSAGE
         const element = <HTMLElement>event.currentTarget;
-        element.parentNode.querySelectorAll('li').forEach((siblingIconElement) => {
+        element.parentNode!.querySelectorAll('li').forEach((siblingIconElement) => {
           siblingIconElement.classList.remove('active');
         });
         element.classList.add('active');
@@ -374,19 +374,18 @@ class Iconpack {
       }, true);
       iconElement.addEventListener('dblclick', () => {
         console.log('⭘ TRIGGER: Icon has been double-clicked!'); //# DEBUG MESSAGE
-        const okButton =
-            this.elementModalFooter.querySelector('button[name="ok"]');
-          okButton.dispatchEvent(new Event("click"));
+        const okButton = <HTMLElement>this.elementModalFooter!.querySelector('button[name="ok"]');
+        okButton.dispatchEvent(new Event('click'));
       }, true);
       iconElement.addEventListener('mouseover', (event) => {
         const element = <HTMLElement>event.currentTarget;
-        const iconTitle = element.getAttribute('data-title');
-        this.elementTooltip.innerHTML = iconTitle;
-        this.elementTooltip.style.display = 'block';
+        const iconTitle = <string>element.getAttribute('data-title');
+        this.elementTooltip!.innerHTML = iconTitle;
+        this.elementTooltip!.style.display = 'block';
       }, true);
       iconElement.addEventListener('mouseleave', () => {
-        this.elementTooltip.innerHTML = '';
-        this.elementTooltip.style.display = 'none';
+        this.elementTooltip!.innerHTML = '';
+        this.elementTooltip!.style.display = 'none';
       }, true);
     });
 
@@ -401,10 +400,10 @@ class Iconpack {
   ): void {
     console.groupCollapsed('Iconpack::selectIcon()'); //? DEBUG GROUP
 
-    const iconpackStyle = this.elementStyles.options[this.elementStyles.selectedIndex].value;
-    const iconMarkup = this.elementIcons.querySelector('[name="' + iconIdentifier + '"]').innerHTML;
+    const iconpackStyle = this.elementStyles!.options[this.elementStyles!.selectedIndex].value;
+    const iconMarkup = this.elementIcons!.querySelector('[name="' + iconIdentifier + '"]')!.innerHTML;
 
-    this.elementIconSelection.innerHTML = iconMarkup;
+    this.elementIconSelection!.innerHTML = iconMarkup;
     this.iconfig = this.convertIconfigToObject(iconpackStyle + ',' + iconIdentifier);
     this.applyOptions();
 
@@ -421,14 +420,14 @@ class Iconpack {
     const iconfig: IconfigOptions = {
       options: {}
     };
-    this.elementOptions.querySelectorAll('.iconpack-option').forEach((optionElement: HTMLInputElement) => {
-      const optionKey = optionElement.getAttribute('data-key');
-      const attribute: string[] = this.getFieldAttributes(optionElement);
+    this.elementOptions!.querySelectorAll('.iconpack-option').forEach((optionElement: Element) => {
+      const optionKey: string | null = optionElement.getAttribute('data-key');
+      const attribute: string[] | null = this.getFieldAttributes(<HTMLSelectElement>optionElement);
       if (attribute) {
         additionalAttributes.push(attribute);
       }
-      const value: string | boolean | null = this.getFieldValue(optionElement);
-      if (value) {
+      const value: string | boolean | null = this.getFieldValue(<HTMLInputElement>optionElement);
+      if (value && optionKey) {
         iconfig.options[optionKey] = value;
       }
     });
@@ -448,7 +447,7 @@ class Iconpack {
     console.groupCollapsed('Iconpack::mergeAttributesIntoIconSelection()'); //? DEBUG GROUP
     console.debug('Ⓘ Attributes to be merged:', additionalAttributes); //! DEBUG VALUE
 
-    let iconElement = <HTMLElement>this.elementIconSelection.firstElementChild;
+    let iconElement = <HTMLElement>this.elementIconSelection!.firstElementChild;
 
     for (const i in additionalAttributes) {
       for (const attributeName in additionalAttributes[i]) {
@@ -488,10 +487,10 @@ class Iconpack {
     console.group('Iconpack::searchIcon()'); //? DEBUG GROUP
     console.debug('Ⓘ Search for:', searchString); //! DEBUG VALUE
 
-    this.elementIcons.querySelectorAll('section').forEach((sectionItem) => {
+    this.elementIcons!.querySelectorAll('section').forEach((sectionItem) => {
       let enableSection = false;
       sectionItem.querySelectorAll('li').forEach((iconItem) => {
-        const name = iconItem.getAttribute('name').toLowerCase();
+        const name = iconItem.getAttribute('name')!.toLowerCase();
         if (name && name.indexOf(searchString) >= 0) {
           iconItem.style.display = 'inline-flex';
           enableSection = true;
@@ -561,19 +560,23 @@ class Iconpack {
   private injectCSS(): void {
     console.groupCollapsed('Iconpack::injectCSS()'); //? DEBUG GROUP
 
-    const styleSheetElement: HTMLInputElement = this.iconpackModal.querySelector(iconpackSelectors.styleSheets);
-    const styleSheets: string[] = JSON.parse(styleSheetElement.value);
-    for (let index in styleSheets) {
-      const cssFile = styleSheets[index];
-      if (!window.parent.document.head.querySelector('link[href="' + cssFile + '"]')) {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = cssFile;
-        link.dataset.iconpack = 'iconpack[' + index + ']';
-        console.debug('⮊ Inject CSS-link:', link); //! DEBUG VALUE
-        window.parent.document.head.appendChild(link);
+    const styleSheetElement: HTMLInputElement | null = this.iconpackModal!.querySelector(iconpackSelectors.styleSheets);
+    if (styleSheetElement) {
+      const styleSheets: string[] = JSON.parse(styleSheetElement.value);
+      for (let index in styleSheets) {
+        const cssFile = styleSheets[index];
+        if (!window.parent.document.head.querySelector('link[href="' + cssFile + '"]')) {
+          const link = document.createElement('link');
+          link.rel = 'stylesheet';
+          link.type = 'text/css';
+          link.href = cssFile;
+          link.dataset.iconpack = 'iconpack[' + index + ']';
+          console.debug('⮊ Inject CSS-link:', link); //! DEBUG VALUE
+          window.parent.document.head.appendChild(link);
+        }
       }
+    } else {
+      console.warn('⮿ Failed to inject CSS-links!');
     }
 
     console.groupEnd(); //? DEBUG GROUP
@@ -588,7 +591,7 @@ class Iconpack {
     const linkElements: NodeListOf<HTMLLinkElement> = window.parent.document.head.querySelectorAll('link[data-iconpack]');
     for (let i = 0; i < linkElements.length; i++) {
       console.debug('⮈ Unlink CSS-link:', linkElements[i].getAttribute('href')); //! DEBUG VALUE
-      linkElements[i].parentNode.removeChild(linkElements[i]);
+      linkElements[i].parentNode!.removeChild(linkElements[i]);
     }
 
     console.groupEnd(); //? DEBUG GROUP
@@ -598,32 +601,32 @@ class Iconpack {
    * Convert an iconfig string to object.
    */
   private convertIconfigToObject(
-    iconfigString: string
+    iconfigString: string | null
   ): IconfigObject {
     console.groupCollapsed('Iconpack::convertIconfigToObject()'); //? DEBUG GROUP
     console.debug('Ⓘ iconfig (string):', iconfigString); //! DEBUG VALUE
 
-    let iconfigObject = null;
-    if (iconfigString) {
-      const iconfigArray = iconfigString.split(',');
-      const iconpackStyle = iconfigArray[0].split(':');
-      const options: AssociativeArray = {};
-      iconfigObject = {
-        iconpackStyle: iconfigArray[0] || null,
-        iconpack: iconpackStyle[0] || null,
-        style: iconpackStyle[1] || null,
-        icon: iconfigArray[1] || null,
-        options: options
-      }
-      for (let i = 2; i < iconfigArray.length; i++) {
-        const options = iconfigArray[i].split(':');
-        if (options[1].match(/^true|false$/ig)) {
-          if ((options[1] === 'true')) {
-            iconfigObject.options[options[0]] = true;
-          }
-        } else {
-          iconfigObject.options[options[0]] = options[1];
+    if (iconfigString == null) {
+      iconfigString = '';
+    }
+    const iconfigArray = iconfigString.split(',');
+    const iconpackStyle = iconfigArray[0].split(':');
+    const options: AssociativeArray = {};
+    const iconfigObject = <IconfigObject>{
+      iconpackStyle: iconfigArray[0] || null,
+      iconpack: iconpackStyle[0] || null,
+      style: iconpackStyle[1] || null,
+      icon: iconfigArray[1] || null,
+      options: options
+    }
+    for (let i = 2; i < iconfigArray.length; i++) {
+      const options = iconfigArray[i].split(':');
+      if (options[1].match(/^true|false$/ig)) {
+        if ((options[1] === 'true')) {
+          iconfigObject.options[options[0]] = true;
         }
+      } else {
+        iconfigObject.options[options[0]] = options[1];
       }
     }
 
@@ -665,16 +668,16 @@ class Iconpack {
     iconfig: IconfigOptions
   ): void {
     console.groupCollapsed('Iconpack::mergeIconfig()'); //? DEBUG GROUP
-    console.debug('❶ iconfig.options:', this.iconfig.options); //! DEBUG VALUE
+    console.debug('❶ iconfig.options:', this.iconfig!.options); //! DEBUG VALUE
 
-    this.iconfig = {
+    this.iconfig = <IconfigObject>{
       ...this.iconfig,
       ...iconfig
     };
     // Backup iconfig
     this.iconfigBackup = this.iconfig;
 
-    console.debug('❷ iconfig.options:', this.iconfig.options); //! DEBUG VALUE
+    console.debug('❷ iconfig.options:', this.iconfig!.options); //! DEBUG VALUE
     console.groupEnd(); //? DEBUG GROUP
   }
 }

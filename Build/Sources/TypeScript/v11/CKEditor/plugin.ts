@@ -61,7 +61,7 @@
           }
           return false;
         },
-        downcast: function (element) {
+        downcast: function (element: CKEDITOR.htmlParser.element) {
           if (element.name == 'span') {
             element.setHtml('');
           }
@@ -70,7 +70,7 @@
 
       // Add command
       editor.addCommand('iconpack', {
-        exec: (editor) => {
+        exec: (editor: CKEDITOR.editor) => {
           console.log('⭘ CKEditor: Toolbar button has been clicked!'); //# DEBUG MESSAGE
           let iconfigString = null;
           const element = editor.getSelection().getSelectedElement();
@@ -85,7 +85,7 @@
       });
 
       // Override doubleclick opening iconpack modal
-      editor.on('doubleclick', (event) => {
+      editor.on('doubleclick', (event: any) => {
         const element: CKEDITOR.dom.element = editor.getSelection().getSelectedElement();
         if (isIconpackElement(element)) {
           console.log('⭘ CKEditor: Iconpack element has been clicked!'); //# DEBUG MESSAGE

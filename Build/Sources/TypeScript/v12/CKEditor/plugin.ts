@@ -18,7 +18,7 @@ const iconpackIcon = '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg
 
 interface UrlParams {
   fieldType: string,
-  iconfigString: string,
+  iconfigString: string | null,
 }
 
 /**
@@ -49,10 +49,10 @@ export class Iconpack extends Plugin {
 
 export class IconpackEditing extends Plugin {
 
-  private svgElements: Array<string> = null;
-  private attributes: Array<string> = null;
-  private svgGlobalAttributes: Array<string> = null;
-  private svgPresentationAttributes: Array<string> = null;
+  private svgElements?: Array<string>;
+  private attributes?: Array<string>;
+  private svgGlobalAttributes?: Array<string>;
+  private svgPresentationAttributes?: Array<string>;
 
   /**
    * @inheritdoc
@@ -141,7 +141,7 @@ export class IconpackEditing extends Plugin {
     const schema = this.editor.model.schema;
 
     schema.register('iconpackWebfont', {
-      allowAttributes: Object.values(this.attributes),
+      allowAttributes: Object.values(<Array<string>>this.attributes),
       allowAttributesOf: '$text',
       allowWhere: '$text',
       isInline: true,
@@ -150,7 +150,7 @@ export class IconpackEditing extends Plugin {
     });
 
     schema.register('iconpackImage', {
-      allowAttributes: Object.values(this.attributes).concat('src'),
+      allowAttributes: Object.values(<Array<string>>this.attributes).concat('src'),
       allowAttributesOf: '$text',
       allowWhere: '$text',
       isInline: true,
@@ -159,7 +159,7 @@ export class IconpackEditing extends Plugin {
     });
 
     schema.register('iconpackSvg', {
-      allowAttributes: this._getAllowedAttributes(Object.values(this.attributes).concat([
+      allowAttributes: this._getAllowedAttributes(Object.values(<Array<string>>this.attributes).concat([
         'width',
         'height',
         'fill',
@@ -546,7 +546,7 @@ export class IconpackEditing extends Plugin {
     });
 
     // Add upcasts for all other SVG elements
-    for (const element of this.svgElements) {
+    for (const element of this.svgElements!) {
       conversion.for('upcast').elementToElement({
         view: element,
         model: (viewElement, { writer }) => {
@@ -600,9 +600,9 @@ export class IconpackEditing extends Plugin {
     additionalAttributes?: Array<string>
   ): Record<string, any> {
     const viewAttributes: Record<string, any> = {};
-    let attributes = this.attributes;
+    let attributes = this.attributes!;
     if (additionalAttributes) {
-      attributes = Object.values(this.attributes).concat(Object.values(additionalAttributes));
+      attributes = Object.values(<Array<string>>this.attributes).concat(Object.values(additionalAttributes));
     }
     attributes.forEach((attributeName: string) => {
       const attributeValue = modelElement.getAttribute(attributeName);
@@ -628,10 +628,10 @@ export class IconpackEditing extends Plugin {
     enableGlobalAttributes: boolean = false
   ): Array<string> {
     if (enableGlobalAttributes) {
-      attributes = Object.values(this.svgGlobalAttributes).concat(attributes);
+      attributes = Object.values(<Array<string>>this.svgGlobalAttributes).concat(attributes);
     }
     if (enablePresentationAttributes) {
-      attributes = Object.values(this.svgPresentationAttributes).concat(attributes);
+      attributes = Object.values(<Array<string>>this.svgPresentationAttributes).concat(attributes);
     }
     return attributes;
   }
@@ -657,7 +657,7 @@ export class IconpackCommand extends Command {
 
     this.editor.model.change(writer => {
       const selectedElement = selection.getSelectedElement();
-      let iconfigString: string = null;
+      let iconfigString: string | null = null;
       if (selectedElement) {
         iconfigString = <string>selectedElement.getAttribute('data-iconfig');
       }
@@ -680,14 +680,17 @@ export class IconpackCommand extends Command {
   refresh(): void {
     const model = this.editor.model;
     const selection = model.document.selection;
-    // Note: iconpackWebfont and iconpackImage are allowed inside same parents
-    const allowedIn = model.schema.findAllowedParent(
-      selection.getFirstPosition(),
-      'iconpackWebfont'
-    );
-
     // Flag indicating whether a command is enabled or disabled
-    this.isEnabled = allowedIn !== null;
+    this.isEnabled = false;
+    // Note: iconpackWebfont and iconpackImage are allowed inside same parents
+    const position = selection.getFirstPosition();
+    if (position) {
+      const allowedIn = model.schema.findAllowedParent(
+        position,
+        'iconpackWebfont'
+      );
+      this.isEnabled = allowedIn !== null;
+    }
   }
 
   /**
@@ -746,7 +749,7 @@ export class IconpackCommand extends Command {
    */
   private _getSelectionParent(): any {
     const viewDocument = this.editor.editing.view.document;
-    return viewDocument.selection.focus.getAncestors()
+    return viewDocument.selection.focus!.getAncestors()
       .reverse()
       .find(node => node.is('element'));
   }
@@ -760,9 +763,11 @@ export class IconpackCommand extends Command {
     console.log('⮜ CKEditor: Remove icon from RTE'); //# DEBUG MESSAGE
     const selection = this.editor.model.document.selection;
     const range = selection.getFirstRange();
-    this.editor.model.change(writer => {
-      writer.remove(range);
-    });
+    if (range) {
+      this.editor.model.change(writer => {
+        writer.remove(range);
+      });
+    }
   }
 }
 

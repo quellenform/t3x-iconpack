@@ -15,7 +15,8 @@
 		"noUnusedLocals": true,
 		"outDir": "../../../../Resources/Public/JavaScript/v11/",
 		"paths": {
-			"TYPO3/CMS/Iconpack/v11/*": ["./*"]
+			"TYPO3/CMS/Iconpack/v11/*": ["./*"],
+			"TYPO3/CMS/*": ["../types/TYPO3/index.d.ts"]
 		},
 		"pretty": true,
 		"removeComments": false,
