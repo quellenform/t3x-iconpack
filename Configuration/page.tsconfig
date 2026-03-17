@@ -1,1 +1,2 @@
-RTE.default.proc.HTMLparser_db.tags.span.allowedAttribs:=addToList(data-iconfig,id,name,class,style,alt,title)
+# See: https://github.com/quellenform/t3x-iconpack/issues/48
+RTE.default.proc.HTMLparser_db.tags.span.allowedAttribs:=addToList(data-iconfig,id,name,class,style,alt,title,lang,dir)
