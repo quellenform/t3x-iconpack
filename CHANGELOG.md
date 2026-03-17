@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.5.0
+
+- b367265 [TASK] Rewrite of the IconpackWizard
+- 39ee364 [BUGFIX] HTML Code ist escaped and displayed in frontend instead of icons (#57)
+- dd479d3 [TASK] Add language-specific elements to the list of allowed attributes (#48)
+
 ## 1.4.2
 
 - 25cc6e3 [BUGFIX] Uncaught (in promise) CKEditorError: plugincollection-plugin-invalid-constructor (#58) (thanks to @mediaessenz)
