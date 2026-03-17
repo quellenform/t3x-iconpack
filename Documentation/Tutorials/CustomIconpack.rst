@@ -2,6 +2,7 @@
 
 .. _customIconpack:
 
+===================================
 Creating your own Iconpack Provider
 ===================================
 
@@ -26,7 +27,7 @@ StyleSheets, etc.) and a configuration file, which is described below.
 
 
 Iconpack Kickstarter
---------------------
+====================
 
 If you want to take the easy route and create a ready-to-use iconpack from SVG files,
 you can use the `Iconpack Kickstarter <https://github.com/quellenform/t3x-iconpack-kickstarter/>`_,
@@ -38,7 +39,7 @@ Simply clone the repository and follow the instructions in the README.md file.
 
 
 The Structure of an Iconpack Extension
---------------------------------------
+======================================
 
 The structure for your own iconpack extension, which consists of SVG icons and
 a webfont, for example, looks something like this:
@@ -72,7 +73,7 @@ a webfont, for example, looks something like this:
 
 
 Create a Configuration for your Iconpack
------------------------------------------
+========================================
 
 The iconpack itself is configured via the YAML file. In this file, the basic
 information about the iconpack is recorded and the definitions for the available
@@ -175,7 +176,7 @@ if the number of icons is very high or if better maintainability is required.
 
 
 Aliases
-~~~~~~~
+-------
 
 It may happen that some icons are removed from newer versions of certain iconpacks.
 Aliases are used to register these icons and provide replacements for them.
@@ -213,7 +214,7 @@ use the following:
 
 
 Register your Iconpack
-----------------------
+======================
 
 The iconpack is then registered in the `IconpackRegistry` via `ext_localconf.php`
 
@@ -234,7 +235,7 @@ The iconpack is then registered in the `IconpackRegistry` via `ext_localconf.php
 
 
 Rendering in the Frontend
--------------------------
+=========================
 
 Depending on which `renderTypes` your iconpack provides (in this simple example
 we have webfonts and SVG icons), these are selected by default in the following
@@ -257,7 +258,7 @@ via TypoScript:
 
 
 Rendering in the Backend
-------------------------
+========================
 
 In the backend, the order of the `renderTypes` for native fields and the RTE is
 predefined in the source code.
@@ -275,7 +276,7 @@ option in the extension settings, it will also be:
 
 
 Customizing the Rendering Sequence
-----------------------------------
+==================================
 
 If you want to change the order of rendering fallbacks or specify only a specific
 renderType (which in both cases would only make sense in exceptional cases), you

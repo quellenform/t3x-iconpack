@@ -251,6 +251,34 @@ The following settings are currently available:
    Please also note that you must specify a corresponding CSS file for rendering
    the respective options in the YAML file with the key *optionsCss* (see example below).
 
+.. confval:: formElementStyle
+
+   :type: string (list of keywords)
+   :default: iconInputButton
+
+   Select how the icon field should be rendered in the backend.
+
+   iconInputButton
+      This setting displays the icon next to an input field and a dedicated button:
+
+      .. image:: /Images/tca_formElementStyle_iconInputButton.png
+
+   iconInput
+      This setting displays the input field next to an icon (as a button):
+
+      .. image:: /Images/tca_formElementStyle_iconInput.png
+
+   iconButton
+      This setting displays the icon next to a dedicated button:
+
+      .. image:: /Images/tca_formElementStyle_iconButton.png
+
+   icon
+      This setting displays only the icon, which also serves as the button:
+
+      .. image:: /Images/tca_formElementStyle_icon.png
+
+
 .. important::
    Changing the extension configuration requires an emptying of the TYPO3 cache
    for the changes to take effect!
