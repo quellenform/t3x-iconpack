@@ -9,5 +9,9 @@ return [
     'ext-iconpack' => [
         'provider' => SvgIconProvider::class,
         'source' => 'EXT:iconpack/Resources/Public/Icons/Extension.svg'
+    ],
+    'actions-iconpack' => [
+        'provider' => SvgIconProvider::class,
+        'source' => 'EXT:iconpack/Resources/Public/Icons/Iconpack.svg'
     ]
 ];

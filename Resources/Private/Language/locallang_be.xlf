@@ -25,6 +25,21 @@
 			<trans-unit id="extConf.stylesEnabled" resname="extConf.stylesEnabled">
 				<source>Enable styles: Enter the identifiers (separated by commas) of the styles that should be activated for this iconpack. Leave the field empty if you want to use the values predefined in the iconpack's YAML configuration file. Don't forget to clear the cache after making any changes.</source>
 			</trans-unit>
+			<trans-unit id="extConf.formElementStyle" resname="extConf.formElementStyle">
+				<source>Form Element Style: Select how the icon field should be rendered in the backend.</source>
+			</trans-unit>
+			<trans-unit id="extConf.formElementStyle.iconInputButton" resname="extConf.formElementStyle.iconInputButton">
+				<source>Icon + Input field + Button</source>
+			</trans-unit>
+			<trans-unit id="extConf.formElementStyle.iconInput" resname="extConf.formElementStyle.iconInput">
+				<source>Icon + Input field</source>
+			</trans-unit>
+			<trans-unit id="extConf.formElementStyle.iconButton" resname="extConf.formElementStyle.iconButton">
+				<source>Icon + Button</source>
+			</trans-unit>
+			<trans-unit id="extConf.formElementStyle.icon" resname="extConf.formElementStyle.icon">
+				<source>Icon only</source>
+			</trans-unit>
 
 			<trans-unit id="settings.cssClass" resname="settings.cssClass">
 				<source>Default CSS class: This classname will be the added in the frontend to all icons.</source>

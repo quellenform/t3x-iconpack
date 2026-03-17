@@ -10,7 +10,7 @@ call_user_func(static function () {
         'class' => \Quellenform\Iconpack\Form\Element\IconpackWizardElement::class,
     ];
 
-    if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '14', '<')) {
+    if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '11', '<')) {
         // Register extension icon for the backend
         \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
             \TYPO3\CMS\Core\Imaging\IconRegistry::class
@@ -19,6 +19,15 @@ call_user_func(static function () {
             \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
             [
                 'source' => 'EXT:iconpack/Resources/Public/Icons/Extension.svg'
+            ]
+        );
+        \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Imaging\IconRegistry::class
+        )->registerIcon(
+            'actions-iconpack',
+            \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+            [
+                'source' => 'EXT:iconpack/Resources/Public/Icons/Iconpack.svg'
             ]
         );
     }

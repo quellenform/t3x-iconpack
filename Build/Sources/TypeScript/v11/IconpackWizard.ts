@@ -15,7 +15,7 @@ import IconpackModal = require('TYPO3/CMS/Iconpack/v11/IconpackModal');
 // Define selector names
 enum Selectors {
   palette = '.t3js-formengine-field-item',
-  iconField = '.t3js-icon',
+  iconField = '.input-group-icon .icon-markup'
 }
 
 /**
@@ -29,8 +29,10 @@ class IconpackWizard {
   private controlElement?: HTMLElement | null;
   // The form palette which contains the form elements
   private palette?: HTMLElement | null;
-  // The input field for the icon
+  // The visible input field for the iconfig string
   private formengineInput?: HTMLInputElement | null;
+  // The hidden input field for the iconfig string
+  private hiddenInput?: HTMLInputElement | null;
   // The icon field which displays the final icon
   private iconField?: HTMLElement | null;
   // The name of the input field
@@ -42,11 +44,8 @@ class IconpackWizard {
 
       console.groupCollapsed('⏻ IconpackWizard has been initialized'); //? DEBUG GROUP
 
-      this.controlElement = <HTMLElement>document.querySelector(controlElementId);
+      this.controlElement = <HTMLElement>document.querySelector('#formengine-button-' + controlElementId);
       console.debug('controlElement:', this.controlElement); //! DEBUG VALUE
-
-      let elementId = this.controlElement.getAttribute('id');
-      console.debug('elementId:', elementId); //! DEBUG VALUE
 
       this.itemName = this.controlElement.dataset.itemName;
       console.debug('itemName:', this.itemName); //! DEBUG VALUE
@@ -54,10 +53,13 @@ class IconpackWizard {
       this.palette = this.controlElement.closest(Selectors.palette);
       console.debug('palette:', this.palette); //! DEBUG VALUE
 
-      this.formengineInput = this.palette!.querySelector('input[name="' + this.itemName + '"]');
+      this.formengineInput = this.palette!.querySelector('#formengine-input-' + controlElementId);
       console.debug('formengineInput:', this.formengineInput); //! DEBUG VALUE
 
-      this.iconField = this.controlElement.querySelector(Selectors.iconField);
+      this.hiddenInput = this.palette!.querySelector('input[name="' + this.itemName + '"]');
+      console.debug('hiddenInput:', this.hiddenInput); //! DEBUG VALUE
+
+      this.iconField = this.palette!.querySelector(Selectors.iconField);
       console.debug('iconField:', this.iconField); //! DEBUG VALUE
 
       this.controlElement.addEventListener('click', this.handleControlClick);
@@ -91,9 +93,8 @@ class IconpackWizard {
   addIconToField(iconfigString: string, iconMarkup: string): void {
     console.log('⮜ IconpackWizard: Add icon to field'); //# DEBUG MESSAGE
 
-    this.formengineInput!.value = iconfigString;
+    this.changeIconfigValue(iconfigString);
     this.iconField!.innerHTML = iconMarkup;
-    FormEngineValidation.markFieldAsChanged(this.palette);
   }
 
   /**
@@ -102,8 +103,20 @@ class IconpackWizard {
   clearIconField(): void {
     console.log('⮜ IconpackWizard: Icon has been removed'); //# DEBUG MESSAGE
 
-    this.formengineInput!.value = '';
+    this.changeIconfigValue('');
     this.iconField!.innerHTML = '';
+  }
+
+  /**
+   * Change iconfig value in input fields.
+   */
+  changeIconfigValue(iconfigString: string): void {
+    if (this.formengineInput !== null) {
+      this.formengineInput!.value = iconfigString;
+    }
+    if (this.hiddenInput !== null) {
+      this.hiddenInput!.value = iconfigString;
+    }
     FormEngineValidation.markFieldAsChanged(this.palette);
   }
 }
