@@ -254,7 +254,7 @@ The following settings are currently available:
 .. confval:: formElementStyle
 
    :type: string (list of keywords)
-   :default: iconInputButton
+   :default: iconButton
 
    Select how the icon field should be rendered in the backend.
 

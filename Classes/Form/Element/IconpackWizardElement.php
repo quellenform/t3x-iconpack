@@ -426,7 +426,7 @@ class IconpackWizardElement extends AbstractFormElement
         $formElementStyleTca = (
             isset($this->config['formElementStyle']) && !empty($this->config['formElementStyle'])
         ) ? $this->config['formElementStyle'] : null;
-        return $formElementStyleTca ?? $formElementStyleExtConf ?? 'iconInputButton';
+        return $formElementStyleTca ?? $formElementStyleExtConf ?? 'iconButton';
     }
 
     /**
