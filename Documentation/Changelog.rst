@@ -8,6 +8,11 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.5.1
+=====
+
+- 8fe42b9 Change default value for IconpackWizard from iconInputButton to iconButton
+
 1.5.0
 =====
 
