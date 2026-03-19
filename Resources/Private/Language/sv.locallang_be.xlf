@@ -31,6 +31,42 @@
         <source>Enable styles: Enter the identifiers (separated by commas) of the styles that should be activated for this iconpack. Leave the field empty if you want to use the values predefined in the iconpack's YAML configuration file. Don't forget to clear the cache after making any changes.</source>
         <target state="needs-translation">Enable styles: Enter the identifiers (separated by commas) of the styles that should be activated for this iconpack. Leave the field empty if you want to use the values predefined in the iconpack's YAML configuration file. Don't forget to clear the cache after making any changes.</target>
       </trans-unit>
+      <trans-unit id="extConf.formElementStyle" resname="extConf.formElementStyle">
+        <source>Form Element Style: Select how the icon field should be rendered in the backend.</source>
+        <target state="needs-translation">Form Element Style: Select how the icon field should be rendered in the backend.</target>
+      </trans-unit>
+      <trans-unit id="extConf.formElementStyle.iconInputButton" resname="extConf.formElementStyle.iconInputButton">
+        <source>Icon + Input field + Button</source>
+        <target state="needs-translation">Icon + Input field + Button</target>
+      </trans-unit>
+      <trans-unit id="extConf.formElementStyle.iconInput" resname="extConf.formElementStyle.iconInput">
+        <source>Icon + Input field</source>
+        <target state="needs-translation">Icon + Input field</target>
+      </trans-unit>
+      <trans-unit id="extConf.formElementStyle.iconButton" resname="extConf.formElementStyle.iconButton">
+        <source>Icon + Button</source>
+        <target state="needs-translation">Icon + Button</target>
+      </trans-unit>
+      <trans-unit id="extConf.formElementStyle.icon" resname="extConf.formElementStyle.icon">
+        <source>Icon only</source>
+        <target state="needs-translation">Icon only</target>
+      </trans-unit>
+      <trans-unit id="settings.cssClass" resname="settings.cssClass">
+        <source>Default CSS class: This classname will be the added in the frontend to all icons.</source>
+        <target state="needs-translation">Default CSS class: This classname will be the added in the frontend to all icons.</target>
+      </trans-unit>
+      <trans-unit id="settings.cssFile" resname="settings.cssFile">
+        <source>Default CSS file: Use this CSS file as default in the frontend.</source>
+        <target state="needs-translation">Default CSS file: Use this CSS file as default in the frontend.</target>
+      </trans-unit>
+      <trans-unit id="settings.renderTypesNative" resname="settings.renderTypesNative">
+        <source>Render types order (Native fields): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).</source>
+        <target state="needs-translation">Render types order (Native fields): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).</target>
+      </trans-unit>
+      <trans-unit id="settings.renderTypesRte" resname="settings.renderTypesRte">
+        <source>Render types order (RTE): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).</source>
+        <target state="needs-translation">Render types order (RTE): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).</target>
+      </trans-unit>
       <trans-unit id="js.label.iconNative" resname="js.label.iconNative">
         <source>Choose Icon</source>
         <target state="needs-translation">Choose Icon</target>
