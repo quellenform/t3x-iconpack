@@ -11,25 +11,61 @@
         <source>Automatically configure CKEditor: If enabled, the required CSS and JavaScript will be added to the RTE automatically.</source>
         <target state="final">CKEditor automatisch konfigurieren: Wenn aktiviert, wird das benötigte CSS und JavaScript automatisch zum RTE hinzugefügt.</target>
       </trans-unit>
-      <trans-unit id="extConf.rteSvg" resname="extConf.rteSvg">
+      <trans-unit id="extConf.rteSvg" resname="extConf.rteSvg" approved="yes">
         <source>Use SVG in the RTE: If this option is enabled, icons are loaded in the RTE as SVG (inline, sprites) if they are available in the respective icon pack. Otherwise, only webfonts and IMG tags will be used instead, which results in a simpler format but may differ from the frontend appearance. Note: Clear the TYPO3 cache after changing this option!</source>
-        <target state="needs-translation">Use SVG in the RTE: If this option is enabled, icons are loaded in the RTE as SVG (inline, sprites) if they are available in the respective icon pack. Otherwise, only webfonts and IMG tags will be used instead, which results in a simpler format but may differ from the frontend appearance. Note: Clear the TYPO3 cache after changing this option!</target>
+        <target state="final">SVG im RTE verwenden: Wenn diese Option aktiviert ist, werden Icons im RTE als SVG geladen (inline, sprites), sofern diese vom jeweiligen Iconpack als solche zur Verfügung gestellt werden. Andernfalls werden stattdessen nur Webfonts und IMG-Tags verwendet, was zu einem einfacheren Format führt, aber von der tatsächlichen Ausgabe im Frontend abweichen kann. Hinweis: Nach Änderung dieser Einstellung muss der TYPO3-Cache geleert werden!</target>
       </trans-unit>
-      <trans-unit id="extConf.autoAddAssets" resname="extConf.autoAddAssets">
+      <trans-unit id="extConf.autoAddAssets" resname="extConf.autoAddAssets" approved="yes">
         <source>Add Assets to the Frontend: If activated, the assets required by the installed iconpacks (Stylesheets &amp; JavaScripts) will be automatically added to the Frontend.</source>
-        <target state="needs-translation">Add Assets to the Frontend: If activated, the assets required by the installed iconpacks (Stylesheets &amp; JavaScripts) will be automatically added to the Frontend.</target>
+        <target state="final">Assets im Frontend hinzufügen: Wenn aktiviert, werden die für die Darstellung der Icons erforderlichen Assets (Stylesheets &amp; JavaScripts) automatisch im Frontend hinzugefügt.</target>
       </trans-unit>
-      <trans-unit id="extConf.defaultConfig" resname="extConf.defaultConfig">
+      <trans-unit id="extConf.defaultConfig" resname="extConf.defaultConfig" approved="yes">
         <source>Default configuration: Path to the YAML configuration file containing the default options for all installed icon packs. Leave this field blank to disable it, or use your own configuration file. (Don't forget to clear the cache!) Default value: EXT:iconpack/Configuration/Iconpack/Default.yaml</source>
-        <target state="needs-translation">Default configuration: Path to the YAML configuration file containing the default options for all installed icon packs. Leave this field blank to disable it, or use your own configuration file. (Don't forget to clear the cache!) Default value: EXT:iconpack/Configuration/Iconpack/Default.yaml</target>
+        <target state="final">Standardkonfiguration: Pfad zur YAML-Konfigurationsdatei, die die Standardoptionen für alle installierten Iconpacks enthält. Lassen Sie dieses Feld leer um die Standardkonfiguration zu verwenden, oder verwenden Sie Ihre eigene Konfigurationsdatei. (Vergessen Sie nicht, den Cache zu löschen!) Standardwert: EXT:iconpack/Configuration/Iconpack/Default.yaml</target>
       </trans-unit>
       <trans-unit id="extConf.configFile" resname="extConf.configFile" approved="yes">
         <source>Configuration File: Path to the YAML-configuration file (Leave empty for default value).</source>
         <target state="final">Konfigurationsdatei: Pfad zur YAML-Konfigurationsdatei (leer lassen für Standardwert).</target>
       </trans-unit>
-      <trans-unit id="extConf.stylesEnabled" resname="extConf.stylesEnabled">
+      <trans-unit id="extConf.stylesEnabled" resname="extConf.stylesEnabled" approved="yes">
         <source>Enable styles: Enter the identifiers (separated by commas) of the styles that should be activated for this iconpack. Leave the field empty if you want to use the values predefined in the iconpack's YAML configuration file. Don't forget to clear the cache after making any changes.</source>
-        <target state="needs-translation">Enable styles: Enter the identifiers (separated by commas) of the styles that should be activated for this iconpack. Leave the field empty if you want to use the values predefined in the iconpack's YAML configuration file. Don't forget to clear the cache after making any changes.</target>
+        <target state="final">Stile aktivieren: Geben Sie die Bezeichner (durch Kommas getrennt) der Stile ein, die für dieses Iconpack aktiviert werden sollen. Lassen Sie das Feld leer, wenn Sie die in der YAML-Konfigurationsdatei des Iconpacks vordefinierten Werte verwenden möchten. Vergessen Sie nicht, den Cache nach Änderungen zu löschen.</target>
+      </trans-unit>
+      <trans-unit id="extConf.formElementStyle" resname="extConf.formElementStyle">
+        <source>Form Element Style: Select how the icon field should be rendered in the backend.</source>
+        <target state="needs-translation">Form Element Style: Select how the icon field should be rendered in the backend.</target>
+      </trans-unit>
+      <trans-unit id="extConf.formElementStyle.iconInputButton" resname="extConf.formElementStyle.iconInputButton">
+        <source>Icon + Input field + Button</source>
+        <target state="needs-translation">Icon + Input field + Button</target>
+      </trans-unit>
+      <trans-unit id="extConf.formElementStyle.iconInput" resname="extConf.formElementStyle.iconInput">
+        <source>Icon + Input field</source>
+        <target state="needs-translation">Icon + Input field</target>
+      </trans-unit>
+      <trans-unit id="extConf.formElementStyle.iconButton" resname="extConf.formElementStyle.iconButton">
+        <source>Icon + Button</source>
+        <target state="needs-translation">Icon + Button</target>
+      </trans-unit>
+      <trans-unit id="extConf.formElementStyle.icon" resname="extConf.formElementStyle.icon">
+        <source>Icon only</source>
+        <target state="needs-translation">Icon only</target>
+      </trans-unit>
+      <trans-unit id="settings.cssClass" resname="settings.cssClass">
+        <source>Default CSS class: This classname will be the added in the frontend to all icons.</source>
+        <target state="needs-translation">Default CSS class: This classname will be the added in the frontend to all icons.</target>
+      </trans-unit>
+      <trans-unit id="settings.cssFile" resname="settings.cssFile">
+        <source>Default CSS file: Use this CSS file as default in the frontend.</source>
+        <target state="needs-translation">Default CSS file: Use this CSS file as default in the frontend.</target>
+      </trans-unit>
+      <trans-unit id="settings.renderTypesNative" resname="settings.renderTypesNative">
+        <source>Render types order (Native fields): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).</source>
+        <target state="needs-translation">Render types order (Native fields): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).</target>
+      </trans-unit>
+      <trans-unit id="settings.renderTypesRte" resname="settings.renderTypesRte">
+        <source>Render types order (RTE): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).</source>
+        <target state="needs-translation">Render types order (RTE): If an Iconpack provides one of the types defined here (separated by commas), it will be used in the frontend (the order is crucial!).</target>
       </trans-unit>
       <trans-unit id="js.label.iconNative" resname="js.label.iconNative" approved="yes">
         <source>Choose Icon</source>
@@ -163,13 +199,13 @@
         <source>Border</source>
         <target state="final">Rahmen</target>
       </trans-unit>
-      <trans-unit id="decoration.border-circle" resname="decoration.border-circle">
+      <trans-unit id="decoration.border-circle" resname="decoration.border-circle" approved="yes">
         <source>Border Circle</source>
-        <target state="needs-translation">Border Circle</target>
+        <target state="final">Kreisförmiger Rahmen</target>
       </trans-unit>
-      <trans-unit id="decoration.border-rounded" resname="decoration.border-rounded">
+      <trans-unit id="decoration.border-rounded" resname="decoration.border-rounded" approved="yes">
         <source>Border Rounded</source>
-        <target state="needs-translation">Border Rounded</target>
+        <target state="final">Gerundeter Rahmen</target>
       </trans-unit>
       <trans-unit id="transform.default" resname="transform.default" approved="yes">
         <source>Default</source>
@@ -211,21 +247,21 @@
         <source>Fade</source>
         <target state="final">Fade</target>
       </trans-unit>
-      <trans-unit id="transform.fade-left" resname="transform.fade-left">
+      <trans-unit id="transform.fade-left" resname="transform.fade-left" approved="yes">
         <source>Fade Left</source>
-        <target state="needs-translation">Fade Left</target>
+        <target state="final">Fade Links</target>
       </trans-unit>
-      <trans-unit id="transform.fade-right" resname="transform.fade-right">
+      <trans-unit id="transform.fade-right" resname="transform.fade-right" approved="yes">
         <source>Fade Right</source>
-        <target state="needs-translation">Fade Right</target>
+        <target state="final">Fade Rechts</target>
       </trans-unit>
-      <trans-unit id="transform.fade-up" resname="transform.fade-up">
+      <trans-unit id="transform.fade-up" resname="transform.fade-up" approved="yes">
         <source>Fade Up</source>
-        <target state="needs-translation">Fade Up</target>
+        <target state="final">Fade Aufwärts</target>
       </trans-unit>
-      <trans-unit id="transform.fade-down" resname="transform.fade-down">
+      <trans-unit id="transform.fade-down" resname="transform.fade-down" approved="yes">
         <source>Fade Down</source>
-        <target state="needs-translation">Fade Down</target>
+        <target state="final">Fade Abwärts</target>
       </trans-unit>
       <trans-unit id="transform.beat-fade" resname="transform.beat-fade" approved="yes">
         <source>Beat-Fade</source>
@@ -251,21 +287,21 @@
         <source>Spin Pulse</source>
         <target state="final">Spin Pulse</target>
       </trans-unit>
-      <trans-unit id="transform.pulse" resname="transform.pulse">
+      <trans-unit id="transform.pulse" resname="transform.pulse" approved="yes">
         <source>Pulse</source>
-        <target state="needs-translation">Pulse</target>
+        <target state="final">Puls</target>
       </trans-unit>
-      <trans-unit id="transform.tada" resname="transform.tada">
+      <trans-unit id="transform.tada" resname="transform.tada" approved="yes">
         <source>Tada</source>
-        <target state="needs-translation">Tada</target>
+        <target state="final">Tada</target>
       </trans-unit>
-      <trans-unit id="transform.burst" resname="transform.burst">
+      <trans-unit id="transform.burst" resname="transform.burst" approved="yes">
         <source>Burst</source>
-        <target state="needs-translation">Burst</target>
+        <target state="final">Burst</target>
       </trans-unit>
-      <trans-unit id="transform.flashing" resname="transform.flashing">
+      <trans-unit id="transform.flashing" resname="transform.flashing" approved="yes">
         <source>Flashing</source>
-        <target state="needs-translation">Flashing</target>
+        <target state="final">Blinken</target>
       </trans-unit>
     </body>
   </file>
