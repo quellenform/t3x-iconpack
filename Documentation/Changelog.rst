@@ -8,6 +8,11 @@ Changelog
 
 All notable changes to this project will be documented in this file.
 
+1.5.2
+=====
+
+- 300dcc8 Avoid throwing an exception if the specified YAML file does not exist
+
 1.5.1
 =====
 
