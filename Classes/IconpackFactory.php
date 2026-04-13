@@ -381,7 +381,8 @@ final class IconpackFactory
         /** @var ExtensionConfiguration $extConf */
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class);
         $yamlFile = (string) trim($extConf->get('iconpack', 'defaultConfig'));
-        if (!empty($yamlFile) && file_exists($yamlFile)) {
+        $pathToYamlFile = GeneralUtility::getFileAbsFileName($yamlFile);
+        if (!empty($yamlFile) && file_exists($pathToYamlFile)) {
             $configuration = IconpackUtility::loadYamlFile($yamlFile, 'iconpack');
             return (array) $configuration['iconpack'];
         } else {
