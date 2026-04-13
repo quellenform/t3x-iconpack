@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.5.3
+
+- f52c2e7 Resolve the path to the configuration file before checking whether it exists (#62) (thanks to @mbsued)
+
 ## 1.5.2
 
 - 300dcc8 Avoid throwing an exception if the specified YAML file does not exist
