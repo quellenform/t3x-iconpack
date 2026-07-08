@@ -15,6 +15,7 @@ namespace Quellenform\Iconpack\EventListener;
 
 use Quellenform\Iconpack\Utility\IconpackUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforeGetExternalPluginsEvent;
@@ -45,6 +46,16 @@ final class IconpackGetExternalPlugins
             $iconpackConfiguration = (array) $yaml['editor']['externalPlugins'];
             // @extensionScannerIgnoreLine (ignore false positive #108277)
             $event->setConfiguration(array_merge_recursive($configuration, $iconpackConfiguration));
+        }
+        // Explicitly add labels for the RTE so that they are available at all times
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '14.0.0', '>=')) {
+            /** @var PageRenderer $pageRenderer */
+            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+            // Add inline labels for JavaScript
+            $pageRenderer->addInlineLanguageLabelFile(
+                'EXT:iconpack/Resources/Private/Language/locallang_be.xlf',
+                'js.'
+            );
         }
     }
 }
