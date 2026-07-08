@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.5.4
+
+- 9d0513d [BUGFIX] When using TYPO3 v14 and the "header_icon" field is disabled, explicitly add the inline labels to the RTE (#63) (thanks to @gkmbgmbh)
+
 ## 1.5.3
 
 - f52c2e7 Resolve the path to the configuration file before checking whether it exists (#62) (thanks to @mbsued)
