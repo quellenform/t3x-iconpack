@@ -13,10 +13,12 @@ namespace Quellenform\Iconpack;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use InvalidArgumentException;
 use Quellenform\Iconpack\Domain\Model\IconpackProvider;
-use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
-use TYPO3\CMS\Core\SingletonInterface;
+use Quellenform\Iconpack\IconpackCache;
+use Quellenform\Iconpack\Utility\IconpackUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Class IconpackRegistry, which makes it possible to register custom Iconpack-Providers from within an extension.
@@ -24,148 +26,384 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Usage:
  *   $iconpackRegistry = GeneralUtility::makeInstance(\Quellenform\Iconpack\IconpackRegistry::class);
  *   $iconpackRegistry->registerIconpack(
- *       'MY_UNIQUE_ICONPACK_IDENTIFIER',
- *       'EXT:my_iconpack_extension/Configuration/Iconpack/Iconpackconfiguration.yaml'
+ *       'EXT:my_iconpack_extension/Configuration/Main.yaml',
+ *       'EXT:my_iconpack_extension/Configuration/Override.yaml',
+ *       '\Namespace\ExtensionName\Configuration\CustomPreProcessor::class'
  *   );
  */
-class IconpackRegistry implements SingletonInterface
+final class IconpackRegistry
 {
-
     /**
      * Array of iconpack provider objects.
      *
-     * @var array
+     * @var array|null
      */
-    protected $iconpackProviders = [];
+    private $iconpackProviders = [];
 
     /**
-     * Registers an Iconpack Provider to be available inside the Iconpack Factory
+     * Array of iconpack provider configuration files collected at low level.
+     *
+     * @var array
+     */
+    private $iconpackRegister = [];
+
+    /**
+     * @var IconpackCache
+     */
+    private $iconpackCache = null;
+
+    /**
+     * Registers an Iconpack Provider to be available inside the Iconpack Factory.
      *
      * @param string $configurationFile
      * @param string|null $configurationFileMerge
-     * @param string|null $iconpackConfigClassName
+     * @param string|null $configurationPreProcessor
      *
      * @return void
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function registerIconpack(
         string $configurationFile,
         ?string $configurationFileMerge = null,
-        ?string $iconpackConfigClassName = null
+        ?string $configurationPreProcessor = null
     ): void {
-        if ($iconpackConfigClassName) {
-            if (!in_array(IconpackConfigurationInterface::class, class_implements($iconpackConfigClassName) ?: [], true)) {
-                throw new \InvalidArgumentException(
+        $configurationIdentifier = $this->validateIconpackPreProcessor($configurationPreProcessor);
+        $configurationIdentifier .= $this->validateIconpackConfigurationFile($configurationFile);
+        $configurationIdentifier .= $this->validateIconpackConfigurationFile($configurationFileMerge);
+
+        $hash = sha1($configurationIdentifier);
+        $register = [
+            $configurationFile,
+            $configurationFileMerge,
+            $configurationPreProcessor
+        ];
+        $this->iconpackRegister[$hash] = $register;
+
+        // No pre-caching, ...retain old behavior for backward compatibility with version 10
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.4.0', '<')) {
+            $this->addIconpackProvider($register);
+        }
+    }
+
+    /**
+     * Build the base configuration array for all registered iconpacks after TYPO3 has been booted successfully.
+     *
+     * @return void
+     */
+    public function buildIconpackProviderConfiguration(): void
+    {
+        $hasCachedRegister = $this->getIconpackCache()->hasCacheIdentifier('register');
+
+        // Self-healing cache when an iconpack has been installed/changed.
+        if ($hasCachedRegister) {
+            $hashes = $this->getIconpackCache()->getCacheByIdentifier('hashes') ?: [];
+            if (
+                count(array_diff(array_keys($this->iconpackRegister), $hashes))
+            ) {
+                $hasCachedRegister = false;
+                $this->iconpackProviders = [];
+            }
+        }
+
+        // Build configuration cache
+        if (!$hasCachedRegister && !count($this->iconpackProviders)) {
+            $hashes = [];
+            foreach ($this->iconpackRegister as $hash => $register) {
+                $hashes[] = $hash;
+                $this->addIconpackProvider($register);
+            }
+            $this->getIconpackCache()->setCacheByIdentifier('hashes', $hashes);
+            $this->getIconpackCache()->setCacheByIdentifier('register', $this->iconpackProviders);
+        }
+    }
+
+    /**
+     * Parse the iconpack configuration and build the final provider model.
+     *
+     * @param array $register
+     *
+     * @return array
+     */
+    private function parseIconpackConfiguration(array $register): array
+    {
+        // Read and merge iconpack configuration files
+        $configuration = IconpackUtility::loadYamlFile($register[0], 'iconpack');
+        if (!empty($register[1])) {
+            $configurationMerge = IconpackUtility::loadYamlFile($register[1], 'iconpack');
+            // Merge only main keys!
+            $configuration['iconpack'] = array_merge(
+                $configuration['iconpack'],
+                $configurationMerge['iconpack']
+            );
+        }
+
+        // Set identifier for the iconpackProvider
+        $iconpackIdentifier = $this->validateIconpackKey($configuration);
+
+        // Merge configuration from external files
+        $iconpackProviderConfig = $this->prepareConfigurationArray($configuration);
+
+        // Pre-process the configuration by a custom processor
+        if (!empty($register[2])) {
+            $iconpackProviderConfig = GeneralUtility::makeInstance(
+                $register[2]
+            )->configureIconpack($iconpackIdentifier, $iconpackProviderConfig);
+        }
+        return $iconpackProviderConfig;
+    }
+
+    /**
+     * Validate the iconpack preProcessor and return its class name.
+     *
+     * @param string|null $className
+     *
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    private function validateIconpackPreProcessor(?string $className): string
+    {
+        if ($className) {
+            if (!in_array(IconpackConfigurationInterface::class, class_implements($className) ?: [], true)) {
+                throw new InvalidArgumentException(
                     'An IconpackConfiguration must implement ' . IconpackConfigurationInterface::class,
                     2100109270
                 );
             }
+            return $className;
         }
-        $sourceFile = GeneralUtility::getFileAbsFileName($configurationFile);
-        if (!file_exists($sourceFile)) {
-            throw new \InvalidArgumentException(
-                'The YAML configuration file could not be found.',
-                2100109271
-            );
-        }
-        $configuration = (new YamlFileLoader())->load($configurationFile);
-        if (!isset($configuration['iconpack'])) {
-            throw new \InvalidArgumentException(
-                'The iconpack configuration could not be found in YAML file.',
-                2100109272
-            );
-        }
+        return '';
+    }
 
-        // Merge configuration files
-        if ($configurationFileMerge && !empty($configurationFileMerge)) {
-            $sourceFileMerge = GeneralUtility::getFileAbsFileName($configurationFileMerge);
-            if (file_exists($sourceFileMerge)) {
-                $configurationMerge = (new YamlFileLoader())->load($configurationFileMerge);
-                if (isset($configurationMerge['iconpack'])) {
-                    // Merge only main keys!
-                    $configuration['iconpack'] = array_merge(
-                        $configuration['iconpack'],
-                        $configurationMerge['iconpack']
-                    );
-                }
+    /**
+     * Validate if a given configuration file exists and return an unique identifier.
+     *
+     * @param string|null $filePath
+     *
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    private function validateIconpackConfigurationFile(?string $filePath): string
+    {
+        if (!empty($filePath)) {
+            $fileAbsFileName = GeneralUtility::getFileAbsFileName($filePath);
+            if (!file_exists($fileAbsFileName)) {
+                throw new InvalidArgumentException(
+                    'The YAML configuration file "' . $filePath . '" could not be found.',
+                    2100109271
+                );
             }
+            return $filePath . '?' . (string) filemtime($fileAbsFileName);
         }
+        return '';
+    }
 
-        // Check if there is a key given
-        if (!isset($configuration['iconpack']['key']) || empty($configuration['iconpack']['key'])) {
-            throw new \InvalidArgumentException(
-                'Iconpack key is required and must not be empty',
+    /**
+     * Verify that the specified iconpack configuration contains a valid key and return a unique identifier.
+     *
+     * @param array $configuration
+     *
+     * @return string
+     * @throws InvalidArgumentException
+     */
+    private function validateIconpackKey(array &$configuration): string
+    {
+        if (
+            !isset($configuration['iconpack']['key'])
+            || empty($configuration['iconpack']['key'])
+        ) {
+            throw new InvalidArgumentException(
+                'The icon pack key is required, must not be empty, and may only contain alphanumeric characters.',
                 2100109273
             );
         }
-        // Set identifier for the iconpackProvider
         $configuration['iconpack']['key'] = preg_replace('/[\W]/', '', $configuration['iconpack']['key']);
-        $iconpackIdentifier = $configuration['iconpack']['key'];
+        $this->checkDuplicateIconpackKey($configuration['iconpack']['key']);
+        return $configuration['iconpack']['key'];
+    }
+
+    /**
+     * Check if the given iconpack identifier is already registered.
+     *
+     * @param string $iconpackIdentifier
+     *
+     * @return void
+     * @throws InvalidArgumentException
+     */
+    private function checkDuplicateIconpackKey(string $iconpackIdentifier): void
+    {
         if (isset($this->iconpackProviders[$iconpackIdentifier])) {
-            throw new \InvalidArgumentException(
-                'Iconpack with key \'' . $iconpackIdentifier . '\' is already registered',
+            throw new InvalidArgumentException(
+                'An iconpack with the key \'' . $iconpackIdentifier . '\' is already registered',
                 2100109274
             );
         }
+    }
 
-        // Merge configuration from external files
+    /**
+     * Iterate through the configuration and load additional content if it refers to an external file (YAML/JSON).
+     *
+     * @param array $configuration
+     *
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    private function prepareConfigurationArray(array $configuration): array
+    {
         $iconpackProviderConfig = [];
         foreach ($configuration['iconpack'] as $confKey => $conf) {
-            if (in_array($confKey, ['config', 'icons', 'categories', 'options']) && !is_array($conf) && !empty($conf)) {
+            if (in_array($confKey, ['icons', 'categories', 'options', 'aliases']) && !is_array($conf) && !empty($conf)) {
                 if (preg_match('/.*\\.([^\\.]*$)/', $conf, $reg)) {
                     $fileExt = strtolower($reg[1]);
                     $sourceFile = GeneralUtility::getFileAbsFileName($conf);
                     if (file_exists($sourceFile)) {
                         if ($fileExt === 'yml' || $fileExt === 'yaml') {
-                            $conf = (new YamlFileLoader())->load($sourceFile);
+                            $conf = IconpackUtility::loadYamlFile($sourceFile);
                         } elseif ($fileExt === 'json') {
                             $jsonData = file_get_contents($sourceFile);
                             $conf = json_decode($jsonData, true);
                         }
+                    } else {
+                        throw new InvalidArgumentException(
+                            'Iconpack configuration file \'' . $sourceFile . '\' could not be found!',
+                            2100109275
+                        );
                     }
                 }
             }
             $iconpackProviderConfig[$confKey] = $conf;
         }
-        // Post-Process the configuration by a custom Processor
-        if ($iconpackConfigClassName) {
-            $iconpackProviderConfig = GeneralUtility::makeInstance(
-                $iconpackConfigClassName
-            )->configureIconpack($iconpackIdentifier, $iconpackProviderConfig);
-        }
-
-        /** @var IconpackProvider $iconpackProvider */
-        $iconpackProvider = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \Quellenform\Iconpack\Domain\Model\IconpackProvider::class,
-            $iconpackProviderConfig
-        );
-
-        $this->iconpackProviders[$iconpackIdentifier] = $iconpackProvider;
+        return $iconpackProviderConfig;
     }
 
     /**
-     * Get Iconpack-Provider by Identifier.
+     * Add iconpack provider to the iconpack registry.
+     *
+     * @param array $register
+     *
+     * @return void
+     */
+    private function addIconpackProvider(array $register): void
+    {
+        $iconpackProviderConfig = $this->parseIconpackConfiguration($register);
+        $iconpackProvider = $this->getIconpackProviderInstance($iconpackProviderConfig);
+        $iconpackKey = $iconpackProvider->getKey();
+        $this->iconpackProviders[$iconpackKey] = $iconpackProvider;
+        $this->addIconpackProviderReplacements($iconpackProvider);
+    }
+
+    /**
+     * Add iconpack provider replacements to the registry.
+     *
+     * @param IconpackProvider $iconpackProvider
+     *
+     * @return void
+     */
+    private function addIconpackProviderReplacements(IconpackProvider $iconpackProvider): void
+    {
+        $replacedKeys = $iconpackProvider->getReplaces() ?? [];
+        foreach ($replacedKeys as $key) {
+            $this->iconpackProviders[$key] = $this->getIconpackProviderInstance(
+                [
+                    'key' => $key,
+                    'title' => $key,
+                    'replacedBy' => $iconpackProvider->getKey(),
+                    'hidden' => true
+                ]
+            );
+        }
+    }
+
+    /**
+     * Get an iconpack provider instance from configuration array.
+     *
+     * @param array $iconpackProviderConfig
+     *
+     * @return IconpackProvider
+     */
+    private function getIconpackProviderInstance(array $iconpackProviderConfig): IconpackProvider
+    {
+        return GeneralUtility::makeInstance(
+            IconpackProvider::class,
+            $iconpackProviderConfig
+        );
+    }
+
+    /**
+     * Get a specific iconpack provider using a specified identifier.
      *
      * @param string $iconpackIdentifier
      *
      * @return IconpackProvider|null
+     * @throws InvalidArgumentException
      */
     public function getIconpackProviderByIdentifier(string $iconpackIdentifier): ?IconpackProvider
     {
+        $this->loadCachedIconpackProviders();
         return $this->iconpackProviders[$iconpackIdentifier];
     }
 
     /**
-     * Get an array with the keys of all registered Iconpack-Providers.
+     * Get a (cached) array containing the identifiers of all registered iconpack providers.
+     *
+     * @param bool $visibleOnly Only return iconpacks that are not marked as hidden
      *
      * @return array
+     * @throws InvalidArgumentException
      */
-    public function getIconpackProviderIdentifiers(): array
+    public function getIconpackProviderIdentifiers(bool $visibleOnly = false): array
     {
+        $this->loadCachedIconpackProviders();
         $iconpackProviderIdentifiers = [];
-        foreach ($this->iconpackProviders as $key => $_) {
+        foreach ($this->iconpackProviders as $key => $iconpackProvider) {
+            /** @var IconpackProvider $iconpackProvider */
+            if ($visibleOnly && $iconpackProvider->getHidden()) {
+                continue;
+            }
             $iconpackProviderIdentifiers[] = $key;
         }
         return $iconpackProviderIdentifiers;
+    }
+
+    /**
+     * Replace the identifier of one icon pack with the identifier of another icon pack.
+     *
+     * @param string $iconpackIdentifier
+     *
+     * @return void
+     */
+    public function substituteIconpackIdentifier(string &$iconpackIdentifier): void
+    {
+        $this->loadCachedIconpackProviders();
+        if (isset($this->iconpackProviders[$iconpackIdentifier])) {
+            /** @var IconpackProvider $iconpackProvider */
+            $iconpackProvider = $this->iconpackProviders[$iconpackIdentifier];
+            $iconpackIdentifier = $iconpackProvider->getReplacedBy() ?? $iconpackIdentifier;
+        }
+    }
+
+    /**
+     * Load iconpack providers from cache.
+     *
+     * @return void
+     */
+    private function loadCachedIconpackProviders(): void
+    {
+        if (!$this->iconpackProviders) {
+            $this->iconpackProviders = $this->getIconpackCache()->getCacheByIdentifier('register') ?? [];
+        }
+    }
+
+    /**
+     * Get an instance of the iconpack cache.
+     *
+     * @return IconpackCache
+     */
+    private function getIconpackCache(): IconpackCache
+    {
+        if (!$this->iconpackCache) {
+            return GeneralUtility::makeInstance(IconpackCache::class);
+        } else {
+            return $this->iconpackCache;
+        }
     }
 }

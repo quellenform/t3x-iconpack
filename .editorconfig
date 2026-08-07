@@ -1,23 +1,60 @@
 # EditorConfig is awesome: http://EditorConfig.org
 
-# top-most EditorConfig file? false = no!
-root = false
+# top-most EditorConfig file
+root = true
 
-[{*.rst,*.rst.txt}]
+# Unix-style newlines with a newline ending every file
+[*]
 charset = utf-8
 end_of_line = lf
+indent_style = space
+indent_size = 2
 insert_final_newline = true
 trim_trailing_whitespace = true
-indent_style = space
+
+# PHP-Files
+[*.php]
 indent_size = 4
+
+# CSS-Files
+[*.{css,scss,sass,less}]
+indent_style = tab
+
+# HTML-Files
+[*.{pug,htm,html}]
+indent_style = tab
+insert_final_newline = false
+max_line_length = 0
+
+# PUG-Files
+[*.pug]
+indent_size = 4
+
+# JSON-Files
+[*.json]
+indent_style = tab
+
+# ReST-Files
+[*.{rst,rst.txt}]
+indent_size = 3
 max_line_length = 80
 
-# MD-Files
+# Markdown-Files
 [*.md]
-charset = utf-8
-end_of_line = lf
-insert_final_newline = true
-trim_trailing_whitespace = true
-indent_style = space
-indent_size = 4
 max_line_length = 80
+
+# XLF-Files
+[*.xlf]
+indent_style = tab
+
+# SQL-Files
+[*.sql]
+indent_style = tab
+
+# .htaccess
+[{_.htaccess,.htaccess}]
+indent_style = tab
+
+# Editor configuration
+[{.jsbeautifyrc,.stylelintrc,.uglifyrc,.eslintrc.json}]
+indent_style = tab

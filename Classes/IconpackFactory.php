@@ -13,15 +13,21 @@ namespace Quellenform\Iconpack;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Psr\Http\Message\ServerRequestInterface;
+use Quellenform\Iconpack\Domain\Model\IconpackProvider;
 use Quellenform\Iconpack\Exception\IconpackException;
 use Quellenform\Iconpack\IconpackCache;
 use Quellenform\Iconpack\IconpackRegistry;
 use Quellenform\Iconpack\Utility\IconpackRenderer;
 use Quellenform\Iconpack\Utility\IconpackUtility;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\ApplicationType;
-use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Localization\Locale;
+use TYPO3\CMS\Core\Localization\Locales;
+use TYPO3\CMS\Core\Site\Entity\Site;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManager;
 use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
 
@@ -30,17 +36,16 @@ use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
  * is responsible for providing iconpacks. Checks for the correct Iconpack Provider through the IconpackRegistry.
  *
  * Normal usage:
- *   $iconpack = GeneralUtility::makeInstance(\Quellenform\Iconpack\IconpackFactory::class);
+ *   $iconpack = GeneralUtility::makeInstance(IconpackFactory::class);
  *   $iconpack->getIconMarkup($iconfigString);
  *
  * Usage with discrete context and no caching:
- *   $iconpack = GeneralUtility::makeInstance(\Quellenform\Iconpack\IconpackFactory::class, false);
+ *   $iconpack = GeneralUtility::makeInstance(IconpackFactory::class);
  *   $iconpack->setContext('backend');
  *   $iconpack->getIconMarkup($iconfigString);
  */
-class IconpackFactory implements SingletonInterface
+final class IconpackFactory
 {
-
     /**
      * @var IconpackRegistry
      */
@@ -79,6 +84,11 @@ class IconpackFactory implements SingletonInterface
     /**
      * @var array|null
      */
+    protected static $visibleIconpacks = null;
+
+    /**
+     * @var array|null
+     */
     protected static $preferredRenderTypes = null;
 
     /**
@@ -87,26 +97,18 @@ class IconpackFactory implements SingletonInterface
     protected static $defaultCssClass = '';
 
     /**
-     * @param bool $cacheEnabled
+     * Constructor
      */
-    public function __construct(bool $cacheEnabled = true)
-    {
-        //$cacheEnabled = false; // DEV
-        $this->iconpackRegistry = GeneralUtility::makeInstance(IconpackRegistry::class);
-        $this->setAvailableIconpacks();
-        $this->iconpackCache = GeneralUtility::makeInstance(IconpackCache::class, $cacheEnabled);
-        $this->setContext();
-        $this->setLanguageCode();
-    }
+    public function __construct(
+        IconpackCache $iconpackCache,
+        IconpackRegistry $IconpackRegistry
+    ) {
+        $this->iconpackRegistry = $IconpackRegistry;
+        $this->iconpackCache = $iconpackCache;
 
-    /**
-     * @internal
-     */
-    private function setAvailableIconpacks()
-    {
-        if (!static::$availableIconpacks) {
-            static::$availableIconpacks = $this->iconpackRegistry->getIconpackProviderIdentifiers();
-        }
+        static::$availableIconpacks = $this->iconpackRegistry->getIconpackProviderIdentifiers();
+        static::$visibleIconpacks = $this->iconpackRegistry->getIconpackProviderIdentifiers(true);
+        $this->setContext();
     }
 
     /**
@@ -138,15 +140,14 @@ class IconpackFactory implements SingletonInterface
     /**
      * Check if there are any iconpacks installed.
      *
+     * @param bool $visibleOnly
+     *
      * @return bool
      */
-    public function areThereAnyIconpacksInstalled(): bool
+    public function areThereAnyIconpacksInstalled(bool $visibleOnly = false): bool
     {
-        if ((bool) count(static::$availableIconpacks)) {
-            return true;
-        } else {
-            return false;
-        }
+        $iconpacks = $visibleOnly ? static::$visibleIconpacks : static::$availableIconpacks;
+        return (bool) count($iconpacks) ? true : false;
     }
 
     /**
@@ -162,7 +163,7 @@ class IconpackFactory implements SingletonInterface
         if (!$context) {
             if (!static::$context) {
                 static::$context = 'frontend';
-                if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
+                if ($this->isBackendScope()) {
                     static::$context = 'backend';
                 }
             }
@@ -178,24 +179,14 @@ class IconpackFactory implements SingletonInterface
     }
 
     /**
-     * Set current language code.
+     * Check whether we are currently in the backend context.
      *
-     * @return void
+     * @return bool
      */
-    public function setLanguageCode()
+    private function isBackendScope(): bool
     {
-        if (static::$context === 'backend') {
-            if (isset($GLOBALS['BE_USER']->uc['lang'])) {
-                $langCode = str_replace('default', 'en', $GLOBALS['BE_USER']->uc['lang']);
-            }
-        } else {
-            $context = GeneralUtility::makeInstance(Context::class);
-            /** @var TYPO3\CMS\Core\Site\Entity\Site $site */
-            $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
-            $langId = $context->getPropertyFromAspect('language', 'id');
-            $langCode = $site->getLanguageById($langId)->getTwoLetterIsoCode();
-        }
-        static::$langCode = !empty($langCode) ? $langCode : 'en';
+        return ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface
+            && ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend();
     }
 
     /**
@@ -305,52 +296,98 @@ class IconpackFactory implements SingletonInterface
      *
      * @return array|null
      */
-    public function queryConfig(string $iconpackKey, ?string $selection = null): ?array
+    private function queryConfig(string $iconpackKey, ?string $selection = null): ?array
     {
+        $this->iconpackRegistry->substituteIconpackIdentifier($iconpackKey);
         // Check if the requested iconpack already exists
+        // @extensionScannerIgnoreLine
         if (!isset($this->config[$iconpackKey])) {
             // Check if the requested iconpack is installed at all
             if ($this->isIconpackInstalled($iconpackKey)) {
                 // Get the requested iconpack directly from cache
+                // @extensionScannerIgnoreLine
                 $this->config = $this->iconpackCache->getCacheByIdentifier(
-                    $this->getCacheIdentifier('config')
+                    $this->prefixCacheIdentifier('config')
                 );
                 // Check if the requested iconpack exists in the cache
+                // @extensionScannerIgnoreLine
                 if (!isset($this->config[$iconpackKey])) {
                     // Check if any iconpacks are installed at all
                     if ($this->areThereAnyIconpacksInstalled()) {
-                        // Create a new configuration from all registered iconpacks
-                        foreach (static::$availableIconpacks as $iconpack) {
-                            /** @var IconpackProvider $iconpackProvider */
-                            $iconpackProvider
-                                = $this->iconpackRegistry->getIconpackProviderByIdentifier($iconpack);
-                            $this->config[$iconpack] = [
-                                'title' => $iconpackProvider->getTitle(),
-                                'key' => $iconpackProvider->getKey(),
-                                'version' => $iconpackProvider->getVersion(),
-                                'url' => $iconpackProvider->getUrl(),
-                                'logo' => $iconpackProvider->getLogo(),
-                                'renderTypes' => $iconpackProvider->getRenderTypes(),
-                                'stylesEnabled' => $iconpackProvider->getStylesEnabled(),
-                                'categories' => $iconpackProvider->getCategories(),
-                                'icons' => $iconpackProvider->getIcons(),
-                                'options' => $iconpackProvider->getAdditionalOptions()
-                            ];
-                        }
-                        if ($this->config) {
-                            $this->iconpackCache->setCacheByIdentifier(
-                                $this->getCacheIdentifier('config'),
-                                $this->config
-                            );
-                        }
+                        $this->queryConfigFromAvailableIconpacks();
                     }
                 }
             }
         }
         if ($selection) {
+            // @extensionScannerIgnoreLine
             return $this->config[$iconpackKey][$selection] ?? null;
         }
+        // @extensionScannerIgnoreLine
         return $this->config[$iconpackKey] ?? null;
+    }
+
+    /**
+     * Query configuration from all available iconpacks.
+     *
+     * @return void
+     */
+    private function queryConfigFromAvailableIconpacks(): void
+    {
+        $defaultConfiguration = $this->getDefaultConfigurationFromYaml();
+        // Create a new configuration from all registered iconpacks
+        foreach (static::$availableIconpacks as $iconpack) {
+            /** @var IconpackProvider $iconpackProvider */
+            $iconpackProvider = $this->iconpackRegistry->getIconpackProviderByIdentifier($iconpack);
+            if (!$iconpackProvider->getReplacedBy()) {
+                $iconpackProvider->setAdditionalOptionsCss(
+                    $defaultConfiguration
+                );
+                // @extensionScannerIgnoreLine
+                $this->config[$iconpack] = [
+                    'title' => $iconpackProvider->getTitle(),
+                    'key' => $iconpackProvider->getKey(),
+                    'version' => $iconpackProvider->getVersion(),
+                    'url' => $iconpackProvider->getUrl(),
+                    'logo' => $iconpackProvider->getLogo(),
+                    'renderTypes' => $iconpackProvider->getRenderTypes(),
+                    'stylesEnabled' => $iconpackProvider->getStylesEnabled(),
+                    'categories' => $iconpackProvider->getCategories(),
+                    'icons' => $iconpackProvider->getIcons(),
+                    'options' => $iconpackProvider->getAdditionalOptions(
+                        $defaultConfiguration['options'] ?? []
+                    )
+                ];
+            }
+        }
+        // @extensionScannerIgnoreLine
+        if ($this->config) {
+            $this->iconpackCache->setCacheByIdentifier(
+                $this->prefixCacheIdentifier('config'),
+                // @extensionScannerIgnoreLine
+                $this->config
+            );
+        }
+    }
+
+    /**
+     * Load default configuration for all iconpacks from YAML file.
+     *
+     * @return array
+     */
+    protected function getDefaultConfigurationFromYaml(): array
+    {
+        $configuration = [];
+        /** @var ExtensionConfiguration $extConf */
+        $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+        $yamlFile = (string) trim($extConf->get('iconpack', 'defaultConfig'));
+        $pathToYamlFile = GeneralUtility::getFileAbsFileName($yamlFile);
+        if (!empty($yamlFile) && file_exists($pathToYamlFile)) {
+            $configuration = IconpackUtility::loadYamlFile($yamlFile, 'iconpack');
+            return (array) $configuration['iconpack'];
+        } else {
+            return [];
+        }
     }
 
     /**
@@ -366,9 +403,9 @@ class IconpackFactory implements SingletonInterface
     {
         $assets = [];
         foreach (static::$availableIconpacks as $iconpack) {
-            $fieldType = ($scope === 'ckeditor' ? ['rte'] : ['native', 'rte']);
+            $fieldTypes = ($scope === 'ckeditor' ? ['rte'] : ['native', 'rte']);
             $renderTypesConfig = $this->queryConfig($iconpack, 'renderTypes');
-            foreach (['native', 'rte'] as $fieldType) {
+            foreach ($fieldTypes as $fieldType) {
                 $renderType = $this->resolvePreferredRenderType($renderTypesConfig, $iconpack, $fieldType);
                 if ($renderType) {
                     foreach ($renderTypesConfig[$renderType] as $styleConf) {
@@ -380,11 +417,11 @@ class IconpackFactory implements SingletonInterface
             }
         }
         // Return flattened asset array with unique values
-        return IconpackUtility::uniqueFlattendAssetArray($assets, $streamlined);
+        return IconpackUtility::uniqueFlattenedAssetArray($assets, $streamlined);
     }
 
     /**
-     * Get all styles from all iconpacks for dropdowns in CKEditor and Backend.
+     * Get all styles from all visible iconpacks for dropdowns in CKEditor and Backend.
      *
      * @param string $fieldType
      *
@@ -393,7 +430,7 @@ class IconpackFactory implements SingletonInterface
     public function queryIconpackStyles(string $fieldType): ?array
     {
         $iconpackStyles = null;
-        foreach (static::$availableIconpacks as $iconpack) {
+        foreach (static::$visibleIconpacks as $iconpack) {
             $renderType = $this->resolvePreferredRenderType(
                 $this->queryConfig($iconpack, 'renderTypes'),
                 $iconpack,
@@ -442,7 +479,9 @@ class IconpackFactory implements SingletonInterface
             return null;
         }
         if ($this->isIconpackInstalled($iconfig['iconpack'])) {
-            $cacheIdentifier = $this->getCacheIdentifier('iconpackIcons_' . $iconfig['iconpackStyle']);
+            $cacheIdentifier = $this->prefixCacheIdentifier(
+                'icons_' . $iconfig['iconpackStyle'] . '_' . $iconfig['fieldType']
+            );
             $iconpackIcons = $this->iconpackCache->getCacheByIdentifier($cacheIdentifier);
             if ($iconpackIcons) {
                 return $iconpackIcons;
@@ -491,14 +530,16 @@ class IconpackFactory implements SingletonInterface
     {
         foreach ($iconpackIcons as $styleKey => $_) {
             foreach ($iconpackIcons[$styleKey]['icons'] as $iconKey => $iconLabel) {
-                $renderConf['label'] = $iconLabel;
-                $iconpackIcons[$styleKey]['icons'][$iconKey]
-                    = IconpackRenderer::renderIcon(
+                $iconpackIcons[$styleKey]['icons'][$iconKey] = [
+                    'label' => $iconLabel,
+                    'markup' => IconpackRenderer::renderIcon(
                         IconpackRenderer::createIconElement(
                             (string) $iconKey,
-                            $renderConf
+                            $renderConf,
+                            static::$context
                         )
-                    );
+                    )
+                ];
             }
         }
         return $iconpackIcons;
@@ -554,8 +595,6 @@ class IconpackFactory implements SingletonInterface
                 $preferredRenderTypes
             );
             if ($iconElement) {
-                // Add iconfig as data-attribute to keep the element transformable (RTE <-> DB)
-                $iconElement['attributes']['data-iconfig'] = $iconfigString;
                 // Finally render the icon
                 $iconMarkup = IconpackRenderer::renderIcon($iconElement);
             }
@@ -577,12 +616,13 @@ class IconpackFactory implements SingletonInterface
         ?array $additionalAttributes = null,
         ?array $preferredRenderTypes = null
     ): ?array {
+        $iconfig = $this->substituteIconpackInIconfigArray($iconfig);
         // Check if the required fields are set and if the requested iconpack is installed
         if (
-            isset($iconfig['iconpack']) &&
-            isset($iconfig['icon']) &&
-            isset($iconfig['fieldType']) &&
-            $this->isIconpackInstalled($iconfig['iconpack'])
+            isset($iconfig['iconpack'])
+            && isset($iconfig['icon'])
+            && isset($iconfig['fieldType'])
+            && $this->isIconpackInstalled($iconfig['iconpack'])
         ) {
             // Check if a configuration exists for the requested iconpack
             $configuration = $this->queryConfig($iconfig['iconpack']);
@@ -624,13 +664,19 @@ class IconpackFactory implements SingletonInterface
                         );
                         // Set the renderType which is required for rendering
                         $conf['type'] = $preferredRenderType;
-                        $conf['label'] = $icon['label'];
+                        $conf['label'] = $icon['label'] ?? '';
                         $conf['defaultCssClass'] = static::$defaultCssClass;
+                        // Check for aliases
+                        $iconIdentifier
+                            = isset($icon['aliasOf'])
+                            ? $icon['aliasOf']
+                            : $iconfig['icon'];
                         // Everything looks fine so far, try to set the icon element
                         try {
                             $iconElement = IconpackRenderer::createIconElement(
-                                $iconfig['icon'],
-                                $conf
+                                $iconIdentifier,
+                                $conf,
+                                static::$context
                             );
                             return $iconElement;
                         } catch (IconpackException $e) {
@@ -642,6 +688,31 @@ class IconpackFactory implements SingletonInterface
             }
         }
         return null;
+    }
+
+    /**
+     * Substitute iconpack identifier and style in an iconfig array if there is a replacement available.
+     *
+     * @param array|null $iconfig
+     *
+     * @return array|null
+     */
+    public function substituteIconpackInIconfigArray(?array $iconfig): ?array
+    {
+        if (
+            isset($iconfig['iconpack'])
+            && $this->isIconpackInstalled($iconfig['iconpack'])
+        ) {
+            $replacementConf = $this->queryConfig($iconfig['iconpack']);
+            $replacementKey = $replacementConf['key'];
+            if ($replacementKey !== $iconfig['iconpack']) {
+                $iconfig['iconpack'] = $replacementKey;
+                if (isset($iconfig['style'])) {
+                    $iconfig['iconpackStyle'] = $replacementKey . ':' . $iconfig['style'];
+                }
+            }
+        }
+        return $iconfig;
     }
 
     /**
@@ -683,16 +754,48 @@ class IconpackFactory implements SingletonInterface
     }
 
     /**
-     * Get the language specific cache identifier.
+     * Get a language specific cache identifier.
      *
      * @param string $cacheIdentifier
      *
      * @return string
      */
-    private function getCacheIdentifier(string $cacheIdentifier): string
+    private function prefixCacheIdentifier(string $cacheIdentifier): string
     {
-        //$cacheIdentifier = 'Iconpack_' . static::$langCode . '_' . str_replace(':', '-', $cacheIdentifier); // DEV
-        $cacheIdentifier = 'Iconpack_' . md5(static::$langCode . '_' . $cacheIdentifier);
-        return $cacheIdentifier;
+        return $this->getLanguageCode() . '_' . $cacheIdentifier;
+    }
+
+    /**
+     * Get current language code.
+     *
+     * @return string
+     */
+    private function getLanguageCode(): string
+    {
+        if (empty(static::$langCode)) {
+            $langCode = 'default';
+            if (static::$context === 'backend') {
+                if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.4', '>=')) {
+                    $localeFactory = GeneralUtility::makeInstance(Locales::class);
+                    /** @var Locale|null $locale */
+                    $locale = $localeFactory->createLocaleFromRequest($GLOBALS['TYPO3_REQUEST'] ?? null);
+                    if ($langCode) {
+                        $langCode = $locale->getLanguageCode();
+                    }
+                } else {
+                    if (isset($GLOBALS['BE_USER']->uc['lang'])) {
+                        $langCode = $GLOBALS['BE_USER']->uc['lang'];
+                    }
+                }
+            } else {
+                $context = GeneralUtility::makeInstance(Context::class);
+                /** @var Site $site */
+                $site = $GLOBALS['TYPO3_REQUEST']->getAttribute('site');
+                $langId = $context->getPropertyFromAspect('language', 'id');
+                $langCode = $site->getLanguageById($langId)->getTypo3Language();
+            }
+            static::$langCode = (empty($langCode) || $langCode === 'en') ? 'default' : $langCode;
+        }
+        return static::$langCode;
     }
 }

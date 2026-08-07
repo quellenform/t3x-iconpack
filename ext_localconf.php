@@ -2,67 +2,79 @@
 
 defined('TYPO3') || die();
 
-// Add new field type to NodeFactory in order to render the icon fields
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1591191626] = [
-    'nodeName' => 'IconpackWizard',
-    'priority' => '70',
-    'class' => \Quellenform\Iconpack\Form\Element\IconpackWizardElement::class,
-];
+call_user_func(static function () {
+    // Add new field type to NodeFactory in order to render the icon fields
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1591191626] = [
+        'nodeName' => 'IconpackWizard',
+        'priority' => '70',
+        'class' => \Quellenform\Iconpack\Form\Element\IconpackWizardElement::class,
+    ];
 
-// Register extension icon
-$iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-    \TYPO3\CMS\Core\Imaging\IconRegistry::class
-)->registerIcon(
-    'ext-iconpack',
-    \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-    [
-        'source' => 'EXT:iconpack/Resources/Public/Icons/Extension.svg'
-    ]
-);
+    if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '11', '<')) {
+        // Register extension icon for the backend
+        \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Imaging\IconRegistry::class
+        )->registerIcon(
+            'ext-iconpack',
+            \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+            [
+                'source' => 'EXT:iconpack/Resources/Public/Icons/Extension.svg'
+            ]
+        );
+        \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Imaging\IconRegistry::class
+        )->registerIcon(
+            'actions-iconpack',
+            \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
+            [
+                'source' => 'EXT:iconpack/Resources/Public/Icons/Iconpack.svg'
+            ]
+        );
+    }
 
-// Configure the caching frontend/backend
-if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['iconpack'])) {
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['iconpack'] ??= [];
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['iconpack']['backend']
-        ??= \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
-}
+    // Configure the caching frontend/backend
+    if (!isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['iconpack'])) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['iconpack'] ??= [];
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations']['iconpack']['backend']
+            ??= \TYPO3\CMS\Core\Cache\Backend\SimpleFileBackend::class;
+    }
 
-// Override HTML sanitizer to allow SVG tags and attributes in bodytext
-$GLOBALS['TYPO3_CONF_VARS']['SYS']['htmlSanitizer']['default']
-    = \Quellenform\Iconpack\Sanitizer\IconpackHtmlSanitizer::class;
+    // Extend HTML sanitizer to allow SVG tags and attributes in bodytext
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['htmlSanitizer']['default']
+        = \Quellenform\Iconpack\Sanitizer\IconpackHtmlSanitizer::class;
 
-// Add transformation class for parsing the bodytext content (RTE <-> DB)
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_parsehtml_proc.php']['transformation']['icon']
-    = \Quellenform\Iconpack\Html\IconpackRteTransformation::class;
+    if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '13.3', '<')) {
+        // XCLASS \TYPO3\CMS\Core\Html\RteHtmlParser for transforming the bodytext content (RTE <-> persistence) in TYPO3 <13.3
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['Objects'][\TYPO3\CMS\Core\Html\RteHtmlParser::class] = [
+            'className' => \Quellenform\Iconpack\Xclass\RteHtmlParser::class
+        ];
+    }
 
-// Set overrule mode to allow icon-transformations
-\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('RTE.default.proc.overruleMode = default,icon');
-
-// Add some values to the list of allowed attributes for span-tags
-if (
-    (bool) \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-        \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
-    )->get('iconpack', 'autoConfigRte')
-) {
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
-    RTE.default.proc {
-        # Allow additional attributes in SPAN-tags on the way from RTE to DB
-        HTMLparser_db.tags.span.allowedAttribs := addToList(data-iconfig, style)
-        # Allow various tags to be processed and transformed
-        # TODO: addToList does not work in this case, so we use this ugly thing instead
-        allowTags {
-            101 = icon
-            102 = svg
-            103 = use
-            104 = g
-            105 = line
-            106 = path
-            107 = polygon
-            108 = polyline
-            109 = rect
-            110 = circle
-            111 = ellipse
+    if (
+        (bool) \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+        )->get('iconpack', 'autoConfigRte')
+    ) {
+        // Allow additional attributes in <span> tags on the way from RTE to DB (used by HTMLcleaner)
+        if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12', '<')) {
+            // @extensionScannerIgnoreLine
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+                'RTE.default.proc.HTMLparser_db.tags.span.allowedAttribs:=addToList(data-iconfig,id,name,class,style,alt,title)'
+            );
         }
     }
-');
-}
+
+    if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '12.3.0', '>=')) {
+        if (version_compare(TYPO3\CMS\Core\Utility\VersionNumberUtility::getCurrentTypo3Version(), '13.2.0', '>=')) {
+            $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['iconpack']
+                = 'EXT:iconpack/Resources/Public/Css/Backend/FormEngine/IconpackWizard.min.css';
+        } else {
+            $GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['iconpack']
+                = 'EXT:iconpack/Resources/Public/Css/Backend/FormEngine/v12/IconpackWizard.min.css';
+        }
+    }
+
+    // Hook to add iconpack assets to the AssetsCollector in the FE/BE:
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['t3lib/class.t3lib_pagerenderer.php']['render-preProcess']['quellenform/assetcollector']
+        = \Quellenform\Iconpack\Hooks\AssetRenderer::class . '->addCss';
+});

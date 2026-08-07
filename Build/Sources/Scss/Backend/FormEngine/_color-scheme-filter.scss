@@ -1,0 +1,19 @@
+// Filter for two tone webfonts
+//
+// This is important for v13+ to select the correct color for two-color webfonts when using color schemes.
+// -------------------------
+
+:root {
+	--iconpack-filter: invert(0) contrast(0%) brightness(180%);
+}
+
+[data-color-scheme=light] {
+	--iconpack-filter: none;
+}
+
+@media (prefers-color-scheme: light) {
+	:not([data-color-scheme]),
+	[data-color-scheme=auto] {
+		--iconpack-filter: none;
+	}
+}

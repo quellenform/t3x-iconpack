@@ -1,1 +1,0 @@
-define(['exports','TYPO3/CMS/Core/DocumentService','TYPO3/CMS/Iconpack/Backend/Iconpack'],(function(e,t,n){'use strict';return class{constructor(e){this.element=null,t.ready().then(()=>{this.element=document.getElementById(e),this.element.addEventListener('click',e=>{e.preventDefault(),n.showFieldIconModal(this.element)})})}}}));

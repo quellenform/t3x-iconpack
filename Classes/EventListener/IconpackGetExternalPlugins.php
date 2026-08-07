@@ -13,38 +13,49 @@ namespace Quellenform\Iconpack\EventListener;
  * LICENSE.txt file that was distributed with this source code.
  */
 
-use Quellenform\Iconpack\IconpackFactory;
+use Quellenform\Iconpack\Utility\IconpackUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforeGetExternalPluginsEvent;
 
 /**
- * Add CKEditor-Plugins.
+ * Add the CKEditor-Plugin (TYPO3 v10/11)
  */
-class IconpackGetExternalPlugins
+final class IconpackGetExternalPlugins
 {
-
     /**
      * This event is fired before processing external plugin configuration.
+     *
+     * @param BeforeGetExternalPluginsEvent $event
+     *
+     * @return void
      */
     public function __invoke(BeforeGetExternalPluginsEvent $event): void
     {
-        if ((bool) GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('iconpack', 'enablePlugin')) {
-            $iconpackProviderConfiguration = [];
-            // Get the external plugin configuration
+        if (
+            (bool) GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('iconpack', 'autoConfigRte')
+            && version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')
+        ) {
             $configuration = $event->getConfiguration();
-            $configuration['iconpack'] = [
-                'resource' => 'EXT:iconpack/Resources/Public/JavaScript/CKEditor/plugin.min.js',
-                'route' => 'ajax_iconpack_modal'
-            ];
-            $iconpackAssets = GeneralUtility::makeInstance(IconpackFactory::class)
-                ->queryAssets('js', 'ckeditor');
-            foreach ($iconpackAssets as $identifier => $asset) {
-                $iconpackProviderConfiguration['iconpack_' . $identifier] = [
-                    'resource' => $asset
-                ];
-            }
-            $event->setConfiguration(array_merge($configuration, $iconpackProviderConfiguration));
+            // Get the external plugin configuration from YAML file
+            $yaml = IconpackUtility::loadYamlFile(
+                'EXT:iconpack/Configuration/RTE/IconpackConfig-v11.yaml'
+            );
+            $iconpackConfiguration = (array) $yaml['editor']['externalPlugins'];
+            // @extensionScannerIgnoreLine (ignore false positive #108277)
+            $event->setConfiguration(array_merge_recursive($configuration, $iconpackConfiguration));
+        }
+        // Explicitly add labels for the RTE so that they are available at all times
+        if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '14.0.0', '>=')) {
+            /** @var PageRenderer $pageRenderer */
+            $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
+            // Add inline labels for JavaScript
+            $pageRenderer->addInlineLanguageLabelFile(
+                'EXT:iconpack/Resources/Private/Language/locallang_be.xlf',
+                'js.'
+            );
         }
     }
 }

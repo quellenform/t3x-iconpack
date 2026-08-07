@@ -13,11 +13,10 @@ namespace Quellenform\Iconpack\ViewHelpers;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use Closure;
 use Quellenform\Iconpack\IconpackFactory;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithRenderStatic;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
 
 /**
  * Render an icon from a fluid template.
@@ -26,11 +25,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 class IconViewHelper extends AbstractViewHelper
 {
-    use CompileWithRenderStatic;
-
     protected $escapeOutput = false;
 
-    public function initializeArguments()
+    public function initializeArguments(): void
     {
         $this->registerArgument('iconfig', 'string', 'The rendering configuration of the requested icon', true);
         $this->registerArgument('additionalAttributes', 'array', 'Additional attributes', false);
@@ -40,23 +37,17 @@ class IconViewHelper extends AbstractViewHelper
     /**
      * Render the header icon.
      *
-     * @param array $arguments
-     * @param \Closure $renderChildrenClosure
-     * @param RenderingContextInterface $renderingContext
      * @return string
      */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ): string {
+    public function render(): string
+    {
         /** @var IconpackFactory $iconpackFactory */
         $iconpackFactory = GeneralUtility::makeInstance(IconpackFactory::class);
         return $iconpackFactory->getIconMarkup(
-            $arguments['iconfig'],
+            $this->arguments['iconfig'],
             'native',
-            $arguments['additionalAttributes'],
-            $arguments['preferredRenderTypes']
+            $this->arguments['additionalAttributes'],
+            $this->arguments['preferredRenderTypes']
         ) ?? '';
     }
 }

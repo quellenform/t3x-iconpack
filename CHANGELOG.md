@@ -1,30 +1,248 @@
-# 0.3.3
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+## 1.5.4
+
+- 9d0513d [BUGFIX] When using TYPO3 v14 and the "header_icon" field is disabled, explicitly add the inline labels to the RTE (#63) (thanks to @gkmbgmbh)
+
+## 1.5.3
+
+- f52c2e7 Resolve the path to the configuration file before checking whether it exists (#62) (thanks to @mbsued)
+
+## 1.5.2
+
+- 300dcc8 Avoid throwing an exception if the specified YAML file does not exist
+
+## 1.5.1
+
+- 8fe42b9 Change default value for IconpackWizard from iconInputButton to iconButton
+
+## 1.5.0
+
+- b367265 [TASK] Rewrite of the IconpackWizard
+- 39ee364 [BUGFIX] HTML Code ist escaped and displayed in frontend instead of icons (#57)
+- dd479d3 [TASK] Add language-specific elements to the list of allowed attributes (#48)
+
+## 1.4.2
+
+- 25cc6e3 [BUGFIX] Uncaught (in promise) CKEditorError: plugincollection-plugin-invalid-constructor (#58) (thanks to @mediaessenz)
+
+## 1.4.1
+
+- 7d3ce01 [TASK] Render field description if set (#54) (thanks to @mbrodala)
+- 755fab5 [BUGFIX] Iconpacks not shown as select field (#53) (thanks to @mbrodala)
+
+## 1.4.0
+
+- 4423224 Moved streamlined filename generation and added v14 compatibility
+- Minor code optimizations
+
+## 1.3.4
+
+- b3a930d Fixed missing check whether aliases contain a string value (#51)
+
+## 1.3.3
+
+- a66a724 Add option to hide specific icons in the modal window
+- 1df9db9 Add option to define aliases for specific icons
+
+## 1.3.2
+
+- b880c37 Add option to replace iconpack versions with newer versions
+- 349d634 Fixed overflow issue with SVG icons
+
+## 1.3.1
+
+- d371de4 Make icon search case-insensitive (#49) (thanks to @mbrodala)
+- c58b94e Do not attempt to preview icons that begin with "EXT:"
+- adf8c0f Move the header in backend forms to the correct position (v13+)
+
+## 1.3.0
+
+- 6dced4a Added option to hide iconpacks in BE dropdown menus (and only use them in FE/ViewHelpers)
+
+## 1.2.6
+
+- bb2552d Added failsafe in case the global variable is not available (#47)
+- 0d108e8 Added site sets and made Typoscript constants available for editing (#46)
+
+## 1.2.5
+
+- 7e46c82 Refinement of DomEventObserver in CKEditor plugin for double-click event (#45)
+
+## 1.2.4
+
+- 84d9755 Fixed duplicate EventListeners (v12/13)
+
+## 1.2.3
+
+- 8b2fe00 Added SVG icons (inline, sprite) to CKEditor4/5
+- f350531 Prevent the CKEditor plugin from being added twice
+
+## 1.2.2
+
+- 03d7655 Redesigned caching mechanism and IconpackRegistry (thanks to @simonschaufi)
+- 013c353 Changed cache identifier and added fieldType
+- 102f5e9 Changed event listener identifiers
+- a23ad77 Added DI to IconpackFactory and IconpackHtmlParser
+- ce229a4 Added nonTypoTagUserFunc for rendering icons nested in lists (RTE content) (#42)
+
+## 1.2.1
+
+- c128c78 Added build automation with Grunt & moved source files
+- e105339 Fixed light/dark mode in modal (v12+)
+- ec04179 Added translation for iconpack styles label
+
+## 1.2.0
+
+- a9d0cfe Fixed PSR-2 coding style
+- 7df6e8b Code cleanup/refactoring
+- 01c6e69 Unify YAML file loader
+- 70e4c0e Added default options for iconpacks
+- e133121 Optimized CSS for CKEditor4
+- 5a0ca24 Fixed icon height in backend field
+
+## 1.1.11
+- 9cc6073 That thing with localization has been rolled back and implemented correctly
+- 8679068 Fixed false positive in extension scanner (v14)
+
+## 1.1.10
+
+- 8b6b4a8 Cleanup & correct various typos
+- cb079b4 Link icons in CKEditor5!
+- a357b9a Added v14 compatibility and branch alias to composer.json
+- c7b82a8 Removed resolveBackPath() to ensure compatibility to v14
+- b9d4ddc Register extension icon for TYPO3 14
+- 36f8126 Render modal with ViewFactory (v13+)
+- f128aa8 Added plugin translation for CKEditor4
+- 6f05ca2 Optimized CSS for dark mode (v13+)
+- 7c90777 Added IconSize if icon could not be found (v13+)
+- 5d46a14 Update documentation
+- 32b7f62 Optimized translation, added IconpackLocalization.php
+- 4b6c390 Added aria-hidden to all icons (...if there is no title/alt)
+- 54f54c4 Changed order of preferred renderTypes in the Backend (svgInline loads faster)
+- ea3ae24 Added constants description
+- 83adead Query correct assets for backend/frontend
+- ce55e69 Return empty array if there are no styles available
+- 8a02b82 Added exception if configuration file could not be found
+- 6ba4600 Added .cache to .gitignore
+- ac0fe28 Select the icon by double-clicking on it
+- c1e69a4 Tooltip with icon name added to modal window
+- 6c8c60b Fixed typos/formatting
+- 982928b Display icons in the correct color when dark mode is selected
+- ac18d6e Render Label for TYPO3 >=v13.3 (thanks to @bigbozo)
+
+## 1.1.9
+
+- 0930730 [BUGFIX] Fixed typos & added variable in header template (#30)
+- 5e30902 Drop deprecated renderStatic
+- 300c230 Added compatibility to 13.*.*@dev
+- 50c1da1 Moved PageTSConfig to file page.tsconfig for v12+
+
+## 1.1.8
+
+- 36ac5b0 [BUGFIX] Error on installation with TYPO3 13.3 (#24)
+- 36ac5b0 [BUGFIX] Missing argument when calling YamlFileLoader in version 13.3+ (#23)
+- 2a2bebc Added event listener for v13.3 (XCLASS is no longer necessary due to new events in RteHtmlParser)
+
+## 1.1.7
+
+- b628dc5 Switched from DataProcessor to lib.parseFunc_RTE for automatic conversion of icons in all RTE fields
+
+## 1.1.6
+
+- e98e5d8 Switched from PageRenderer to AssetCollector (this changes the way CSS files are included in BE/FE)
+- 77aec61 Suppress false positive messages in Install Tool
+
+## 1.1.5
+
+- 214c9b7 Wrap content of ext_localconf.php with call_user_func() (thanks to @froemken)
+- 69aa787 Remove autoloader from ext_emconf.php (thanks to @froemken)
+
+## 1.1.4
+
+- 50bc2db [BUGFIX] iconpack Configuration is null (#17)
+
+## 1.1.3
+
+- d13ac36 [BUGFIX] HiRes Icon for RTE is missing (thanks to @christianhaendel)
+
+## 1.1.2
+
+- 37556e3 [FEATURE] Added compatibility to TYPO3 v13
+
+## 1.1.1
+
+### Feature
+
+- f494765 [FEATURE] add icons to sys_category and sys_file_collection (thanks to @t3brightside)
+
+## 1.1.0
+
+### Feature
+
+- 4750398 Added substitution of path segments with icon names in YAML-configuration files
+
+## 1.0.1
+
+- Updated documentation
+
+## 1.0.0
+
+First stable version...
+
+### Feature
+
+- 64a41d5 [FEATURE ] Compatibility with CKEditor 5 and TYPO3 version 12
+- Icons can now be selected and edited directly in the RTE by double-clicking
+- Added title and description to SVG elements (title will be converted to
+  `<title>` and alt to `<desc>`)
+- The JavaScript has been almost completely rewritten in TypeScript
+- 452e655 Added documentation
+- Many other changes and optimizations under the hood...
+
+### Removed
+
+- Removed "enablePlugin" from the extension configuration
+
+### Breaking
+
+- Changed the icon tag from `<icon>` to `<span>` for better compatibility! Due
+  to a lack of funding for the project, there is unfortunately no upgrade wizard
+  for this, but there is at least downward compatibility in the frontend. To
+  update your content and switch to the new tag, simply open the data record for
+  editing and save it again.
+
+## 0.3.3
 
 - d37a6d7 [BUGFIX] Opening modalbox in IRRE content elements (#10)
-- 17b1d17 [FEATURE] Make the CKEditor plugin optional in the extension configuration
+- 17b1d17 [FEATURE] Make the CKEditor plugin optional in the extension
+  configuration
 
-# 0.3.2
+## 0.3.2
 
 - 9632c4a [FEATURE] Option to remove default CSS (#11)
 
-# 0.3.1
+## 0.3.1
 
 - f6e7419 [BUGFIX] Undefined global variable $LANG
 - 106a562 Restructured queryIconpackIcons()
 - 2ca27b9 Updated cache configuration
 
-# 0.3.0
+## 0.3.0
 
-- e21fa7b Removed the templates for "bootstrap_package". Please use "EXT:bootstrap_package_iconpack" instead!
+- e21fa7b Removed the templates for "bootstrap_package". Please use
+  "EXT:bootstrap_package_iconpack" instead!
 
-# 0.2.1
+## 0.2.1
 
 - 99f9ccf Remove title attribute from svg elements as it is forbidden in HTML
 
-# 0.2.0
+## 0.2.0
 
 - daf35b7 Added support for custom CSS class
 - 7d2f743 SVG Sanitizer Improvement
-- c9154b2 Improved CSS for Backend/Frontend
+- c9154b2 Improved CSS for backend/frontend
 - d7d8f34 Added translatable labels
 - 73d9d7c Code cleanup, PSR12 compatibility

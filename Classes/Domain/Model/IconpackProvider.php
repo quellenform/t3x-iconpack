@@ -14,16 +14,16 @@ namespace Quellenform\Iconpack\Domain\Model;
  */
 
 use Quellenform\Iconpack\Utility\IconpackUtility;
-use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 /**
  * IconpackProvider
  */
 class IconpackProvider
 {
-
     /**
      * Title of the iconpack
      *
@@ -37,6 +37,20 @@ class IconpackProvider
      * @var string
      */
     protected $key = '';
+
+    /**
+     * Array of iconpack keys which are replaced by this iconpack
+     *
+     * @var array
+     */
+    protected $replaces = [];
+
+    /**
+     * Iconpack key which replaces this iconpack
+     *
+     * @var string|null
+     */
+    protected $replacedBy = null;
 
     /**
      * The version number of the iconpack
@@ -60,18 +74,26 @@ class IconpackProvider
     protected $logo = null;
 
     /**
+     * Defines whether the iconpack should only be used in FE/ViewHelpers
+     * or whether it should also be used in dropdowns in the backend.
+     *
+     * @var bool
+     */
+    protected $hidden = false;
+
+    /**
      * Preferred type for the backend and frontend
      *
      * @var array
      */
     protected $preferredRenderTypes = [
         'backend' => [
-            'native' => ['svgSprite', 'svgInline', 'webfont'],
-            'rte' => ['webfont']
+            'native' => ['svgInline', 'svgSprite', 'webfont', 'svg'],
+            'rte' => ['webfont', 'svg'],
         ],
         'frontend' => [
             'native' => ['svgInline', 'svgSprite', 'webfont', 'svg'],
-            'rte' => ['svgInline', 'webfont']
+            'rte' => ['svgInline', 'svgSprite', 'webfont', 'svg']
         ]
     ];
 
@@ -95,6 +117,14 @@ class IconpackProvider
      * @var array|null
      */
     protected $options = null;
+
+    /**
+     * The default CSS transforms for iconpack options
+     *
+     * @var array|null
+     */
+    protected $optionsCss = null;
+
     /**
      * Iconpack categories
      *
@@ -109,22 +139,37 @@ class IconpackProvider
      */
     protected $icons = null;
 
+    /**
+     * The aliases array
+     *
+     * @var array|null
+     */
+    protected $aliases = null;
+
+    /**
+     * The iconpack localization helper.
+     *
+     * @var IconpackLocalization
+     */
+    protected $localization = null;
+
     public function __construct(array $config)
     {
         $this->setTitle($config['title']);
         $this->setKey($config['key']);
+        $this->setReplaces($config['replaces'] ?? null);
+        $this->setReplacedBy($config['replacedBy'] ?? null);
         $this->setVersion($config['version'] ?? null);
         $this->setUrl($config['url'] ?? null);
         $this->setLogo($config['logo'] ?? null);
-
+        $this->setHidden($config['hidden'] ?? false);
         $this->setStylesEnabled($config['stylesEnabled'] ?? null);
-
         $this->setPreferredRenderTypes($config['preferredRenderTypes'] ?? null);
         $this->setRenderTypes($config['renderTypes'] ?? null);
-
         $this->setAdditionalOptions($config['options'] ?? null);
         $this->setCategories($config['categories'] ?? null);
         $this->setIcons($config['icons'] ?? null);
+        $this->setAliases($config['aliases'] ?? null);
     }
 
     /**
@@ -157,6 +202,43 @@ class IconpackProvider
     public function getKey(): string
     {
         return trim(strtolower($this->key));
+    }
+
+    /**
+     * @param string|null $replaces
+     */
+    public function setReplaces(?string $replaces)
+    {
+        if (!empty($replaces)) {
+            $replacements = GeneralUtility::trimExplode(',', $replaces);
+            foreach ($replacements as $key) {
+                $this->replaces[] = strtolower($key);
+            }
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getReplaces(): array
+    {
+        return $this->replaces;
+    }
+
+    /**
+     * @param string|null $replacedBy
+     */
+    public function setReplacedBy(?string $replacedBy)
+    {
+        $this->replacedBy = $replacedBy ? trim(strtolower($replacedBy)) : null;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getReplacedBy(): ?string
+    {
+        return $this->replacedBy;
     }
 
     /**
@@ -208,12 +290,33 @@ class IconpackProvider
     }
 
     /**
+     * @param bool $hidden
+     */
+    public function setHidden(bool $hidden)
+    {
+        $this->hidden = $hidden;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getHidden(): bool
+    {
+        return $this->hidden;
+    }
+
+    /**
      * Set the preferred renderTypes.
      *
      * @param array|null $preferredRenderTypes
      */
     public function setPreferredRenderTypes(?array $preferredRenderTypes)
     {
+        if (
+            (bool) GeneralUtility::makeInstance(ExtensionConfiguration::class)->get('iconpack', 'rteSvg')
+        ) {
+            array_unshift($this->preferredRenderTypes['backend']['rte'], 'svgInline', 'svgSprite');
+        }
         if ($preferredRenderTypes && is_array($preferredRenderTypes)) {
             foreach (['backend', 'frontend'] as $context) {
                 foreach (['native', 'rte'] as $fieldType) {
@@ -297,6 +400,7 @@ class IconpackProvider
                     );
                 }
             }
+            $this->mergeOptionsCss($renderTypes);
         }
         // Explode attributes into array after merging
         foreach ($renderTypes as $typeKey => $typeConf) {
@@ -308,6 +412,31 @@ class IconpackProvider
             }
         }
         return $renderTypes;
+    }
+
+    /**
+     * Merge the default CSS for the iconpack options into the renderTypes array.
+     *
+     * @param array $renderTypes
+     *
+     * @return void
+     */
+    private function mergeOptionsCss(array &$renderTypes): void
+    {
+        if ($this->optionsCss) {
+            $optionsCssConfig = $this->mergeAsset('css', $this->optionsCss);
+            foreach ($renderTypes as $typeKey => $typeConf) {
+                foreach ($typeConf as $styleKey => $styleConf) {
+                    if (!isset($styleConf['css'])) {
+                        $renderTypes[$typeKey][$styleKey]['css'] = [];
+                    }
+                    $renderTypes[$typeKey][$styleKey]['css'] = IconpackUtility::mergeAssets(
+                        $renderTypes[$typeKey][$styleKey]['css'],
+                        $optionsCssConfig
+                    );
+                }
+            }
+        }
     }
 
     /**
@@ -354,7 +483,6 @@ class IconpackProvider
         $allowedKeys = [
             'label',
             'css',
-            'js',
             'source',
             'elementName',
             'attributeName',
@@ -368,7 +496,6 @@ class IconpackProvider
                         $configArray[$key] = $this->getTranslatedLabel($value, null);
                         break;
                     case 'css':
-                    case 'js':
                         $configArray[$key] = $this->mergeAsset($key, $config);
                         break;
                     case 'source':
@@ -429,13 +556,13 @@ class IconpackProvider
                     } else {
                         // The array is associative: css['...']...
                         if (in_array($key, $scopes)) {
-                            // Scope specific asset is defined: css['backennd']
+                            // Scope specific asset is defined: css['backend']
                             $scope = $key;
                             if (!is_array($assets)) {
                                 $newAssets[$scope][] = $assets;
                             } else {
                                 foreach ($assets as $customKey => $asset) {
-                                    // The scope specific asset-array has a custom or numeric key: css['backennd']['custom_key']
+                                    // The scope specific asset-array has a custom or numeric key: css['backend']['custom_key']
                                     $newAssets[$scope][$customKey] = $asset;
                                 }
                             }
@@ -475,47 +602,92 @@ class IconpackProvider
     /**
      * Get additional options for this iconpack.
      *
+     * @param array|null $optionsConfig
+     *
      * @return array|null
      */
-    public function getAdditionalOptions(): ?array
+    public function getAdditionalOptions(?array $optionsConfig = null): ?array
     {
-        $additionalOptions = null;
         if ($this->options) {
-            foreach ($this->options as $optionKey => $option) {
-                if (isset($option['type']) && !empty($option['type'])) {
-                    $optionConf = [
-                        'label' => $this->getTranslatedLabel($option['label'], $optionKey),
-                        'type' => $option['type']
-                    ];
-                    switch ($option['type']) {
-                        case 'select':
-                            if (isset($option['values']) && is_array($option['values'])) {
-                                foreach ($option['values'] as $key => $values) {
-                                    if (isset($values['attributes']) && is_array($values['attributes'])) {
-                                        $optionConf['values'][$key]['label']
-                                            = $this->getTranslatedLabel($values['label']);
-                                        $optionConf['values'][$key]['attributes']
-                                            = IconpackUtility::explodeAttributes($values['attributes']);
-                                        // This is required for JavaScript
-                                        $optionConf['values'][$key]['attributesString']
-                                            = json_encode($values['attributes']);
-                                    }
-                                }
-                            }
-                            break;
-                        case 'checkbox':
-                            if (isset($option['attributes']) && is_array($option['attributes'])) {
-                                $optionConf['attributes'] = IconpackUtility::explodeAttributes($option['attributes']);
-                                // This is required for JavaScript
-                                $optionConf['attributesString'] = json_encode($option['attributes']);
-                            }
-                            break;
-                    }
-                    $additionalOptions[$optionKey] = $optionConf;
+            return $this->parseOptions($this->options);
+        } elseif ($optionsConfig && is_array($optionsConfig)) {
+            return $this->parseOptions($optionsConfig);
+        }
+        return [];
+    }
+
+    /**
+     * Sets the default CSS used by the iconpack options.
+     *
+     * @param array|null $config
+     *
+     * @return void
+     */
+    public function setAdditionalOptionsCss(?array $config = []): void
+    {
+        if (isset($config['optionsCss'])) {
+            $this->optionsCss['css'] = $config['optionsCss'];
+        }
+    }
+
+    /**
+     * Parse the options configuration from the given array.
+     *
+     * @param array $options
+     *
+     * @return array
+     */
+    private function parseOptions(array $optionsConfig): array
+    {
+        $result = [];
+        foreach ($optionsConfig as $optionKey => $option) {
+            if (isset($option['type']) && !empty($option['type'])) {
+                $options = [
+                    'label' => $this->getTranslatedLabel($option['label'], $optionKey),
+                    'type' => $option['type']
+                ];
+                switch ($option['type']) {
+                    case 'select':
+                        if (isset($option['values']) && is_array($option['values'])) {
+                            $options['values'] = $this->getOptionsSelectValues($option);
+                        }
+                        break;
+                    case 'checkbox':
+                        if (isset($option['attributes']) && is_array($option['attributes'])) {
+                            $options['attributes'] = IconpackUtility::explodeAttributes($option['attributes']);
+                            // This is required for JavaScript
+                            $options['attributesString'] = json_encode($option['attributes']);
+                        }
+                        break;
                 }
+                $result[$optionKey] = $options;
             }
         }
-        return $additionalOptions;
+        return $result;
+    }
+
+    /**
+     * Get the select items for the options dropdown.
+     *
+     * @param array $option
+     *
+     * @return array
+     */
+    private function getOptionsSelectValues(array $option): array
+    {
+        $selectValues = [];
+        foreach ($option['values'] as $key => $values) {
+            if (isset($values['attributes']) && is_array($values['attributes'])) {
+                $selectValues[$key]['label']
+                    = $this->getTranslatedLabel($values['label']);
+                $selectValues[$key]['attributes']
+                    = IconpackUtility::explodeAttributes($values['attributes']);
+                // This is required for JavaScript
+                $selectValues[$key]['attributesString']
+                    = json_encode($values['attributes']);
+            }
+        }
+        return $selectValues;
     }
 
     /**
@@ -539,7 +711,10 @@ class IconpackProvider
         if ($this->categories) {
             foreach ($this->categories as $key => $category) {
                 $categories[$key] = [
-                    'label' => $this->getTranslatedLabel($category['label'], IconpackUtility::keyToWord($key)),
+                    'label' => $this->getTranslatedLabel(
+                        $category['label'],
+                        IconpackUtility::keyToWord($key)
+                    ),
                     'icons' => $category['icons'] ?? []
                 ];
             }
@@ -568,25 +743,93 @@ class IconpackProvider
         if ($this->icons) {
             $icons = [];
             foreach ($this->icons as $key => $icon) {
+                $iconKey = (string) $key;
+                $iconArray = null;
                 if (is_array($icon)) {
-                    if (isset($icon['label']) && is_array($icon['label'])) {
-                        $icons[$key]['label'] = (string) $icon['label'];
-                    } else {
-                        $icons[$key]['label'] = IconpackUtility::keyToWord((string) $key);
+                    $icons[$iconKey]['label']
+                        = isset($icon['label'])
+                        ? (string) $icon['label']
+                        : IconpackUtility::keyToWord($iconKey);
+                    if (isset($icon['styles'])) {
+                        $icons[$iconKey]['styles'] = (array) $icon['styles'];
                     }
-                    if (isset($icon['styles']) && is_array($icon['styles'])) {
-                        $icons[$key]['styles'] = $icon['styles'];
+                    if (isset($icon['hidden']) && (bool) $icon['hidden'] == true) {
+                        $icons[$iconKey]['hidden'] = true;
                     }
+                    $iconArray = $icon;
                 } else {
-                    if (is_int($icon)) {
-                        $icons[$key]['label'] = IconpackUtility::keyToWord((string) $key);
-                    } else {
-                        $icons[$icon]['label'] = IconpackUtility::keyToWord($icon);
+                    if (!is_int($icon)) {
+                        $iconKey = $icon;
                     }
+                    $icons[$iconKey]['label'] = IconpackUtility::keyToWord($iconKey);
                 }
+                $this->parseAliases($icons, $iconKey, $iconArray);
             }
         }
         return $icons;
+    }
+
+    /**
+     * Check whether any aliases are defined for a specific icon.
+     *
+     * @param array $icons
+     * @param string $key
+     * @param array|null $data
+     *
+     * @return void
+     */
+    private function parseAliases(array &$icons, string $key, ?array $data): void
+    {
+        $aliases = null;
+        if ($data) {
+            if ($this->aliases) {
+                if (isset($this->aliases[$key])) {
+                    $aliases = (array) $this->aliases[$key];
+                }
+            } elseif (isset($data['aliases'])) {
+                $aliases
+                    = isset($data['aliases']['names'])
+                    ? (array) $data['aliases']['names']
+                    : (array) $data['aliases'];
+            }
+        } else {
+            if ($this->aliases && isset($this->aliases[$key])) {
+                $aliases = (array) $this->aliases[$key];
+            }
+        }
+        $this->createAliases($icons, $aliases ?? null, $key);
+    }
+
+    /**
+     * Create aliases for a specific icon.
+     *
+     * @param array $icons
+     * @param array|null $aliases
+     * @param string $key
+     *
+     * @return void
+     */
+    private function createAliases(array &$icons, ?array $aliases, string $key): void
+    {
+        if ($aliases) {
+            foreach ($aliases as $alias) {
+                if (is_string($alias)) {
+                    $icons[$alias] = [
+                        'aliasOf' => $key
+                    ];
+                }
+            }
+        }
+    }
+
+    /**
+     * Set aliases array.
+     *
+     * @param array|null $aliases
+     */
+    public function setAliases(?array $aliases)
+    {
+        $this->aliases = $aliases;
     }
 
     /**
@@ -597,22 +840,15 @@ class IconpackProvider
      *
      * @return string
      */
-    protected function getTranslatedLabel(string $label, ?string $default = ''): string
+    public function getTranslatedLabel(string $label, ?string $default = ''): string
     {
         if (!empty($label)) {
-            // TODO: Optimize this nasty way to get a translated label
-            if (ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isBackend()) {
-                if ($GLOBALS['LANG']) {
-                    $label = $GLOBALS['LANG']->sL($label);
-                }
-            } else {
-                if ($GLOBALS['TSFE']) {
-                    $label = $GLOBALS['TSFE']->sL($label);
-                }
+            if (strpos(trim($label), 'LLL:') === 0) {
+                $label = LocalizationUtility::translate($label, 'iconpack');
             }
         } else {
             $label = $default;
         }
-        return $label;
+        return $label ?? '';
     }
 }

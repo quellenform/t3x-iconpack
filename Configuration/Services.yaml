@@ -10,11 +10,40 @@ services:
   Quellenform\Iconpack\EventListener\IconpackGetExternalPlugins:
     tags:
       - name: event.listener
-        identifier: 'IconpackGetExternalPlugins'
+        identifier: 'Quellenform/Iconpack/GetExternalPlugins'
         event: TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforeGetExternalPluginsEvent
 
   Quellenform\Iconpack\EventListener\IconpackPrepareConfigurationForEditor:
     tags:
       - name: event.listener
-        identifier: 'IconpackPrepareConfigurationForEditor'
+        identifier: 'Quellenform/Iconpack/PrepareConfigurationForEditor'
         event: TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforePrepareConfigurationForEditorEvent
+
+  Quellenform\Iconpack\EventListener\IconpackBootCompletedEventListener:
+    tags:
+      - name: event.listener
+        identifier: 'Quellenform/Iconpack/BootCompletedEventListener'
+        event: TYPO3\CMS\Core\Core\Event\BootCompletedEvent
+
+  cache.iconpack:
+    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
+    arguments: ['iconpack']
+
+  Quellenform\Iconpack\IconpackCache:
+    arguments:
+      $cache: '@cache.iconpack'
+    public: true
+    shared: true
+
+  Quellenform\Iconpack\IconpackRegistry:
+    public: true
+    shared: true
+
+  Quellenform\Iconpack\IconpackFactory:
+    public: true
+    shared: true
+
+  Quellenform\Iconpack\Html\IconpackHtmlParser:
+    public: true
+    shared: true

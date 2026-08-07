@@ -10,10 +10,9 @@ defined('TYPO3') || die();
             'label' => 'LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:tt_content.header_icon',
             'config' => [
                 'type' => 'user',
-                'renderType' => 'IconpackWizard',
+                'renderType' => 'IconpackWizard'
             ]
-        ],
-
+        ]
     ]
 );
 

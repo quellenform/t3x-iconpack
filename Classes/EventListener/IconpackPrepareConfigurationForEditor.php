@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Quellenform\Iconpack\EventListener;
+
 /*
  * This file is part of the "iconpack" Extension for TYPO3 CMS.
  *
@@ -11,59 +13,58 @@ declare(strict_types=1);
  * LICENSE.txt file that was distributed with this source code.
  */
 
-namespace Quellenform\Iconpack\EventListener;
-
 use Quellenform\Iconpack\IconpackFactory;
+use Quellenform\Iconpack\Utility\IconpackUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\RteCKEditor\Form\Element\Event\BeforePrepareConfigurationForEditorEvent;
 
 /**
- * Apply configuration data for registered iconpack-providers.
+ * Apply configuration data for registered iconpack providers.
  */
-class IconpackPrepareConfigurationForEditor
+final class IconpackPrepareConfigurationForEditor
 {
-
     /**
      * This event is fired before starting the prepare of the editor configuration.
+     *
+     * @param BeforePrepareConfigurationForEditorEvent $event
+     *
+     * @return void
      */
     public function __invoke(BeforePrepareConfigurationForEditorEvent $event): void
     {
-        $configuration = $event->getConfiguration();
-        $iconpackProviderConfiguration = [];
         /** @var ExtensionConfiguration $extConf */
         $extConf = GeneralUtility::makeInstance(ExtensionConfiguration::class);
-        if ((bool) $extConf->get('iconpack', 'enablePlugin')) {
-            // Add CSS for CKEditor
-            $iconpackProviderConfiguration['contentsCss']
-                = GeneralUtility::makeInstance(IconpackFactory::class)->queryAssets('css', 'ckeditor');
-            array_unshift(
-                $iconpackProviderConfiguration['contentsCss'],
-                'EXT:iconpack/Resources/Public/Css/Backend/Ckeditor.min.css'
-            );
-        }
-        // RTE only: Allow various tags in icon-elements (Important for "aria-hidden" and other parameters!)
+        // Auto configure RTE
         if ((bool) $extConf->get('iconpack', 'autoConfigRte')) {
-            // Configuration:
-            // https://ckeditor.com/docs/ckeditor4/latest/examples/acfcustom.html
-            // https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html
-            $iconpackProviderConfiguration['extraAllowedContent'] = [
-                'span(*)[data-*,style]',
-                // Allow SVG-specific tags
-                // TODO
-                //'svg(*)[!data-iconfig,data-*,title,style,fill,stroke,width,height,viewbox]{color,background-*,margin*,padding*}',
-                'svg(*)[*]',
-                'use[xlink*]',
-                'g[*]',
-                'line[*]',
-                'path[!d]',
-                'polyline[*]',
-                'polygon[*]',
-                'rect[*]',
-                'circle[*]',
-                'ellipse[*]',
-            ];
+            $configuration = $event->getConfiguration();
+            // Add configuration from YAML
+            if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '12.0.0', '<')) {
+                $yaml = IconpackUtility::loadYamlFile(
+                    (bool) $extConf->get('iconpack', 'rteSvg')
+                        ? 'EXT:iconpack/Configuration/RTE/IconpackConfig-v11-svg.yaml'
+                        : 'EXT:iconpack/Configuration/RTE/IconpackConfig-v11.yaml'
+                );
+                // Get CSS for CKEditor from installed iconpacks
+                $editorCss = GeneralUtility::makeInstance(IconpackFactory::class)->queryAssets(
+                    'css',
+                    'ckeditor'
+                );
+                // Add CSS for CKEditor 4 from installed iconpacks
+                foreach ($editorCss as $cssFile) {
+                    $yaml['editor']['config']['contentsCss'][] = $cssFile;
+                }
+            } else {
+                $yaml = IconpackUtility::loadYamlFile(
+                    'EXT:iconpack/Configuration/RTE/IconpackConfig-v12.yaml'
+                );
+            }
+            // @extensionScannerIgnoreLine (ignore false positive #108277)
+            $event->setConfiguration(array_merge_recursive(
+                $configuration,
+                (array) $yaml['editor']['config']
+            ));
         }
-        $event->setConfiguration(array_merge_recursive($configuration, $iconpackProviderConfiguration));
     }
 }

@@ -2,22 +2,19 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Iconpack',
-    'description' => 'Provides an iconpack-registry for various iconpacks.',
+    'description' => 'The ultimate iconpack extension for TYPO3, which makes it easier for editors/developers to use icons in the BE/FE/RTE and ViewHelper. Flexible, future-proof, easy to use.',
     'category' => 'fe',
-    'state' => 'beta',
+    'state' => 'stable',
     'clearcacheonload' => true,
     'author' => 'Stephan Kellermayr',
     'author_email' => 'typo3@quellenform.at',
     'author_company' => 'Kellermayr KG',
-    'version' => '0.3.3',
+    'version' => '1.5.4',
     'constraints' => [
         'depends' => [
-            'typo3' => '10.4.11-11.5.99'
+            'typo3' => '10.4.11-14.9.99'
         ],
         'conflicts' => [],
         'suggests' => []
-    ],
-    'autoload' => [
-        'psr-4' => ['Quellenform\\Iconpack\\' => 'Classes']
-    ],
+    ]
 ];

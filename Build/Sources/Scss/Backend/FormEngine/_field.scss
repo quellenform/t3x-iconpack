@@ -1,0 +1,41 @@
+
+// field
+// -------------------------
+.t3js-form-field-iconpack {
+
+	.input-group-icon {
+
+		// v10/11 compatibility
+		width: 42px;
+		justify-content: space-around;
+
+		.t3js-icon {
+			--icon-size: 18px;
+			overflow: visible;
+
+			// v10/11 compatibility
+			height: var(--icon-size, 1em);
+			line-height: var(--icon-size, 1em);
+			width: var(--icon-size, 1em);
+
+			.icon-markup {
+
+				img {
+					max-height: 18px;
+				}
+
+				span {
+					filter: var(--iconpack-filter, none);
+					font-size: 18px;
+					line-height: 18px;
+					width: min-content;
+				}
+
+				svg {
+					font-size: var(--bs-btn-font-size);
+					overflow: visible;
+				}
+			}
+		}
+	}
+}

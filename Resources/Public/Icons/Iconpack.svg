@@ -1,0 +1,7 @@
+<svg version="1.1" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="#000" stroke-linecap="round" stroke-linejoin="bevel" stroke-width=".295">
+    <path d="m0.2628 1.9151 6.6836 3.9405 12.791-2.9519-8.6056-2.7421z" fill="#a5a6a5" />
+    <path d="m0.2628 1.9151 1.2416 11.367 5.8931 6.5566-0.45127-13.983z" fill="#8c8d8c" />
+    <path d="m19.737 2.9037-1.4892 12.311-10.851 4.6234-0.45127-13.983z" fill="#bec0be" style="paint-order:normal" />
+  </g>
+</svg>

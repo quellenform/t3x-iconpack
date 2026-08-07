@@ -19,7 +19,7 @@ namespace Quellenform\Iconpack;
 interface IconpackConfigurationInterface
 {
     /**
-     * Post-configure an iconpack ocnfiguration (used by iconpack-extensions).
+     * Post-configure an iconpack configuration (used by iconpack-extensions).
      * This can be useful if you want to override values in the given YAML-file afterwards.
      *
      * @param string $iconpackIdentifier

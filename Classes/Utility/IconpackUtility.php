@@ -13,17 +13,17 @@ namespace Quellenform\Iconpack\Utility;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use InvalidArgumentException;
+use RecursiveArrayIterator;
+use RecursiveIteratorIterator;
+use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Various Helpers and Utilities for the IconpackFactory.
  */
 class IconpackUtility
 {
-
     /**
      * Parse the TypoScript/TS configuration for overriding the current rendertypes in Backend and Frontend.
      *
@@ -71,14 +71,16 @@ class IconpackUtility
     {
         $preparedIcons = [];
         if ($icons) {
+            self::filterAliasesAndHiddenIcons($icons);
             if ($categories) {
                 foreach ($categories as $categoryKey => $category) {
                     $iconSet = null;
                     foreach ($category['icons'] as $iconKey) {
-                        if (array_key_exists($iconKey, $icons)) {
-                            if (self::isIconStyleAllowed($icons[$iconKey], $style)) {
-                                $iconSet[$iconKey] = $icons[$iconKey]['label'];
-                            }
+                        if (!isset($icons[$iconKey])) {
+                            continue;
+                        }
+                        if (self::isIconStyleAllowed($icons[$iconKey], $style)) {
+                            $iconSet[$iconKey] = $icons[$iconKey]['label'];
                         }
                     }
                     if ($iconSet) {
@@ -106,13 +108,30 @@ class IconpackUtility
     }
 
     /**
+     * Filters out all icons that are only registered as aliases or are hidden in BE.
+     *
+     * @param array $icons
+     *
+     * @return void
+     */
+    private static function filterAliasesAndHiddenIcons(array &$icons): void
+    {
+        $icons = array_filter(
+            $icons,
+            fn(array $item) => !(
+                array_key_exists('aliasOf', $item) || array_key_exists('hidden', $item)
+            )
+        );
+    }
+
+    /**
      * Check if requested icon is allowed in the currently selected style.
      * This value is defined in the YAML-file of the iconpack.
      *
      * @param array $icon
      * @param string|null $style
      *
-     * @return boolean
+     * @return bool
      */
     public static function isIconStyleAllowed(array $icon, ?string $style): bool
     {
@@ -142,7 +161,11 @@ class IconpackUtility
     public static function selectIconpackStyleConf(array $styles, ?string $style): array
     {
         if ($style) {
-            return $styles[$style];
+            if (isset($styles[$style])) {
+                return $styles[$style];
+            } else {
+                return [];
+            }
         } else {
             return reset($styles);
         }
@@ -155,7 +178,7 @@ class IconpackUtility
      *
      * @return array
      */
-    public static function explodeAttributes(?array &$attributes): array
+    public static function explodeAttributes(?array $attributes): array
     {
         if ($attributes) {
             foreach ($attributes as $attributeKey => $attributeValue) {
@@ -171,6 +194,33 @@ class IconpackUtility
                             = GeneralUtility::trimExplode(' ', $attributeValue, true);
                         break;
                 }
+            }
+        }
+        return $attributes ?? [];
+    }
+
+    /**
+     * Filter attributes from array.
+     * These are the final (custom) attributes that can be used in the RTE for an icon element.
+     *
+     * @param array|null $attributes
+     *
+     * @return array
+     */
+    public static function filterAttributes(?array $attributes): array
+    {
+        $allowedAttributes = [
+            'data-iconfig',
+            'id',
+            'name',
+            'class',
+            'style',
+            'alt',
+            'title'
+        ];
+        foreach ($attributes as $key => $value) {
+            if (!in_array($key, $allowedAttributes)) {
+                unset($attributes[$key]);
             }
         }
         return $attributes ?? [];
@@ -245,6 +295,34 @@ class IconpackUtility
     }
 
     /**
+     * Merge two multidimensional asset arrays recursively.
+     * Unlike array_merge_recursive, existing keys are not overwritten, but numeric keys are appended.
+     *
+     * @param array $arr1
+     * @param array $arr2
+     *
+     * @return array
+     */
+    public static function mergeAssets(array &$arr1, array $arr2): array
+    {
+        $merged = $arr1;
+        foreach ($arr2 as $key => &$value) {
+            if (is_array($value) && isset($merged[$key]) && is_array($merged[$key])) {
+                $merged[$key] = self::mergeAssets($merged[$key], $value);
+            } else {
+                if (is_int($key)) {
+                    $merged[] = $value;
+                } else {
+                    if (!isset($merged[$key])) {
+                        $merged[$key] = $value;
+                    }
+                }
+            }
+        }
+        return $merged;
+    }
+
+    /**
      * Removes redundant values of two multidimensional attribute arrays.
      *
      * @param array $arr1
@@ -264,6 +342,8 @@ class IconpackUtility
                         if (count($diffValue)) {
                             $diff[$key] = $diffValue;
                         }
+                    } else {
+                        $diff[$key] = $value;
                     }
                     break;
                 default:
@@ -295,7 +375,7 @@ class IconpackUtility
         }
         // Split string into configuration parts
         $parts = explode(',', $iconfigString);
-        // Split first part into 'iconpack' and 'syle'
+        // Split first part into 'iconpack' and 'style'
         $iconpackStyle = explode(':', $parts[0]);
         // The combination of the iconpack identifier and an iconpack style
         $iconfig['iconpackStyle'] = $parts[0];
@@ -342,50 +422,38 @@ class IconpackUtility
      *
      * @return array
      */
-    public static function uniqueFlattendAssetArray(array $data, bool $streamlined = false): array
+    public static function uniqueFlattenedAssetArray(array $data, bool $streamlined = false): array
     {
         $assets = array_unique(
             iterator_to_array(
-                new \RecursiveIteratorIterator(
-                    new \RecursiveArrayIterator($data)
+                new RecursiveIteratorIterator(
+                    new RecursiveArrayIterator($data)
                 ),
                 false
             )
         );
-        if ($streamlined) {
-            foreach ($assets as &$file) {
-                $file = self::getStreamlinedFileName($file);
-            }
-        }
         return $assets;
     }
 
     /**
-     * This function acts as a wrapper to allow relative and paths starting with EXT: to be dealt with
-     * in this very case to always return the absolute web path to be included directly before output.
+     * Load configuration from YAML file.
      *
-     * This function was partially taken from the TYPO3 source code to ensure compatibility for version 10/11.
+     * @param string $filename The name of the YAML file to be loaded.
+     * @param string $requireKey The specified key must exist.
      *
-     * @param string $file The filename to process
-     *
-     * @return string
+     * @return array
+     * @throws InvalidArgumentException
      */
-    protected static function getStreamlinedFileName(string $file): string
+    public static function loadYamlFile(string $filename, string $requireKey = ''): array
     {
-        if (strpos($file, 'EXT:') === 0) {
-            if (version_compare(VersionNumberUtility::getCurrentTypo3Version(), '11.4.0', '>=')) {
-                $file = Environment::getPublicPath() . '/' . PathUtility::getPublicResourceWebPath($file, false);
-            } else {
-                $file = GeneralUtility::getFileAbsFileName($file);
-            }
-            // As the path is now absolute, make it "relative" to the current script to stay compatible
-            $file = PathUtility::getRelativePathTo($file) ?? '';
-            $file = rtrim($file, '/');
-        } else {
-            $file = GeneralUtility::resolveBackPath($file);
+        $yamlFileLoader = GeneralUtility::makeInstance(YamlFileLoader::class);
+        $yamlContent = $yamlFileLoader->load($filename);
+        if (!empty($requireKey) && !isset($yamlContent[$requireKey])) {
+            throw new InvalidArgumentException(
+                'Failed to load YAML file: Missing key \'' . $requireKey . '\'.',
+                2100109272
+            );
         }
-        $file = GeneralUtility::createVersionNumberedFilename($file);
-        $file = PathUtility::getAbsoluteWebPath($file);
-        return $file;
+        return $yamlContent;
     }
 }

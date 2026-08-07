@@ -1,0 +1,53 @@
+# ****************************************************
+# CKEditor4 configuration
+# ****************************************************
+
+editor:
+
+  externalPlugins:
+    iconpack: { resource: 'EXT:iconpack/Resources/Public/JavaScript/v11/CKEditor/plugin.js' }
+
+  config:
+    # Note: CSS files required by specific iconpacks is loaded automatically!
+    contentsCss:
+      - 'EXT:iconpack/Resources/Public/Css/Backend/CKEditor.min.css'
+
+    # This configuration is necessary so that certain contents can be inserted in CKEditor4 in the first place.
+    # All values defined here finally end up in the RTE and can be edited there.
+    #
+    # Note, however, that these values are additionally filtered again with PHP when saving, and ultimately only the attributes
+    # defined here are actually stored in the database. In addition, for the output in the frontend on the one hand the
+    # RteHtmlParser is used and on the other hand the Sanitizer, which finally decides which output ends up in the FE.
+    #
+    # More information about the RTE content filter can be found here:
+    #   https://ckeditor.com/docs/ckeditor4/latest/examples/acfcustom.html
+    #   https://ckeditor.com/docs/ckeditor4/latest/guide/dev_advanced_content_filter.html
+    #
+    extraAllowedContent:
+      # Allow <span> tags (webfont)
+      - span(*)[!data-iconfig,id,name,class,style,alt,title]{color,background*,margin,padding,align,vertical-align}
+      # Allow SVG images (svg)
+      - img[!data-iconfig,id,name,class,style,alt,title]{margin,padding,align,vertical-align}
+      # Allow SVG (svgInline, svgSprite)
+      #   svgGlobalAttributes = class,id,title
+      #   svgPresentationAttributes = clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility
+      - svg(*)[!data-iconfig,name,style,alt,width,height,fill,viewBox,xmlns,xmlns:xlink,class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]{color,background*,margin,padding,align,vertical-align}
+      - use[href,xlink:href,x,y,width,height,class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - title[id]
+      - desc[id]
+      - defs[class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - linearGradient[gradientUnits,gradientTransform,spreadMethod,x1,x2,y1,y2,class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - radialGradient[gradientUnits,gradientTransform,spreadMethod,cx,cy,fr,fx,fy,r,class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - g(*)[class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - stop[stop-color,stop-opacity,offset,class,id,title,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - line[x1,y1,x2,y2,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - path[!d,style,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - polyline[!points,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - polygon[!points,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - rect[width,height,x,y,rx,ry,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - circle[cx,cy,r,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+      - ellipse[cx,cy,rx,ry,clip-path,clip-rule,color,display,fill,fill-opacity,fill-rule,filter,mask,opacity,shape-rendering,stroke,stroke-dasharray,stroke-dashoffset,stroke-linecap,stroke-linejoin,stroke-miterlimit,stroke-opacity,stroke-width,transform,visibility]
+
+
+    extraPlugins:
+      - iconpack

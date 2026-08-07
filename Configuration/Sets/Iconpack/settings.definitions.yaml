@@ -1,0 +1,25 @@
+categories:
+  Iconpack:
+    label: 'Iconpack'
+
+settings:
+  plugin.tx_iconpack.cssClass:
+    label: 'LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:settings.cssClass'
+    category: Iconpack
+    type: string
+    default: 'iconpack'
+  plugin.tx_iconpack.cssFile:
+    label: 'LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:settings.cssFile'
+    category: Iconpack
+    type: string
+    default: 'EXT:iconpack/Resources/Public/Css/Iconpack.min.css'
+  plugin.tx_iconpack.renderTypesNative:
+    label: 'LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:settings.renderTypesNative'
+    category: Iconpack
+    type: string
+    default: 'svgInline,svgSprite,webfont,svg'
+  plugin.tx_iconpack.renderTypesRte:
+    label: 'LLL:EXT:iconpack/Resources/Private/Language/locallang_be.xlf:settings.renderTypesRte'
+    category: Iconpack
+    type: string
+    default: 'svgInline,svgSprite,webfont,svg'
