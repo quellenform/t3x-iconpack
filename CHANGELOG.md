@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.5.5
+
+- 09f1375 [BUGFIX] Improve modal title handling and translation support (#66) (thanks to @proudnerds-typo3)
+
 ## 1.5.4
 
 - 9d0513d [BUGFIX] When using TYPO3 v14 and the "header_icon" field is disabled, explicitly add the inline labels to the RTE (#63) (thanks to @gkmbgmbh)
