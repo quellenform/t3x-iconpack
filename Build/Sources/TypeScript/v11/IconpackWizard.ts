@@ -77,7 +77,6 @@ class IconpackWizard {
     e.preventDefault();
 
     IconpackModal.openIconpackModal(
-      TYPO3.lang['js.label.iconNative'],
       {
         fieldType: 'native',
         iconfigString: FormEngine.getFieldElement(this.itemName).val()

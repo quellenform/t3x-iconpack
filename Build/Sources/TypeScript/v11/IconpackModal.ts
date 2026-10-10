@@ -24,7 +24,6 @@ interface UrlParams {
 class IconpackModal {
 
   public openIconpackModal(
-    modalTitle: string,
     urlParams: UrlParams,
     callbackAddIcon: CallableFunction,
     callbackClearIcon: CallableFunction
@@ -37,10 +36,17 @@ class IconpackModal {
     const iconfigString: string | null = urlParams.iconfigString ? urlParams.iconfigString : null;
     // Set Ajax-URL
     let url = TYPO3.settings.ajaxUrls.iconpack_modal + '&fieldType=' + fieldType;
+    // Set modal title
+    let modalTitle: string;
+    if (fieldType === 'rte') {
+      modalTitle = this.translate('js.label.iconRte', 'Insert Icon');
+    } else {
+      modalTitle = this.translate('js.label.iconNative', 'Choose Icon');
+    }
 
     // Set the modal buttons
     let buttons = [{
-      text: TYPO3.lang['js.button.cancel'] || 'Cancel',
+      text: this.translate('js.button.cancel', 'Cancel'),
       active: true,
       name: 'cancel',
       trigger: function () {
@@ -48,7 +54,7 @@ class IconpackModal {
       }
     },
     {
-      text: TYPO3.lang['js.button.ok'] || 'OK',
+      text: this.translate('js.button.ok', 'OK'),
       btnClass: 'btn-success',
       name: 'ok',
       action: new DeferredAction((() => {
@@ -76,7 +82,7 @@ class IconpackModal {
       url += '&iconfig=' + encodeURIComponent(iconfigString);
       // Show button to clear the icon element only if an icon is currently selected
       buttons.unshift({
-        text: TYPO3.lang['js.button.clear'] || 'Clear',
+        text: this.translate('js.button.clear', 'Clear'),
         btnClass: 'btn-warning',
         name: 'clear',
         action: new DeferredAction((() => {
@@ -111,6 +117,27 @@ class IconpackModal {
     });
 
     console.groupEnd(); //? DEBUG GROUP
+  }
+
+  /**
+   * Get a label from TYPO3.lang or use a fallback string.
+   *
+   * @param key Label key from TYPO3.lang
+   * @param fallbackString Default label if TYPO3.lang is not available
+   * @returns
+   */
+  public translate(
+    key: string,
+    fallbackString: string
+  ): string {
+    if (
+      typeof TYPO3 !== 'undefined' &&
+      TYPO3.lang &&
+      typeof TYPO3.lang[key] === 'string'
+    ) {
+      return TYPO3.lang[key];
+    }
+    return fallbackString || '';
   }
 }
 

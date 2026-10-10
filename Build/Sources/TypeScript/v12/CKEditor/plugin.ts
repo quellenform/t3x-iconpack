@@ -666,7 +666,6 @@ export class IconpackCommand extends Command {
         iconfigString: iconfigString
       };
       IconpackModal.openIconpackModal(
-        TYPO3.lang['js.label.iconRte'],
         urlParams,
         this._addIconToRte.bind(this),
         this._removeIconFromRte.bind(this)
