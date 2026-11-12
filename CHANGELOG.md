@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 1.5.6
+
+- b957269 The dependency in composer.json has been corrected, so the extension can now be uploaded to TER again
+
 ## 1.5.5
 
 - 09f1375 [BUGFIX] Improve modal title handling and translation support (#66) (thanks to @proudnerds-typo3)
